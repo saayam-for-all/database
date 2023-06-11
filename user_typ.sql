@@ -11,7 +11,7 @@
 *** Created By   : 
 *** Last Updatee :
 *** Last update by : 
-*** change comments: 
+*** change comments:  No Lomger om use
 ***
 ***
 ******************************************************************/
