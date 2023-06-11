@@ -10,12 +10,16 @@
  2. user
  3. usr_idnty 
  4. usr_skills
+ 5. usr_skills
  ## Request tables 
+ 1. req_type
+ 2. reqst
+ # Look up tables
  1. request_sts_type
- 2. req_type
- 3. reqst
- 
- 
+ 2. usr_sts
+ 3. idnty_typ
+ 4. lkp_skills
+ 5. cntry 
   
  
 
