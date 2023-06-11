@@ -7,5 +7,18 @@
  # List of tables 
  ## user or volunteer tables
  1. usr_typ
+ 2. user
+ 3. usr_idnty 
+ 4. usr_skills
+ ## Request tables 
+ 1. request_sts_type
+ 2. req_type
+ 3. reqst
+ 
+ 
+  
+ 
+
+  
  
  
