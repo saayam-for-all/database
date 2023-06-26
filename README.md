@@ -8,6 +8,8 @@
  
  # List of tables 
  ## user or volunteer tables
+ <th> Table Name  </th>
+ <th> Comments  </th>
  1. usr_typ
  2. user
  3. usr_idnty 
