@@ -19,22 +19,21 @@ Saayam means that help in Telugu one south indian language. The app purpose is t
    | usr_skils | contains sill information related to user or volunteer. The skills may tech or non-technical skills |
    | usr_status | contains the status of the user/volunterr like *active* , *inactive* , *suspended* , *verification in progress* or *deleted*. |
 
-
  ## Request tables
  | Table Name | Description | 
    | ---------- | ----------- |
    | req_type |    List of request type like Food , Shelter , Eductaion. |
    | request  | Here is a place the user/ volunteers raise saayam request for them self or for the another person | 
       
-      
-
  # Look up tables
- 1. request_sts_type
- 2. usr_sts
- 3. idnty_typ
- 4. lkp_skills
- 5. cntry 
+  | Table Name | Description |
+  | ---------- | ----------- |
+  | priority | contains priority typs
+
+
   
+  
+
  
 
   
