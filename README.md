@@ -8,14 +8,14 @@
  
  # List of tables 
  ## user or volunteer tables
-    | Table Name | Table Desc   | 
-    | ---------- | ------------ |
-    | user       | holds data related tp users,volunteers or donors |
-    |
- 2. user
- 3. usr_idnty 
- 4. usr_skills
- 5. usr_skills
+   | Table Name | Description | 
+   | ---------- | ----------- |
+   | user | Contains basic information related to users like contact# , addresss.. | 
+   | usr_idnty | contains information related tp users personal information , The attribute which contains PII to be *encrypted* |
+   | usr_typ | Contains user type information look up table for user. |
+   | usr_skil|s | contains sill information related to user or volunteer. The skills may tech or non-technical skills |
+
+
  ## Request tables 
  1. req_type
  2. reqst
