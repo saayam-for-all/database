@@ -37,9 +37,10 @@ Saayam means that help in Telugu, one of the south indian languages. The app pur
   | conuntry | List of countries. } 
   | state    | List of states corresponding to the countries.| 
   | idnty_typ | Govt issued ID Proofs. Since it holds only identity type it doesn't need any encrption. |
-  
 
+ # saayam - Physical data model 
 
+ <link> https://drawsql.app/teams/sayam-team/diagrams/saayam-arch </link>
   
   
 
