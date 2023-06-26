@@ -8,9 +8,10 @@
  
  # List of tables 
  ## user or volunteer tables
- <th> Table Name  </th>
- <th> Comments  </th>
- 1. usr_typ
+    | Table Name | Table Desc   | 
+    | ---------- | ------------ |
+    | user       | holds data related tp users,volunteers or donors |
+    |
  2. user
  3. usr_idnty 
  4. usr_skills
