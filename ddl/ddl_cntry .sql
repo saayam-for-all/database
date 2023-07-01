@@ -2,7 +2,7 @@
 ***
 ***  Name       :  cntry.sql 
 ***  purpose    :  categorize the list of countries currently serving
-***  Depemdency :  region , states 
+***  Depemdency :  region 
 ***  
 ***
 *** Data Model: https://drawsql.app/teams/sayam-team/diagrams/saayam-arch
@@ -27,6 +27,10 @@ create table if not exists cntry
    ,cre_by      varchar(30) default 'SYSTEM' 
    ,lst_upd     date  
    ,lst_upd_by  varchar(30) 
-   ,CONSTRAINT  uk_cntry_cntry_id  unique(cntry_ph_cd)
+   ,CONSTRAINT  uk_cntry_cntry_id  unique(cntry_id)
+   ,CONSTRAINT  pk_cntry_ph_cd   unique(cntry_ph_cd)
    ,CONSTRAINT  fk_regn_regn_id FOREIGN KEY (regn_id) REFERENCES region(regn_id)    
  );
+ 
+ 
+ 
