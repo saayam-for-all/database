@@ -25,7 +25,7 @@ create table if not exists priority
    ,prty_desc  varchar(30)  not null 
    ,cre_dt      date default current_date 
    ,cre_by      varchar(30) default 'SYSTEM' 
-   ,lst_upd     date  
-   ,lst_upd_by  varchar(30) 
+   ,upd_dt     date  
+   ,upd_by  varchar(30) 
    ,CONSTRAINT  uk_priority_prty_id  unique(prty_id) 
  );
