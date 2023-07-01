@@ -25,7 +25,7 @@ create table if not exists action
    ,actn_dsc   varchar(30)	 not null 
    ,cre_dt      date default current_date 
    ,cre_by      varchar(30) default 'SYSTEM' 
-   ,lst_upd     date  
-   ,lst_upd_by  varchar(30) 
+   ,upd_by      varchar(30)
+   ,upd_dt      date
    ,CONSTRAINT  uk_action_actn_id  unique(actn_id) 
  );
