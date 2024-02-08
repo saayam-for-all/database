@@ -1,6 +1,6 @@
 /*************************************************************
 ***
-***  Name       :  usr_typ.sql 
+***  Name       :  state_lkp .sql 
 ***  purpose    :  To identigy and categorize the group of users. 
 ***                Possible user types are Volunteers , donors, members, 
 ***  Depemdency :  Down stream dependency with Usr Table. 
