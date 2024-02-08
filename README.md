@@ -41,6 +41,10 @@ Saayam means that help in Telugu, one of the south indian languages. The app pur
   ## Script Execution Order 
   | Script Name | Execution Order | Description |
   |-------------| ----------------|--------------|
+  | usr_typ.sql| 1 | To identify and categorize the group of users.Possible user types are Volunteers , donors, members.|
+  | region.sql | 1|  To identify the list of regions |
+  | user_sts.sql|1| To track the list of status. Available status Active, Inactive,|
+  | ddl_cntry.sql|2| To Identify the list of countries currently served.| 
   
 
  # saayam - Physical data model 
