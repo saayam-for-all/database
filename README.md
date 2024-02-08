@@ -49,7 +49,6 @@ Saayam means that help in Telugu, one of the south indian languages. The app pur
   | ddl_cntry.sql|2| To Identify the list of countries currently served.| 
   | state_lkp_ddl_08.sql|2|To Identify the list of states currently served.|
   | idnty_typ.sql| 2 | |
-  | ddl_priority.sql|1| |
   | user_ddl_11.sql|3| |
   
 
