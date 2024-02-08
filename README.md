@@ -43,8 +43,14 @@ Saayam means that help in Telugu, one of the south indian languages. The app pur
   |-------------| ----------------|--------------|
   | usr_typ.sql| 1 | To identify and categorize the group of users.Possible user types are Volunteers , donors, members.|
   | region.sql | 1|  To identify the list of regions |
-  | user_sts.sql|1| To track the list of status. Available status Active, Inactive,|
+  | user_sts.sql|1| To track the list of status. Available status Active, Inactive.|
+  | ddl_sla.sql| 1| SLA Table| 
+  | ddl_priority.sql|1| |
   | ddl_cntry.sql|2| To Identify the list of countries currently served.| 
+  | state_lkp_ddl_08.sql|2|To Identify the list of states currently served.|
+  | idnty_typ.sql| 2 | |
+  | ddl_priority.sql|1| |
+  | user_ddl_11.sql|3| |
   
 
  # saayam - Physical data model 
