@@ -27,7 +27,7 @@ Saayam means that help in Telugu, one of the south indian languages. The app pur
    | request_sts_typ | Contains list of request types. | 
    
       
- # Look up tables
+ ## Look up tables
   | Table Name | Description |
   | ---------- | ----------- |
   | priority | contains priority types |
@@ -37,6 +37,11 @@ Saayam means that help in Telugu, one of the south indian languages. The app pur
   | conuntry | List of countries. } 
   | state    | List of states corresponding to the countries.| 
   | idnty_typ | Govt issued ID Proofs. Since it holds only identity type it doesn't need any encrption. |
+
+  ## Script Execution Order 
+  | Script Name | Execution Order | Description |
+  |-------------| ----------------|--------------|
+  
 
  # saayam - Physical data model 
 
