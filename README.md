@@ -41,16 +41,18 @@ Saayam means that help in Telugu, one of the south indian languages. The app pur
   ## Script Execution Order 
   | Script Name | Execution Order | Description |
   |-------------| ----------------|--------------|
-  | usr_typ.sql| 1 | To identify and categorize the group of users.Possible user types are Volunteers , donors, members.|
-  | region.sql | 1|  To identify the list of regions |
-  | user_sts.sql|1| To track the list of status. Available status Active, Inactive.|
-  | ddl_sla.sql| 1| SLA Table| 
-  | ddl_priority.sql|1| |
-  | ddl_cntry.sql|2| To Identify the list of countries currently served.| 
-  | state_lkp_ddl_08.sql|2|To Identify the list of states currently served.|
-  | idnty_typ.sql| 2 | |
-  | user_ddl_11.sql|3| |
-  
+  | ddl_action.sql|1| To categorize the list of action served by the user , volunteers or donars. |
+  | ddl_regions.sql|1| To retain the list of regions currently serving. |
+  | ddl_priority.sql|1| To identify and categorize priority of the user's requests. |
+  | ddl_sla.sql|1| To identify and categerize the list of Service Level Agreements. |
+  | ddl_usr_typ.sql|1|To identigy snf categorize the group of users.Possible user types are Volunteers , donors, members. |
+  | ddl_user_status.sql|1|This table stores the statuses of each users.Available users statuses are Active , Inactive. |        
+  | ddl_skill_lst_10.sql|1| To hold the master list of skillsets. |
+  | ddl_cntry.sql|2| To categorize the list of countries currently serving. |
+  | ddl_state_lkp.sql|3| To identigy and categorize the list of states currently serving. |
+  | ddl_idnty_typ.sql|3| To Hold the list of government issued Identity documents. |
+  | ddl_user.sql|3| This table stores the details of all type of users like Donors ,Volunteers.|
+  | user_skills.sql|4| To Map users with their skills list. |
 
  # saayam - Physical data model 
 
