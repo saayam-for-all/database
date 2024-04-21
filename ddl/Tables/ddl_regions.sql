@@ -26,7 +26,7 @@ create table if not exists region
    ,region_nm     varchar(30)	 not null
    ,created_dt    date default current_date 
    ,created_by    varchar(30) default 'SYSTEM' 
-   ,lst_update_by varchar(30)
-   ,last_update   date  
+   ,last_update_by varchar(30)
+   ,last_update    date  
  ,CONSTRAINT  uk_region_regn_id  unique(region_id) 
  );

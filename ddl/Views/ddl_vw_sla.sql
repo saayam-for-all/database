@@ -17,14 +17,25 @@
 ******************************************************************/
 
  create or replace view vw_sla
- AS Select 
-     sla_id    
-   ,hrs_limit  
-   ,sla_typ_dsc 
-   ,cre_dt      
-   ,cre_by       
-   ,lst_upd     
-   ,lst_upd_by  
-   from 
-      sla
-   ;
+ (
+    sla_id          
+   ,sla_typ_dsc     
+   ,no_of_cust_impct
+   ,eta_in_hrs      
+   ,created_by      
+   ,created_dt      
+   ,last_update_by  
+   ,last_update     
+ )
+ AS
+  select 
+     sla_id          
+    ,sla_typ_dsc     
+    ,no_of_cust_impct
+    ,eta_in_hrs      
+    ,created_by      
+    ,created_dt      
+    ,last_update_by  
+    ,last_update
+from sla 
+;
