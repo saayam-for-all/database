@@ -18,12 +18,21 @@
 ******************************************************************/
 
 create or replace view vw_region
+(
+  region_id     
+ ,region_name     
+ ,created_date    
+ ,created_by    
+ ,last_update_by
+ ,last_update
+) 
 AS  
  select 
-    regn_id    
-   ,regn_nm   
-   ,cre_dt     
-   ,cre_by    
-   ,lst_upd     
-   ,lst_upd_by  
+  region_id     
+ ,region_nm     
+ ,created_dt    
+ ,created_by    
+ ,last_update_by
+ ,last_update 
  from region
+;

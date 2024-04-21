@@ -1,9 +1,9 @@
 /*************************************************************
 ***
-***  Name       :  usr_typ.sql 
-***  purpose    :  To identigy snf categorize the group of users. 
-***                Possible user types are Volunteers , donors, members, 
-***  Depemdency :  Down stream dependency with Usr Table. 
+***  Name       :  user_skills.sql 
+***  purpose    : To Map users with their skills list  
+***                 
+***  dependency :  Down stream dependency with User and skills table. 
 ***  
 ***
 *** Data Model: https://drawsql.app/teams/sayam-team/diagrams/saayam-arch
@@ -18,17 +18,19 @@
 ***
 ******************************************************************/
 
-drop table if exists user_type ;
+drop table if exists user_skills ;
 
-create table if not exists user_type 
+create table if not exists user_skills
 ( 
-    user_type_id      integer generated always as identity
-   ,user_type         varchar(15) not null 
-   ,user_type_desc     varchar(30) not null
+    user_id          integer 
+   ,skill_id         integer  
    ,created_by       varchar(30) default 'SYSTEM'    
    ,created_dt       date default current_date 
    ,last_update_by   varchar(30) 
    ,last_update      date 
    
-   ,CONSTRAINT  uk_ut_utypid  unique(user_type_id) 
+   ,CONSTRAINT fk_user_skills_user_id FOREIGN KEY(user_id) 
+                               REFERENCES users(user_id)
+   ,CONSTRAINT fk_user_skills_skill_id FOREIGN KEY(skill_id) 
+                                REFERENCES skill_lst(skill_lst_id) 
  );

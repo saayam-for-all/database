@@ -29,8 +29,9 @@ create table if not exists state_lkp
    ,state_nm      varchar(30) not null 
    ,created_by    varchar(30) not null default 'SYSTEM' 
    ,created_dt    date not null default current_date
-   ,lst_update_by varchar(30) 
-   ,lst_update_dt date 
+   ,last_update_by varchar(30) 
+   ,last_update    date 
+   ,CONSTRAINT  uk_state_lkp unique(country_id,state_id)
    ,CONSTRAINT  fk_stlkp_country_id FOREIGN KEY (country_id) REFERENCES country(country_id)
 );
  

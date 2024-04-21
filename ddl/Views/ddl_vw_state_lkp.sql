@@ -1,7 +1,7 @@
 /*************************************************************
 ***
-***  Name       :  vw_action.sql 
-***  purpose    :  View for the action table. 
+***  Name       :  state_lkp.sql 
+***  purpose    :  View for the state lookup table. 
 ***  Dependency :  
 ***  
 ***
@@ -16,25 +16,27 @@
 ***
 ***
 ******************************************************************/
-
-create or replace view vw_action 
- (
-  action_id    
- ,action_desc  
- ,created_dt   
- ,created_by   
- ,last_upd_by  
- ,last_upd_dt 
+create or replace view vw_state_lkp 
+(
+ country_id    
+ ,state_id      
+ ,state_cd      
+ ,state_nm      
+ ,created_by    
+ ,created_dt    
+ ,last_update_by
+ ,last_update   
 )
-AS
- select action_id    
-   ,action_desc   
-   ,created_dt   
+as
+ select 
+   country_id    
+   ,state_id      
+   ,state_cd      
+   ,state_nm      
    ,created_by    
-   ,last_upd_by  
-   ,last_upd_dt  
+   ,created_dt    
+   ,last_update_by
+   ,last_update   
  from 
-  action
- ;
-  
- 
+   state_lkp
+;

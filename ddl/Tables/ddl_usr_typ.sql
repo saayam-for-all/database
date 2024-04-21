@@ -7,34 +7,28 @@
 ***  
 ***
 *** Data Model: https://drawsql.app/teams/sayam-team/diagrams/saayam-arch
+*** Code Repo : https://github.com/saayam-for-all/database/tree/main
 ***
 *** Created on   : 06/10/2023 
 *** Created By   : 
-*** Last Updatee :
+*** Last Update : 04/14/2024
 *** Last update by : 
-*** change comments: 
+*** change comments:  Initutive Column changes
 ***
 ***
 ******************************************************************/
 
-drop table if exists usr_typ ;
+drop table if exists user_type ;
 
-create table if not exists usr_typ 
+create table if not exists user_type 
 ( 
-    usr_typ_id   integer generated always as identity
-   ,usr_typ      varchar(15) not null 
-   ,usr_typ_dsc varchar(30) not null 
-   ,cre_dt       date default current_date 
-   ,cre_by       varchar(30) default 'SYSTEM' 
-   ,lst_upd      date 
-   ,lst_upd_by   varchar(30) 
-   ,CONSTRAINT  uk_ut_utypid  unique(usr_typ_id) 
+    user_type_id      integer generated always as identity
+   ,user_type         varchar(15) not null 
+   ,user_type_desc     varchar(30) not null
+   ,created_by       varchar(30) default 'SYSTEM'    
+   ,created_dt       date default current_date 
+   ,last_update_by   varchar(30) 
+   ,last_update      date 
+   
+   ,CONSTRAINT  uk_ut_utypid  unique(user_type_id) 
  );
- 
-				   
-				   
-				   
-				  
-                         
-                        
-                      

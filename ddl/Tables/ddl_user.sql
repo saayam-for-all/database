@@ -35,21 +35,22 @@ create table if not exists users
    ,addr_ln1           varchar(50)  not null 
    ,addr_ln2           varchar(50)
    ,addr_ln3           varchar(50)
-   ,country_id           integer     not null 
+   ,country_id         integer     not null 
    ,state_id           integer   not null 
    ,city               varchar(50)
    ,zip_cd             varchar(30) not null 
    ,geo_cd             varchar(15) 
    ,region_dt          date  not null default current_date
-   ,user_sts_id        integer  not null 
-   ,user_sts_dt        date 
+   ,user_status_id     integer  not null 
+   ,user_status_dt     date 
    ,emrgncy_avblty_ind varchar(1)
    ,created_by         varchar(30) not null default 'SYSTEM' 
    ,created_dt         date not null default current_date
    ,last_update_by     varchar(30) 
    ,last_update        date    
    
-   ,CONSTRAINT uk_user_user_id unique( user_id ) 
+   ,CONSTRAINT uk_user_user_id unique( user_id )
+   ,CONSTRAINT ck_emrgcy_avblty_ind Check (emrgncy_avblty_ind IN ('Y','N'))   
    ,CONSTRAINT pk_user primary key ( identity_type_id , email_id ,contact_nbr)
    ,CONSTRAINT fk_usr_idty_id FOREIGN KEY(identity_type_id) 
                                REFERENCES identity_type(identity_type_id)
@@ -57,6 +58,8 @@ create table if not exists users
                                REFERENCES country(country_id)
    ,CONSTRAINT fk_usr_state_id FOREIGN KEY(country_id,state_id) 
                                REFERENCES state_lkp(country_id,state_id)
+   ,CONSTRAINT fk_usr_status_id FOREIGN KEY(user_status_id) 
+                                REFERENCES user_status(user_status_id)
 );
 --------------------------------dmls----------------------------
 --select * from idnty_typ
