@@ -5,7 +5,7 @@ Saayam means that help in Telugu, one of the south indian languages. The app pur
 
 # Database 
  <p> RDBMS Dataabse preferred a as backend database over the NoSQL Database engine.
- RDBMS stores data into a logical way and accessed thrpugh SQL programming. 
+ RDBMS stores data into a logical way and accessed through SQL programming. 
  Decision to use Fully managed RDS Engine Amazon Aurora with Postgres compatiblity.
  This database aims to hold the request details from the help and voulunteers/donors who are fulfiling the equests. Voluteers acts as bridge between requestor and helpers </p>
  
