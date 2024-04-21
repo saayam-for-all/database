@@ -1,7 +1,7 @@
 
 # The Saayam
 <p>
-Saayam means that help in Telugu, one of the south indian languages. The app purpose is to provide help for the needy person.The type of help can including but not limited to food,shelter,education like non emergency help.Please note this application NOT purposed to override the existing emergeny application that are provided by governments. Any emergency help to called out to local regulatrory bodies like 911. </p>
+Saayam means that help in Telugu, one of the south indian languages. The app purpose is to provide help for the needy person.The type of help can including but not limited to food,shelter,education like non emergency help.Please note this application NOT purposed to override the existing emergeny application that are provided by governments. Any emergency help to called out to local regulatory bodies like 911. </p>
 
 # Database 
  <p> RDBMS Dataabse preferred a as backend database over the NoSQL Database engine.
