@@ -159,7 +159,6 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `proposed-saayam`.`users` (
   `user_id` INT NOT NULL AUTO_INCREMENT COMMENT 'Auto generated unique identifier',
-  `city_id` INT NOT NULL COMMENT 'Represents city where user resides',
   `state_id` INT NOT NULL COMMENT 'Represents state where user resides',
   `country_id` INT NOT NULL COMMENT 'Represents country where user resides',
   `user_status_id` INT NOT NULL COMMENT 'Represents status of each user. Associated with ID from \'user_status\' table\n\nActive - the volunteer is currently engaged and actively participating in volunteering activities.\nInactive - The volunteer is not currently participating in any volunteering activities.\nPending - The volunteer has expressed interest but has not yet started volunteering or is awaiting assignment.\nOnHold - The volunteer’s activities are temporarily suspended, possibly due to personal reasons, vacations etc.',
@@ -169,11 +168,12 @@ CREATE TABLE IF NOT EXISTS `proposed-saayam`.`users` (
   `middle_name` VARCHAR(255) NULL COMMENT 'Represents middle name of the user optional)',
   `last_name` VARCHAR(255) NOT NULL COMMENT 'Represents last name of the user',
   `email_address` VARCHAR(255) NULL COMMENT 'Represents email address of the user. This is optional field.',
-  `phone_number` VARCHAR(255) NULL COMMENT 'Represents phone numberof the user',
+  `phone_number` VARCHAR(255) NULL COMMENT 'Represents phone number of the user',
+  `city_name` VARCHAR(255) NOT NULL COMMENT 'Represents the city name of the user',
   `addr_ln1` VARCHAR(255) NULL COMMENT 'Represents address of the user',
   `addr_ln2` VARCHAR(255) NULL COMMENT 'Represents address of the user',
   `addr_ln3` VARCHAR(255) NULL COMMENT 'Represents address of the user',
-  `zip_code` INT NOT NULL COMMENT 'Represents zip code where user resides',
+  `zip_code` VARCHAR(255) NOT NULL COMMENT 'Represents zip code where user resides',
   `last_update_date` DATETIME NULL,
   `time_zone` VARCHAR(255) NOT NULL COMMENT 'Represents the time zone of the user',
   `profile_picture_path` VARCHAR(255) NULL COMMENT 'Prepresents the path to the profile picture in S3',
@@ -181,7 +181,6 @@ CREATE TABLE IF NOT EXISTS `proposed-saayam`.`users` (
   UNIQUE INDEX `uk_user_user_id` (`user_id` ASC),
   INDEX `fk_user_state_id` (`country_id` ASC, `state_id` ASC),
   INDEX `fk_user_status_id` (`user_status_id` ASC),
-  INDEX `fk_city_id_idx` (`city_id` ASC),
   INDEX `fk_user_category_id_idx` (`user_category_id` ASC),
   CONSTRAINT `fk_user_country_id`
     FOREIGN KEY (`country_id`)
@@ -192,11 +191,6 @@ CREATE TABLE IF NOT EXISTS `proposed-saayam`.`users` (
   CONSTRAINT `fk_user_status_id`
     FOREIGN KEY (`user_status_id`)
     REFERENCES `proposed-saayam`.`user_status` (`user_status_id`),
-  CONSTRAINT `fk_city_id`
-    FOREIGN KEY (`city_id`)
-    REFERENCES `proposed-saayam`.`city` (`city_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
   CONSTRAINT `fk_user_category_id`
     FOREIGN KEY (`user_category_id`)
     REFERENCES `proposed-saayam`.`user_category` (`user_category_id`)
@@ -257,7 +251,8 @@ CREATE TABLE IF NOT EXISTS `proposed-saayam`.`request` (
   `request_priority_id` INT NOT NULL COMMENT 'Represents values a help request\'s urgency/importance level can have.\n\nLow\nMedium\nHigh',
   `request_type_id` INT NOT NULL COMMENT 'Represents values type of help request. This is helpful for service providers in understanding the nature of the request and how best to assist the user.\n\nIn-Person\nDigitial',
   `request_category_id` INT NOT NULL COMMENT 'Represents values for type of help request can have.\n\nTechnical Support\nFinancial Support\nLegal Support',
-  `request_city_id` INT NOT NULL,
+  `request_city_name` VARCHAR(255) NOT NULL COMMENT 'Represents the name of the city where the request came from',
+  `zip_code` VARCHAR(255) NOT NULL COMMENT 'Represents zip code where the request came from',
   `request_desc` VARCHAR(255) NOT NULL COMMENT 'Describes details of the help request.',
   `request_for` VARCHAR(255) NOT NULL COMMENT 'Specifies whether request is for self or someone else.',
   `submission_date` DATETIME NULL COMMENT 'Indicates when the request was first created/submitted',
@@ -271,7 +266,6 @@ CREATE TABLE IF NOT EXISTS `proposed-saayam`.`request` (
   INDEX `request_priority_id_idx` (`request_priority_id` ASC),
   INDEX `request_type_id_idx` (`request_type_id` ASC),
   INDEX `request_category_id_idx` (`request_category_id` ASC),
-  INDEX `request_region_id_idx` (`request_city_id` ASC),
   CONSTRAINT `fk_user_id`
     FOREIGN KEY (`request_user_id`)
     REFERENCES `proposed-saayam`.`users` (`user_id`)
@@ -295,11 +289,6 @@ CREATE TABLE IF NOT EXISTS `proposed-saayam`.`request` (
   CONSTRAINT `fk_request_category_id`
     FOREIGN KEY (`request_category_id`)
     REFERENCES `proposed-saayam`.`request_category` (`request_category_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_request_city_id`
-    FOREIGN KEY (`request_city_id`)
-    REFERENCES `proposed-saayam`.`city` (`city_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB

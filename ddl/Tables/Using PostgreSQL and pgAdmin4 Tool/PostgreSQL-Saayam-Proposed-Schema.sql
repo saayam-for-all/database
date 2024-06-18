@@ -90,7 +90,6 @@ CREATE TABLE IF NOT EXISTS user_category (
 -- Table: users
 CREATE TABLE IF NOT EXISTS users (
     user_id SERIAL PRIMARY KEY,
-    city_id INT NOT NULL,
     state_id INT NOT NULL,
     country_id INT NOT NULL,
     user_status_id INT NOT NULL,
@@ -104,14 +103,14 @@ CREATE TABLE IF NOT EXISTS users (
     addr_ln1 VARCHAR(255),
     addr_ln2 VARCHAR(255),
     addr_ln3 VARCHAR(255),
-    zip_code INT NOT NULL,
+	city_name VARCHAR(255) NOT NULL,
+    zip_code VARCHAR(255) NOT NULL,
     last_update_date TIMESTAMP,
     time_zone VARCHAR(255) NOT NULL,
     profile_picture_path VARCHAR(255) NULL,
     UNIQUE (user_id),
     FOREIGN KEY (country_id) REFERENCES country (country_id),
     FOREIGN KEY (state_id) REFERENCES state (state_id),
-    FOREIGN KEY (city_id) REFERENCES city (city_id),
     FOREIGN KEY (user_status_id) REFERENCES user_status (user_status_id),
     FOREIGN KEY (user_category_id) REFERENCES user_category (user_category_id)
 );
@@ -148,7 +147,8 @@ CREATE TABLE IF NOT EXISTS request (
     request_priority_id INT NOT NULL,
     request_type_id INT NOT NULL,
     request_category_id INT NOT NULL,
-    request_city_id INT NOT NULL,
+	city_name VARCHAR(255) NOT NULL,
+    zip_code VARCHAR(255) NOT NULL,
     request_desc VARCHAR(255) NOT NULL,
     request_for VARCHAR(255) NOT NULL,
     submission_date TIMESTAMP,
@@ -160,8 +160,7 @@ CREATE TABLE IF NOT EXISTS request (
     FOREIGN KEY (request_status_id) REFERENCES request_status (request_status_id),
     FOREIGN KEY (request_priority_id) REFERENCES request_priority (priority_id),
     FOREIGN KEY (request_type_id) REFERENCES request_type (request_type_id),
-    FOREIGN KEY (request_category_id) REFERENCES request_category (request_category_id),
-    FOREIGN KEY (request_city_id) REFERENCES city (city_id)
+    FOREIGN KEY (request_category_id) REFERENCES request_category (request_category_id)
 );
 
 -- Table: skill_lst
