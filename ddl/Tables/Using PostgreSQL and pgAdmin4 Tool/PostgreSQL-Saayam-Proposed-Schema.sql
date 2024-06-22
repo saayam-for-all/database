@@ -198,3 +198,30 @@ CREATE TABLE IF NOT EXISTS user_skills (
     FOREIGN KEY (skill_id) REFERENCES skill_lst (skill_lst_id),
     FOREIGN KEY (user_id) REFERENCES users (user_id)
 );
+
+CREATE SEQUENCE user_id_seq
+START WITH 1
+INCREMENT BY 1
+NO MINVALUE
+NO MAXVALUE
+CACHE 1;
+
+CREATE FUNCTION generate_sid()
+RETURNS TRIGGER AS $$
+DECLARE
+    seq_id INT;
+    new_id VARCHAR(20);
+BEGIN
+    seq_id := nextval('user_id_seq');
+    new_id := 'SID-00-' || LPAD(FLOOR(seq_id / 1000000)::TEXT, 3, '0') || '-' || 
+              LPAD(FLOOR((seq_id % 1000000) / 1000)::TEXT, 3, '0') || '-' || 
+              LPAD((seq_id % 1000)::TEXT, 3, '0');
+    NEW.ID := new_id;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER before_insert_users
+BEFORE INSERT ON users
+FOR EACH ROW
+EXECUTE FUNCTION generate_sid();
