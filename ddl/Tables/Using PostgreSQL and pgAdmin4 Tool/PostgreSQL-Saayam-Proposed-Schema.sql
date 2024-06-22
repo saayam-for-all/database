@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS user_category (
 
 -- Table: users
 CREATE TABLE IF NOT EXISTS users (
-    user_id SERIAL PRIMARY KEY,
+    user_id VARCHAR(255) PRIMARY KEY,
     state_id INT NOT NULL,
     country_id INT NOT NULL,
     user_status_id INT NOT NULL,
@@ -142,7 +142,7 @@ CREATE TABLE IF NOT EXISTS request_category (
 -- Table: request
 CREATE TABLE IF NOT EXISTS request (
     request_id SERIAL PRIMARY KEY,
-    request_user_id INT NOT NULL,
+    request_user_id VARCHAR(255) NOT NULL,
     request_status_id INT NOT NULL,
     request_priority_id INT NOT NULL,
     request_type_id INT NOT NULL,
@@ -189,7 +189,7 @@ CREATE TABLE IF NOT EXISTS sla (
 
 -- Table: user_skills
 CREATE TABLE IF NOT EXISTS user_skills (
-    user_id INT,
+    user_id VARCHAR(255),
     skill_id INT,
     created_by VARCHAR(30),
     created_dt DATE,
@@ -216,7 +216,7 @@ BEGIN
     new_id := 'SID-00-' || LPAD(FLOOR(seq_id / 1000000)::TEXT, 3, '0') || '-' || 
               LPAD(FLOOR((seq_id % 1000000) / 1000)::TEXT, 3, '0') || '-' || 
               LPAD((seq_id % 1000)::TEXT, 3, '0');
-    NEW.ID := new_id;
+    NEW.user_id := new_id;
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
