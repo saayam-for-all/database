@@ -17,6 +17,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema proposed-saayam
 -- -----------------------------------------------------
+DROP SCHEMA IF EXISTS `proposed-saayam`;
 CREATE SCHEMA IF NOT EXISTS `proposed-saayam` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
 USE `proposed-saayam` ;
 
@@ -158,7 +159,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- Table `proposed-saayam`.`users`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `proposed-saayam`.`users` (
-  `user_id` INT NOT NULL AUTO_INCREMENT COMMENT 'Auto generated unique identifier',
+  `user_id` VARCHAR(255) NOT NULL UNIQUE COMMENT 'Auto generated unique identifier',
   `state_id` INT NOT NULL COMMENT 'Represents state where user resides',
   `country_id` INT NOT NULL COMMENT 'Represents country where user resides',
   `user_status_id` INT NOT NULL COMMENT 'Represents status of each user. Associated with ID from \'user_status\' table\n\nActive - the volunteer is currently engaged and actively participating in volunteering activities.\nInactive - The volunteer is not currently participating in any volunteering activities.\nPending - The volunteer has expressed interest but has not yet started volunteering or is awaiting assignment.\nOnHold - The volunteer’s activities are temporarily suspended, possibly due to personal reasons, vacations etc.',
@@ -245,12 +246,12 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- Table `proposed-saayam`.`request`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `proposed-saayam`.`request` (
-  `request_id` INT NOT NULL AUTO_INCREMENT COMMENT 'Auto generated unique identifier',
-  `request_user_id` INT NOT NULL COMMENT 'Identifies the user making the request. Associated with user ID from \'User\' table',
-  `request_status_id` INT NOT NULL COMMENT 'Represents the current status of the request. Represents various states a help request can transition through.\n\n-- Created\n-- Pending\n-- In_progress\n-- Completed\n-- Cancelled',
-  `request_priority_id` INT NOT NULL COMMENT 'Represents values a help request\'s urgency/importance level can have.\n\nLow\nMedium\nHigh',
-  `request_type_id` INT NOT NULL COMMENT 'Represents values type of help request. This is helpful for service providers in understanding the nature of the request and how best to assist the user.\n\nIn-Person\nDigitial',
-  `request_category_id` INT NOT NULL COMMENT 'Represents values for type of help request can have.\n\nTechnical Support\nFinancial Support\nLegal Support',
+  `request_id` VARCHAR(255) NOT NULL COMMENT 'Auto generated unique identifier',
+  `request_user_id` VARCHAR(255) NULL COMMENT 'Identifies the user making the request. Associated with user ID from \'User\' table',
+  `request_status_id` INT NULL COMMENT 'Represents the current status of the request. Represents various states a help request can transition through.\n\n-- Created\n-- Pending\n-- In_progress\n-- Completed\n-- Cancelled',
+  `request_priority_id` INT NULL COMMENT 'Represents values a help request\'s urgency/importance level can have.\n\nLow\nMedium\nHigh',
+  `request_type_id` INT NULL COMMENT 'Represents values type of help request. This is helpful for service providers in understanding the nature of the request and how best to assist the user.\n\nIn-Person\nDigitial',
+  `request_category_id` INT NULL COMMENT 'Represents values for type of help request can have.\n\nTechnical Support\nFinancial Support\nLegal Support',
   `request_city_name` VARCHAR(255) NOT NULL COMMENT 'Represents the name of the city where the request came from',
   `zip_code` VARCHAR(255) NOT NULL COMMENT 'Represents zip code where the request came from',
   `request_desc` VARCHAR(255) NOT NULL COMMENT 'Describes details of the help request.',
@@ -335,7 +336,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- Table `proposed-saayam`.`user_skills`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `proposed-saayam`.`user_skills` (
-  `user_id` INT NULL,
+  `user_id` VARCHAR(255) NULL,
   `skill_id` INT NULL,
   `created_by` VARCHAR(30) NULL,
   `created_dt` DATE NULL,
@@ -354,6 +355,54 @@ DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
 
+CREATE TABLE user_id_sequence (
+    id INT AUTO_INCREMENT PRIMARY KEY
+);
+
+
+INSERT INTO user_id_sequence (id) VALUES (NULL);
+
+DELIMITER //
+
+CREATE TRIGGER before_insert_users
+BEFORE INSERT ON users
+FOR EACH ROW
+BEGIN
+    DECLARE seq_value INT;
+    INSERT INTO user_id_sequence (id) VALUES (NULL);
+    SET seq_value = LAST_INSERT_ID();
+    SET NEW.user_id = CONCAT('SID-00-', LPAD(FLOOR(seq_value / 1000000), 3, '0'), '-',
+                             LPAD(FLOOR((seq_value % 1000000) / 1000), 3, '0'), '-',
+                             LPAD(seq_value % 1000, 3, '0'));
+END //
+
+DELIMITER ;
+
+CREATE TABLE req_id_sequence (
+    id INT AUTO_INCREMENT PRIMARY KEY
+);
+
+INSERT INTO req_id_sequence (id) VALUES (NULL);
+
+DELIMITER //
+
+CREATE TRIGGER before_insert_requests
+BEFORE INSERT ON `proposed-saayam`.`request`
+FOR EACH ROW
+BEGIN
+    DECLARE seq_value INT;
+    INSERT INTO `proposed-saayam`.`req_id_sequence` (id) VALUES (NULL);
+    SET seq_value = LAST_INSERT_ID();
+    SET NEW.request_id = CONCAT('REQ-00-', LPAD(FLOOR(seq_value / 1000000), 3, '0'), '-',
+                                LPAD(FLOOR((seq_value % 1000000) / 1000), 3, '0'), '-',
+                                LPAD(seq_value % 1000, 3, '0'));
+END //
+
+DELIMITER ;
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+
