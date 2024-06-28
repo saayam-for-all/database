@@ -247,11 +247,11 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `proposed-saayam`.`request` (
   `request_id` VARCHAR(255) NOT NULL COMMENT 'Auto generated unique identifier',
-  `request_user_id` VARCHAR(255) NULL COMMENT 'Identifies the user making the request. Associated with user ID from \'User\' table',
-  `request_status_id` INT NULL COMMENT 'Represents the current status of the request. Represents various states a help request can transition through.\n\n-- Created\n-- Pending\n-- In_progress\n-- Completed\n-- Cancelled',
-  `request_priority_id` INT NULL COMMENT 'Represents values a help request\'s urgency/importance level can have.\n\nLow\nMedium\nHigh',
-  `request_type_id` INT NULL COMMENT 'Represents values type of help request. This is helpful for service providers in understanding the nature of the request and how best to assist the user.\n\nIn-Person\nDigitial',
-  `request_category_id` INT NULL COMMENT 'Represents values for type of help request can have.\n\nTechnical Support\nFinancial Support\nLegal Support',
+  `request_user_id` VARCHAR(255) NOT NULL COMMENT 'Identifies the user making the request. Associated with user ID from \'User\' table',
+  `request_status_id` INT NOT NULL COMMENT 'Represents the current status of the request. Represents various states a help request can transition through.\n\n-- Created\n-- Pending\n-- In_progress\n-- Completed\n-- Cancelled',
+  `request_priority_id` INT NOT NULL COMMENT 'Represents values a help request\'s urgency/importance level can have.\n\nLow\nMedium\nHigh',
+  `request_type_id` INT NOT NULL COMMENT 'Represents values type of help request. This is helpful for service providers in understanding the nature of the request and how best to assist the user.\n\nIn-Person\nDigitial',
+  `request_category_id` INT NOT NULL COMMENT 'Represents values for type of help request can have.\n\nTechnical Support\nFinancial Support\nLegal Support',
   `request_city_name` VARCHAR(255) NOT NULL COMMENT 'Represents the name of the city where the request came from',
   `zip_code` VARCHAR(255) NOT NULL COMMENT 'Represents zip code where the request came from',
   `request_desc` VARCHAR(255) NOT NULL COMMENT 'Describes details of the help request.',
