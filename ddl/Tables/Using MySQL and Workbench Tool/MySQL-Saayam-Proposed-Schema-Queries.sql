@@ -178,6 +178,8 @@ CREATE TABLE IF NOT EXISTS `proposed-saayam`.`users` (
   `last_update_date` DATETIME NULL,
   `time_zone` VARCHAR(255) NOT NULL COMMENT 'Represents the time zone of the user',
   `profile_picture_path` VARCHAR(255) NULL COMMENT 'Prepresents the path to the profile picture in S3',
+  `passport_doc` VARCHAR(255) NULL COMMENT 'Represents the path to the passport document in S3',
+  `drivers_license` VARCHAR(255) NULL COMMENT 'Represents the path to the driving license document in S3',
   PRIMARY KEY (`user_id`),
   UNIQUE INDEX `uk_user_user_id` (`user_id` ASC),
   INDEX `fk_user_state_id` (`country_id` ASC, `state_id` ASC),
