@@ -304,6 +304,34 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
+-- Table `proposed-saayam`.`comments`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `proposed-saayam`.`comments` (
+  `comment_id` INT NOT NULL AUTO_INCREMENT COMMENT 'Auto generated unique identifier for the comment',
+  `request_id` VARCHAR(255) NOT NULL COMMENT 'Identifier for the request associated with this comment',
+  `user_id` VARCHAR(255) NOT NULL COMMENT 'Identifier for the user who made the comment',
+  `comment_desc` TEXT NOT NULL COMMENT 'Description of the comment',
+  `comment_date` DATETIME NOT NULL COMMENT 'Date and time when the comment was made',
+  PRIMARY KEY (`comment_id`),
+  INDEX `fk_comments_request_id_idx` (`request_id` ASC),
+  INDEX `fk_comments_user_id_idx` (`user_id` ASC),
+  CONSTRAINT `fk_comments_request_id`
+    FOREIGN KEY (`request_id`)
+    REFERENCES `proposed-saayam`.`request` (`request_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_comments_user_id`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `proposed-saayam`.`users` (`user_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;  
+
+  
+-- -----------------------------------------------------
 -- Table `proposed-saayam`.`skill_lst`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `proposed-saayam`.`skill_lst` (
