@@ -169,6 +169,21 @@ CREATE TABLE IF NOT EXISTS request (
     FOREIGN KEY (request_category_id) REFERENCES request_category (request_category_id)
 );
 
+-- Table: comments
+CREATE TABLE IF NOT EXISTS comments (
+    comment_id SERIAL PRIMARY KEY,
+    request_id VARCHAR(255) NOT NULL,
+    user_id VARCHAR(255) NOT NULL,
+    comment_desc TEXT NOT NULL,
+    comment_date TIMESTAMP NOT NULL,
+    FOREIGN KEY (request_id) REFERENCES request (request_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- Indexes
+CREATE INDEX IF NOT EXISTS fk_comments_request_id_idx ON comments (request_id);
+CREATE INDEX IF NOT EXISTS fk_comments_user_id_idx ON comments (user_id);
+
 -- Table: skill_lst
 CREATE TABLE IF NOT EXISTS skill_lst (
     skill_lst_id SERIAL PRIMARY KEY,
