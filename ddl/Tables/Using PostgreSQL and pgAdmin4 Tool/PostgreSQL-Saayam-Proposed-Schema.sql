@@ -156,6 +156,7 @@ CREATE TABLE IF NOT EXISTS request (
 	city_name VARCHAR(255) NOT NULL,
     zip_code VARCHAR(255) NOT NULL,
     request_desc VARCHAR(255) NOT NULL,
+	audio_req_desc VARCHAR(255) NULL,
     request_for VARCHAR(255) NOT NULL,
     submission_date TIMESTAMP,
     lead_volunteer_user_id INT,
