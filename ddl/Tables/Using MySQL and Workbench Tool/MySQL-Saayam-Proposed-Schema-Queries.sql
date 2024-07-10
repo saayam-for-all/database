@@ -261,6 +261,7 @@ CREATE TABLE IF NOT EXISTS `proposed-saayam`.`request` (
   `request_city_name` VARCHAR(255) NOT NULL COMMENT 'Represents the name of the city where the request came from',
   `zip_code` VARCHAR(255) NOT NULL COMMENT 'Represents zip code where the request came from',
   `request_desc` VARCHAR(255) NOT NULL COMMENT 'Describes details of the help request.',
+  `audio_req_desc` VARCHAR(255) NULL COMMENT 'URI for the audio description of the request stored in S3',
   `request_for` VARCHAR(255) NOT NULL COMMENT 'Specifies whether request is for self or someone else.',
   `submission_date` DATETIME NULL COMMENT 'Indicates when the request was first created/submitted',
   `lead_volunteer_user_id` INT NULL COMMENT 'Represents the volunteer assigned to the request. Volunteer ID would be user from \'User\' table.\n\nQue: Should this be here OR request ID should be in User table?? Need to avoid cyclic foreign keys association.',
