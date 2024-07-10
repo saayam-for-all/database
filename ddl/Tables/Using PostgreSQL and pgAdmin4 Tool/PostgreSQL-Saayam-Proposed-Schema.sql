@@ -145,7 +145,7 @@ CREATE TABLE IF NOT EXISTS request_category (
     last_updated_date TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS request_category (
+CREATE TABLE IF NOT EXISTS request_for (
     request_for_id SERIAL PRIMARY KEY,
     request_for VARCHAR(255) NOT NULL,
     request_for_desc VARCHAR(255),
