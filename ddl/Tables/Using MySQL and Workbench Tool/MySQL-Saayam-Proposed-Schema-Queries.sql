@@ -247,6 +247,15 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
+CREATE TABLE IF NOT EXISTS `proposed-saayam`.`request_for` (
+  `request_for_id` INT NOT NULL AUTO_INCREMENT COMMENT 'Auto generated unique identifier',
+  `request_for` VARCHAR(255) NOT NULL COMMENT 'Represents values for type of help request can have.\n\nTechnical Support\nFinancial Support\nLegal Support',
+  `request_for_desc` VARCHAR(255) NULL COMMENT 'Represents explanation of each category.',
+  `last_updated_date` DATETIME NULL COMMENT 'Represents last date time the record is updated in the database.',
+  PRIMARY KEY (`request_for_id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
 
 -- -----------------------------------------------------
 -- Table `proposed-saayam`.`request`
@@ -256,6 +265,7 @@ CREATE TABLE IF NOT EXISTS `proposed-saayam`.`request` (
   `request_user_id` VARCHAR(255) NOT NULL COMMENT 'Identifies the user making the request. Associated with user ID from \'User\' table',
   `request_status_id` INT NOT NULL COMMENT 'Represents the current status of the request. Represents various states a help request can transition through.\n\n-- Created\n-- Pending\n-- In_progress\n-- Completed\n-- Cancelled',
   `request_priority_id` INT NOT NULL COMMENT 'Represents values a help request\'s urgency/importance level can have.\n\nLow\nMedium\nHigh',
+  `request_for_id` INT NOT NULL COMMENT 'Represents the request for id',
   `request_type_id` INT NOT NULL COMMENT 'Represents values type of help request. This is helpful for service providers in understanding the nature of the request and how best to assist the user.\n\nIn-Person\nDigitial',
   `request_category_id` INT NOT NULL COMMENT 'Represents values for type of help request can have.\n\nTechnical Support\nFinancial Support\nLegal Support',
   `request_city_name` VARCHAR(255) NOT NULL COMMENT 'Represents the name of the city where the request came from',
@@ -272,6 +282,7 @@ CREATE TABLE IF NOT EXISTS `proposed-saayam`.`request` (
   INDEX `user_id_idx` (`request_user_id` ASC),
   INDEX `request_status_id_idx` (`request_status_id` ASC),
   INDEX `request_priority_id_idx` (`request_priority_id` ASC),
+  INDEX `request_for_id_idx` (`request_for_id` ASC),
   INDEX `request_type_id_idx` (`request_type_id` ASC),
   INDEX `request_category_id_idx` (`request_category_id` ASC),
   CONSTRAINT `fk_user_id`
@@ -287,6 +298,11 @@ CREATE TABLE IF NOT EXISTS `proposed-saayam`.`request` (
   CONSTRAINT `fk_request_priority_id`
     FOREIGN KEY (`request_priority_id`)
     REFERENCES `proposed-saayam`.`request_priority` (`priority_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+    CONSTRAINT `fk_request_for_id`
+    FOREIGN KEY (`request_for_id`)
+    REFERENCES `proposed-saayam`.`request_for` (`request_for_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_request_type_id`

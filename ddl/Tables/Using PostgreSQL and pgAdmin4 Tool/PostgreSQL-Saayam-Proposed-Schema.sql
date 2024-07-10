@@ -145,6 +145,13 @@ CREATE TABLE IF NOT EXISTS request_category (
     last_updated_date TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS request_category (
+    request_for_id SERIAL PRIMARY KEY,
+    request_for VARCHAR(255) NOT NULL,
+    request_for_desc VARCHAR(255),
+    last_updated_date TIMESTAMP
+);
+
 -- Table: request
 CREATE TABLE IF NOT EXISTS request (
     request_id VARCHAR(255) PRIMARY KEY,
@@ -153,6 +160,7 @@ CREATE TABLE IF NOT EXISTS request (
     request_priority_id INT NOT NULL,
     request_type_id INT NOT NULL,
     request_category_id INT NOT NULL,
+    request_for_id INT NOT NULL,
 	city_name VARCHAR(255) NOT NULL,
     zip_code VARCHAR(255) NOT NULL,
     request_desc VARCHAR(255) NOT NULL,
@@ -167,7 +175,8 @@ CREATE TABLE IF NOT EXISTS request (
     FOREIGN KEY (request_status_id) REFERENCES request_status (request_status_id),
     FOREIGN KEY (request_priority_id) REFERENCES request_priority (priority_id),
     FOREIGN KEY (request_type_id) REFERENCES request_type (request_type_id),
-    FOREIGN KEY (request_category_id) REFERENCES request_category (request_category_id)
+    FOREIGN KEY (request_category_id) REFERENCES request_category (request_category_id),
+    FOREIGN KEY (request_for_id) REFERENCES request_for (request_for_id)
 );
 
 -- Table: comments
