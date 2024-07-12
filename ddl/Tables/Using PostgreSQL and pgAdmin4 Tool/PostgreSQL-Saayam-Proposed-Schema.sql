@@ -13,10 +13,10 @@ SET search_path TO proposed_saayam;
 CREATE TABLE IF NOT EXISTS action (
     action_id SERIAL PRIMARY KEY,
     action_desc VARCHAR(30) NOT NULL,
-    created_dt DATE,
+    created_date TIMESTAMP,
     created_by VARCHAR(30),
-    last_upd_by VARCHAR(30),
-    last_upd_dt DATE,
+    last_update_by VARCHAR(30),
+    last_update_date TIMESTAMP,
     UNIQUE (action_id)
 );
 
@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS user_status (
     user_status_id SERIAL PRIMARY KEY,
     user_status VARCHAR(255) NOT NULL,
     user_status_desc VARCHAR(255),
-    last_update DATE,
+    last_update_date TIMESTAMP,
     UNIQUE (user_status_id)
 );
 
@@ -90,27 +90,27 @@ CREATE TABLE IF NOT EXISTS user_category (
 -- Table: users
 CREATE TABLE IF NOT EXISTS users (
     user_id VARCHAR(255) PRIMARY KEY,
-    state_id INT NOT NULL,
-    country_id INT NOT NULL,
-    user_status_id INT NOT NULL,
-    user_category_id INT NOT NULL,
-    full_name VARCHAR(255) NOT NULL,
-    first_name VARCHAR(255),
-    middle_name VARCHAR(255),
-    last_name VARCHAR(255),
-    primary_email_address VARCHAR(255),
-    secondary_email_1 VARCHAR(255),
-    secondary_email_2 VARCHAR(255),
-    primary_phone_number VARCHAR(255),
-    secondary_phone_1 VARCHAR(255),
-    secondary_phone_2 VARCHAR(255),
-    addr_ln1 VARCHAR(255),
-    addr_ln2 VARCHAR(255),
-    addr_ln3 VARCHAR(255),
-	city_name VARCHAR(255) NOT NULL,
-    zip_code VARCHAR(255) NOT NULL,
+    state_id INT NULL,
+    country_id INT NULL,
+    user_status_id INT NULL,
+    user_category_id INT NULL,
+    full_name VARCHAR(255) NULL,
+    first_name VARCHAR(255) NULL,
+    middle_name VARCHAR(255) NULL,
+    last_name VARCHAR(255) NULL,
+    primary_email_address VARCHAR(255) NULL,
+    secondary_email_1 VARCHAR(255) NULL,
+    secondary_email_2 VARCHAR(255) NULL,
+    primary_phone_number VARCHAR(255) NULL,
+    secondary_phone_1 VARCHAR(255) NULL,
+    secondary_phone_2 VARCHAR(255) NULL,
+    addr_ln1 VARCHAR(255) NULL,
+    addr_ln2 VARCHAR(255) NULL,
+    addr_ln3 VARCHAR(255) NULL,
+	city_name VARCHAR(255) NULL,
+    zip_code VARCHAR(255) NULL,
     last_update_date TIMESTAMP,
-    time_zone VARCHAR(255) NOT NULL,
+    time_zone VARCHAR(255) NULL,
     profile_picture_path VARCHAR(255) NULL,
 	passport_doc VARCHAR(255) NULL,  
     drivers_license VARCHAR(255) NULL,  
@@ -199,12 +199,12 @@ CREATE TABLE IF NOT EXISTS skill_lst (
     skill_lst_id SERIAL PRIMARY KEY,
     skill_level INT NOT NULL,
     level_desc VARCHAR(100) NOT NULL,
-    skill_last_used DATE,
+    skill_last_used_date TIMESTAMP,
     is_actv VARCHAR(1),
     created_by VARCHAR(30),
-    created_dt DATE,
+    created_date TIMESTAMP,
     last_update_by VARCHAR(30),
-    last_update DATE,
+    last_update_date TIMESTAMP,
     UNIQUE (skill_lst_id)
 );
 
@@ -223,9 +223,9 @@ CREATE TABLE IF NOT EXISTS user_skills (
     user_id VARCHAR(255),
     skill_id INT,
     created_by VARCHAR(30),
-    created_dt DATE,
+    created_date TIMESTAMP,
     last_update_by VARCHAR(30),
-    last_update DATE,
+    last_update_date TIMESTAMP,
     FOREIGN KEY (skill_id) REFERENCES skill_lst (skill_lst_id),
     FOREIGN KEY (user_id) REFERENCES users (user_id)
 );
