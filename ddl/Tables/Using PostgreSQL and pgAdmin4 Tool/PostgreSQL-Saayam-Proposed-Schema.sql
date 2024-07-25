@@ -194,6 +194,20 @@ CREATE TABLE IF NOT EXISTS comments (
 CREATE INDEX IF NOT EXISTS fk_comments_request_id_idx ON comments (request_id);
 CREATE INDEX IF NOT EXISTS fk_comments_user_id_idx ON comments (user_id);
 
+-- Table : volunteer organizations 
+CREATE TABLE IF NOT EXISTS volunteer_organizations (
+	volunteer_organization_id SERIAL PRIMARY KEY,
+    contact_id VARCHAR(255) NOT NULL,
+    city_name VARCHAR(255) NOT NULL,
+    addr_ln1 VARCHAR(255) NULL,
+    addr_ln2 VARCHAR(255) NULL,
+    addr_ln3 VARCHAR(255) NULL,
+    zip_code VARCHAR(255) NOT NULL,
+    last_update_date TIMESTAMP,
+    time_zone VARCHAR(255) NULL,
+    FOREIGN KEY (contact_id) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 -- Table: skill_lst
 CREATE TABLE IF NOT EXISTS skill_lst (
     skill_lst_id SERIAL PRIMARY KEY,

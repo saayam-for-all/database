@@ -347,6 +347,31 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;  
 
+
+-- -----------------------------------------------------
+-- Table `proposed-saayam`.`volunteer_organizations`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `proposed-saayam`.`volunteer_organizations` (
+  `volunteer_organization_id` INT NOT NULL AUTO_INCREMENT COMMENT 'Auto generated unique identifier for the volunteer organization',
+  `contact_id` VARCHAR(255) NOT NULL COMMENT 'Contact point of the organization',
+  `city_name` VARCHAR(255) NULL COMMENT 'Represents the city name of the organization',
+  `addr_ln1` VARCHAR(255) NULL COMMENT 'Represents address of the organization',
+  `addr_ln2` VARCHAR(255) NULL COMMENT 'Represents address of the organization',
+  `addr_ln3` VARCHAR(255) NULL COMMENT 'Represents address of the organization',
+  `zip_code` VARCHAR(255) NULL COMMENT 'Represents zip code where organization resides',
+  `last_update_date` DATETIME NULL,
+  `time_zone` VARCHAR(255) NULL COMMENT 'Represents the time zone of the organization',
+  PRIMARY KEY (`volunteer_organization_id`),
+  INDEX `contact_id_idx` (`contact_id` ASC),
+   CONSTRAINT `fk_contact_id`
+    FOREIGN KEY (`contact_id`)
+    REFERENCES `proposed-saayam`.`users` (`user_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;  
   
 -- -----------------------------------------------------
 -- Table `proposed-saayam`.`skill_lst`
