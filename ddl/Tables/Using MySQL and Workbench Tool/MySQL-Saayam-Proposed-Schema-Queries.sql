@@ -185,7 +185,7 @@ CREATE TABLE IF NOT EXISTS `proposed-saayam`.`users` (
   `passport_doc` VARCHAR(255) NULL COMMENT 'Represents the path to the passport document in S3',
   `drivers_license` VARCHAR(255) NULL COMMENT 'Represents the path to the driving license document in S3',
   PRIMARY KEY (`user_id`),
-  UNIQUE INDEX `uk_user_user_id` (`user_id` ASC),
+  INDEX `uk_user_user_id` (`user_id` ASC),
   INDEX `fk_user_state_id` (`country_id` ASC, `state_id` ASC),
   INDEX `fk_user_status_id` (`user_status_id` ASC),
   INDEX `fk_user_category_id_idx` (`user_category_id` ASC),
@@ -318,6 +318,33 @@ CREATE TABLE IF NOT EXISTS `proposed-saayam`.`request` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
+
+-- -----------------------------------------------------
+-- Table `proposed-saayam`.`volunteers_assigned` - this table stores the list of volunteers assigned to the requests
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `proposed-saayam`.`volunteers_assigned` (
+  `volunteers_assigned_id` INT NOT NULL AUTO_INCREMENT COMMENT 'Auto generated unique identifier for the comment',
+  `volunteer_id` VARCHAR(255) NOT NULL COMMENT 'Identifier for the volunteer assigned to the request',
+  `request_id` VARCHAR(255) NOT NULL COMMENT 'Identifier for the request associated with this comment',
+  `volunteer_type` VARCHAR(255) NOT NULL COMMENT 'Specifies if the volunteer if a HELPER or a LEAD VOLUNTEER (enum values)',
+  `last_update_date` DATETIME NOT NULL COMMENT 'Date and time when the volunteer was assigned',
+  PRIMARY KEY (`volunteers_assigned_id`),
+  INDEX `fk_request_id_idx` (`request_id` ASC),
+  INDEX `fk_user_id_idx` (`volunteer_id` ASC),
+  CONSTRAINT `fk_request_id`
+    FOREIGN KEY (`request_id`)
+    REFERENCES `proposed-saayam`.`request` (`request_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_volunteer_id`
+    FOREIGN KEY (`volunteer_id`)
+    REFERENCES `proposed-saayam`.`users` (`user_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;  
 
 
 -- -----------------------------------------------------

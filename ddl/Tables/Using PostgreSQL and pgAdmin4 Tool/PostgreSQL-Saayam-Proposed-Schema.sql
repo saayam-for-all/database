@@ -179,6 +179,17 @@ CREATE TABLE IF NOT EXISTS request (
     FOREIGN KEY (request_for_id) REFERENCES request_for (request_for_id)
 );
 
+-- Table: volunteers_assigned
+CREATE TABLE IF NOT EXISTS volunteers_assigned (
+    volunteers_assigned_id SERIAL PRIMARY KEY,
+    request_id VARCHAR(255) NOT NULL,
+    volunteer_id VARCHAR(255) NOT NULL,
+    volunteer_type VARCHAR(255) NOT NULL,
+    last_update_date TIMESTAMP NOT NULL,
+    FOREIGN KEY (request_id) REFERENCES request (request_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (volunteer_id) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 -- Table: comments
 CREATE TABLE IF NOT EXISTS comments (
     comment_id SERIAL PRIMARY KEY,
