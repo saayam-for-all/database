@@ -233,6 +233,14 @@ CREATE TABLE IF NOT EXISTS notification_types (
     description TEXT
 );
 
+-- Define the ENUM type for notification status
+DO $$ 
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'notification_status') THEN
+        CREATE TYPE notification_status AS ENUM ('unread', 'read');
+    END IF;
+END $$;
+
 -- Table: notifications
 CREATE TABLE IF NOT EXISTS notifications (
     notification_id SERIAL PRIMARY KEY,
@@ -242,7 +250,7 @@ CREATE TABLE IF NOT EXISTS notifications (
     message TEXT NOT NULL,
     status ENUM('unread', 'read') DEFAULT 'unread',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    last_update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    last_update_date TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (type_id) REFERENCES notification_types (type_id),
     FOREIGN KEY (channel_id) REFERENCES notification_channels (channel_id)
