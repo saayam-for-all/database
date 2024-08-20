@@ -403,17 +403,19 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 -- Table `proposed-saayam`.`skill_lst`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `proposed-saayam`.`skill_lst` (
-  `skill_lst_id` INT NOT NULL AUTO_INCREMENT,
-  `skill_level` INT NOT NULL,
-  `level_desc` VARCHAR(100) NOT NULL,
-  `skill_last_used_date` DATETIME NULL,
-  `is_actv` VARCHAR(1) NULL,
-  `created_by` VARCHAR(30) NULL,
-  `created_date` DATETIME NULL,
-  `last_update_by` VARCHAR(30) NULL,
+CREATE TABLE IF NOT EXISTS `proposed-saayam`.`skill_list` (
+  `skill_list_id` INT NOT NULL AUTO_INCREMENT,
+  `request_category_id` INT NOT NULL,
+  `skill_name` VARCHAR(100) NOT NULL,
+  `skill_desc` VARCHAR(100) NOT NULL,
   `last_update_date` DATETIME NULL,
-  UNIQUE INDEX `uk_skill_lst_id` (`skill_lst_id` ASC))
+  UNIQUE INDEX `uk_skill_list_id` (`skill_list_id` ASC),
+   CONSTRAINT `fk_request_cat_id`
+    FOREIGN KEY (`request_category_id`)
+    REFERENCES `proposed-saayam`.`request_category` (`request_category_id`)
+     ON DELETE CASCADE
+    ON UPDATE CASCADE
+    )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
@@ -439,17 +441,19 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- Table `proposed-saayam`.`user_skills`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `proposed-saayam`.`user_skills` (
-  `user_id` VARCHAR(255) NULL,
-  `skill_id` INT NULL,
-  `created_by` VARCHAR(30) NULL,
+  `user_skills_id` INT PRIMARY KEY AUTO_INCREMENT,
+  `user_id` VARCHAR(255) NOT NULL,
+  `skill_id` INT NOT NULL,
+  `skill_level` VARCHAR(100) NULL,
+  `last_used_date` DATETIME NULL,
   `created_date` DATETIME NULL,
-  `last_update_by` VARCHAR(30) NULL,
   `last_update_date` DATETIME NULL,
+  INDEX `fk_user_skills_id` (`user_skills_id` ASC),
   INDEX `fk_user_skills_user_id` (`user_id` ASC),
   INDEX `fk_user_skills_skill_id` (`skill_id` ASC),
   CONSTRAINT `fk_user_skills_skill_id`
     FOREIGN KEY (`skill_id`)
-    REFERENCES `proposed-saayam`.`skill_lst` (`skill_lst_id`),
+    REFERENCES `proposed-saayam`.`skill_list` (`skill_list_id`),
   CONSTRAINT `fk_user_skills_user_id`
     FOREIGN KEY (`user_id`)
     REFERENCES `proposed-saayam`.`users` (`user_id`))

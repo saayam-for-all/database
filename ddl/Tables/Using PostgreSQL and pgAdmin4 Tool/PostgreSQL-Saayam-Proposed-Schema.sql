@@ -267,17 +267,13 @@ CREATE TABLE IF NOT EXISTS user_notification_preferences (
 
 
 -- Table: skill_lst
-CREATE TABLE IF NOT EXISTS skill_lst (
-    skill_lst_id SERIAL PRIMARY KEY,
-    skill_level INT NOT NULL,
-    level_desc VARCHAR(100) NOT NULL,
-    skill_last_used_date TIMESTAMP,
-    is_actv VARCHAR(1),
-    created_by VARCHAR(30),
-    created_date TIMESTAMP,
-    last_update_by VARCHAR(30),
+CREATE TABLE IF NOT EXISTS skill_list (
+    skill_list_id SERIAL PRIMARY KEY,
+    request_category_id INT NOT NULL,
+    skill_desc VARCHAR(100) NOT NULL,
     last_update_date TIMESTAMP,
-    UNIQUE (skill_lst_id)
+    UNIQUE (skill_lst_id),
+    FOREIGN KEY (request_category_id) REFERENCES request_category (request_category_id)
 );
 
 -- Table: sla
@@ -292,13 +288,13 @@ CREATE TABLE IF NOT EXISTS sla (
 
 -- Table: user_skills
 CREATE TABLE IF NOT EXISTS user_skills (
-    user_id VARCHAR(255),
-    skill_id INT,
-    created_by VARCHAR(30),
+	user_skills_id SERIAL PRIMARY KEY,
+    user_id VARCHAR(255) NOT NULL,
+    skill_id INT NOT NULL,
+    last_used_date TIMESTAMP,
     created_date TIMESTAMP,
-    last_update_by VARCHAR(30),
     last_update_date TIMESTAMP,
-    FOREIGN KEY (skill_id) REFERENCES skill_lst (skill_lst_id),
+    FOREIGN KEY (skill_id) REFERENCES skill_list (skill_list_id),
     FOREIGN KEY (user_id) REFERENCES users (user_id)
 );
 
