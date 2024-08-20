@@ -233,13 +233,7 @@ CREATE TABLE IF NOT EXISTS notification_types (
     description TEXT
 );
 
--- Define the ENUM type for notification status
-DO $$ 
-BEGIN
-    IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'notification_status') THEN
-        CREATE TYPE notification_status AS ENUM ('unread', 'read');
-    END IF;
-END $$;
+CREATE TYPE status_type AS ENUM('unread', 'read');
 
 -- Table: notifications
 CREATE TABLE IF NOT EXISTS notifications (
@@ -248,13 +242,14 @@ CREATE TABLE IF NOT EXISTS notifications (
     type_id INT NOT NULL,
     channel_id INT NOT NULL,
     message TEXT NOT NULL,
-    status ENUM('unread', 'read') DEFAULT 'unread',
+    status status_type,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     last_update_date TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (type_id) REFERENCES notification_types (type_id),
     FOREIGN KEY (channel_id) REFERENCES notification_channels (channel_id)
 );
+
 
 -- Indexes
 CREATE INDEX IF NOT EXISTS idx_notifications_user_id ON notifications (user_id);
@@ -263,11 +258,13 @@ CREATE INDEX IF NOT EXISTS idx_notifications_type_id ON notifications (type_id);
 CREATE INDEX IF NOT EXISTS idx_notifications_channel_id ON notifications (channel_id);
 
 
+CREATE TYPE preference_type AS ENUM('email', 'text', 'both');
+
 -- Table: user_notification_preferences
 CREATE TABLE IF NOT EXISTS user_notification_preferences (
     user_id VARCHAR(255) NOT NULL,
     channel_id INT NOT NULL,
-    preference ENUM('email', 'text', 'both') DEFAULT 'both',
+    preference preference_type,
     FOREIGN KEY (user_id) REFERENCES users (user_id),
     FOREIGN KEY (channel_id) REFERENCES notification_channels (channel_id),
     PRIMARY KEY (user_id, channel_id)
