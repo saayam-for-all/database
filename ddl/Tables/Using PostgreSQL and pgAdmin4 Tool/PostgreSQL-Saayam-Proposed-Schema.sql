@@ -118,6 +118,8 @@ CREATE TABLE IF NOT EXISTS users (
     language_1 VARCHAR(255) NULL,
     language_2 VARCHAR(255) NULL,
     language_3 VARCHAR(255) NULL,
+    promotion_wizard_stage INT NULL,
+    promotion_wizard_last_update_date TIMESTAMP,
     UNIQUE (user_id),
     FOREIGN KEY (country_id) REFERENCES country (country_id),
     FOREIGN KEY (state_id) REFERENCES state (state_id),
