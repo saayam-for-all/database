@@ -185,6 +185,15 @@ CREATE TABLE IF NOT EXISTS request (
     FOREIGN KEY (request_for_id) REFERENCES request_for (request_for_id)
 );
 
+-- Table: fraud_requests 
+CREATE TABLE IF NOT EXISTS fraud_requests (
+    fraud_request_id SERIAL PRIMARY KEY,
+    user_id VARCHAR(255) NOT NULL,
+    request_datetime TIMESTAMP NOT NULL,
+    reason VARCHAR(255) NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users (user_id)
+);
+
 -- Table: volunteers_assigned
 CREATE TABLE IF NOT EXISTS volunteers_assigned (
     volunteers_assigned_id SERIAL PRIMARY KEY,
