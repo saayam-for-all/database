@@ -372,9 +372,17 @@ BEGIN
     NEW.request_id := new_id;
     RETURN NEW;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql; 
 
 CREATE TRIGGER before_insert_requests
 BEFORE INSERT ON request
 FOR EACH ROW
 EXECUTE FUNCTION generate_request_id();
+
+CREATE TABLE IF NOT EXISTS emergency_numbers(	
+    country VARCHAR(100) PRIMARY KEY,
+    police VARCHAR(20),
+    ambulance VARCHAR(20),
+    fire VARCHAR(20),
+    other_emergency VARCHAR(100)
+);
