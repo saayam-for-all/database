@@ -321,6 +321,13 @@ CREATE TABLE IF NOT EXISTS user_skills (
     FOREIGN KEY (user_id) REFERENCES users (user_id)
 );
 
+-- Add "last_location" to store user's last known (longitude, latitude)
+
+ALTER TABLE users
+ADD COLUMN last_location point;
+
+-- Example: (37.3382, -121.8863) for San Jose
+
 CREATE SEQUENCE user_id_seq
 START WITH 1
 INCREMENT BY 1
