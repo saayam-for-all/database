@@ -324,6 +324,37 @@ CREATE TABLE IF NOT EXISTS user_skills (
 );
 
 
+-- Create ENUM type for rating values (0 to 5 stars)
+CREATE TYPE rating_enum AS ENUM ('0', '1', '2', '3', '4', '5');
+
+-- Table: volunteer_rating
+CREATE TABLE IF NOT EXISTS volunteer_rating (
+    user_id VARCHAR(255) NOT NULL,
+    request_id VARCHAR(255) NOT NULL,
+    rating rating_enum NOT NULL,
+    feedback TEXT,
+    last_update_date TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (request_id) REFERENCES request (request_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- Indexes for volunteer_rating
+CREATE INDEX IF NOT EXISTS idx_volunteer_rating_user_id ON volunteer_rating (user_id);
+CREATE INDEX IF NOT EXISTS idx_volunteer_rating_request_id ON volunteer_rating (request_id);
+
+-- Table: user_availability
+CREATE TABLE IF NOT EXISTS user_availability (
+    user_id VARCHAR(255) NOT NULL,
+	day_of_week VARCHAR(10) CHECK (day_of_week IN ('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')),
+    start_time TIMESTAMP NOT NULL,
+    end_time TIMESTAMP NOT NULL,
+    last_update_date TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users (user_id) 
+);
+
+-- Indexes for user_availability
+CREATE INDEX IF NOT EXISTS idx_user_availability_user_id ON user_availability (user_id);
+
 CREATE SEQUENCE user_id_seq
 START WITH 1
 INCREMENT BY 1
