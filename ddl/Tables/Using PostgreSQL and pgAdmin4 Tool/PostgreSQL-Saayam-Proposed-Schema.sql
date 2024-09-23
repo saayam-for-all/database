@@ -109,6 +109,7 @@ CREATE TABLE IF NOT EXISTS users (
     addr_ln3 VARCHAR(255) NULL,
 	city_name VARCHAR(255) NULL,
     zip_code VARCHAR(255) NULL,
+    last_location point,
     last_update_date TIMESTAMP,
     time_zone VARCHAR(255) NULL,
     profile_picture_path VARCHAR(255) NULL,
@@ -126,6 +127,7 @@ CREATE TABLE IF NOT EXISTS users (
     FOREIGN KEY (user_status_id) REFERENCES user_status (user_status_id),
     FOREIGN KEY (user_category_id) REFERENCES user_category (user_category_id)
 );
+-- Example: last_location (37.3382, -121.8863) for San Jose
 
 -- Table: request_status
 CREATE TABLE IF NOT EXISTS request_status (
@@ -321,12 +323,6 @@ CREATE TABLE IF NOT EXISTS user_skills (
     FOREIGN KEY (user_id) REFERENCES users (user_id)
 );
 
--- Add "last_location" to store user's last known (longitude, latitude)
-
-ALTER TABLE users
-ADD COLUMN last_location point;
-
--- Example: (37.3382, -121.8863) for San Jose
 
 CREATE SEQUENCE user_id_seq
 START WITH 1
