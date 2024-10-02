@@ -108,12 +108,12 @@ CREATE TABLE IF NOT EXISTS users (
     last_update_date TIMESTAMP,
     time_zone VARCHAR(255) NULL,
     profile_picture_path VARCHAR(255) NULL,
-    passport_doc VARCHAR(255) NULL,  
-    drivers_license VARCHAR(255) NULL,
     gender VARCHAR(255) NULL,
     language_1 VARCHAR(255) NULL,
     language_2 VARCHAR(255) NULL,
     language_3 VARCHAR(255) NULL,
+	promotion_wizard_stage INT NULL,
+    promotion_wizard_last_update_date TIMESTAMP,
     FOREIGN KEY (country_id) REFERENCES country (country_id),
     FOREIGN KEY (state_id) REFERENCES state (state_id),
     FOREIGN KEY (user_status_id) REFERENCES user_status (user_status_id),
@@ -135,8 +135,13 @@ CREATE TABLE IF NOT EXISTS user_additional_details (
 CREATE TABLE IF NOT EXISTS volunteer_details (
     volunteer_detail_id SERIAL PRIMARY KEY,
     user_id VARCHAR(255) NOT NULL,
-    promotion_wizard_stage INT NULL,
-    promotion_wizard_last_update_date TIMESTAMP,
+	terms_and_conditions BOOL NULL,
+	terms_and_conditions_update_date TIMESTAMP,
+	govt_id VARCHAR(255) NULL,
+	govt_id_update_date TIMESTAMP,
+	pii VARCHAR(255) NULL,
+	 notification BOOL NULL,
+	iscomplete BOOL NULL,
     FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE
 );
 
@@ -290,12 +295,12 @@ CREATE TYPE preference_type AS ENUM('email', 'text', 'both');
 
 -- Table: user_notification_preferences
 CREATE TABLE IF NOT EXISTS user_notification_preferences (
+	user_notification_preferences_id SERIAL PRIMARY KEY,
     user_id VARCHAR(255) NOT NULL,
     channel_id INT NOT NULL,
     preference preference_type,
     FOREIGN KEY (user_id) REFERENCES users (user_id),
-    FOREIGN KEY (channel_id) REFERENCES notification_channels (channel_id),
-    PRIMARY KEY (user_id, channel_id)
+    FOREIGN KEY (channel_id) REFERENCES notification_channels (channel_id)
 );
 
 
