@@ -138,12 +138,13 @@ CREATE TABLE IF NOT EXISTS volunteer_details (
     volunteer_detail_id SERIAL PRIMARY KEY,
     user_id VARCHAR(255) NOT NULL,
 	terms_and_conditions BOOL NULL,
-	terms_and_conditions_update_date TIMESTAMP,
+	terms_and_conditions_update_date TIMESTAMP NULL,
 	govt_id VARCHAR(255) NULL,
-	govt_id_update_date TIMESTAMP,
+	govt_id_update_date TIMESTAMP NULL,
 	pii VARCHAR(255) NULL,
 	 notification BOOL NULL,
 	iscomplete BOOL NULL,
+	completed_date TIMESTAMP NULL,
     FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE
 );
 
