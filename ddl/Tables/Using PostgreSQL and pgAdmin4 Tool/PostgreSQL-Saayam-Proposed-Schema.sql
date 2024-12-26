@@ -87,6 +87,16 @@ CREATE TABLE IF NOT EXISTS user_category (
     UNIQUE (user_category_id)
 );
 
+-- Table : user_location (To store the current location of the user) --
+CREATE TABLE IF NOT EXISTS user_location (
+    user_location_id SERIAL PRIMARY KEY, -- Auto-incremented primary key
+    latitude DOUBLE PRECISION NOT NULL, -- Latitude (-90 to 90)
+    longitude DOUBLE PRECISION NOT NULL, -- Longitude (-180 to 180)
+    last_update_date TIMESTAMP, -- Timestamp of the last update
+    UNIQUE (user_location_id)
+);
+
+
 -- Table: users (Main table for user details)
 CREATE TABLE IF NOT EXISTS users (
     user_id VARCHAR(255) PRIMARY KEY,
@@ -100,6 +110,7 @@ CREATE TABLE IF NOT EXISTS users (
     last_name VARCHAR(255) NULL,
     primary_email_address VARCHAR(255) NULL,
     primary_phone_number VARCHAR(255) NULL,
+    user_location_id INT NULL,
     addr_ln1 VARCHAR(255) NULL,
     addr_ln2 VARCHAR(255) NULL,
     addr_ln3 VARCHAR(255) NULL,
@@ -118,7 +129,8 @@ CREATE TABLE IF NOT EXISTS users (
     FOREIGN KEY (country_id) REFERENCES country (country_id),
     FOREIGN KEY (state_id) REFERENCES state (state_id),
     FOREIGN KEY (user_status_id) REFERENCES user_status (user_status_id),
-    FOREIGN KEY (user_category_id) REFERENCES user_category (user_category_id)
+    FOREIGN KEY (user_category_id) REFERENCES user_category (user_category_id),
+	FOREIGN KEY (user_location_id) REFERENCES user_location (user_location_id)
 );
 -- Example: last_location (37.3382, -121.8863) for San Jose
 
