@@ -1,3 +1,5 @@
+drop table if exists organization;
+
 CREATE TABLE organization (
   organization_id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   organization_name VARCHAR(255) NOT NULL,
