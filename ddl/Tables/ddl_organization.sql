@@ -1,6 +1,6 @@
 drop table if exists organization;
 
-CREATE TABLE organization (
+create table if not exists organization (
   organization_id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   organization_name VARCHAR(255) NOT NULL,
   ein VARCHAR(15) UNIQUE,
