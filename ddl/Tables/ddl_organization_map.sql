@@ -3,8 +3,8 @@ drop table if exists organization_map
 create table if not exists organization_map (
     parent_org_id VARCHAR(50),
     child_org_id VARCHAR(50) PRIMARY KEY, --one parent multiple child
-    FOREIGN KEY (parent_org_id) REFERENCES organization(org_id),
-    FOREIGN KEY (child_org_id) REFERENCES organization(org_id)
+    FOREIGN KEY (parent_org_id) REFERENCES organizations(org_id),
+    FOREIGN KEY (child_org_id) REFERENCES organizations(org_id)
 );
 
 /* insertion is done by organization_map.csv file 
