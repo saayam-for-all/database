@@ -7,7 +7,7 @@ CREATE TABLE virginia_dev_saayam_rdbms.req_add_info_metadata (
     field_type VARCHAR(20),                                   -- 'string', 'int', 'float'
     status VARCHAR(10) DEFAULT 'active' CHECK (status IN ('active', 'inactive')),  -- Fixed syntax
     cat_id VARCHAR(50),                                       -- Moved to last column
-    FOREIGN KEY (cat_id) REFERENCES virginia_dev_saayam_rdbms.help_category(cat_id)
+    FOREIGN KEY (cat_id) REFERENCES virginia_dev_saayam_rdbms.help_categories(cat_id)
 );
 
 -- Suggested Change: Consider using ENUM for status to avoid invalid text values
