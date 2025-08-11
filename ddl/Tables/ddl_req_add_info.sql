@@ -7,7 +7,7 @@ create table if not exists virginia_dev_saayam_rdbms.req_add_info(
     field_value TEXT,
     PRIMARY KEY (request_id, field_name_key),
     FOREIGN KEY (request_id) REFERENCES virginia_dev_saayam_rdbms.request(request_id),
-    FOREIGN KEY (cat_id) REFERENCES virginia_dev_saayam_rdbms.help_category(cat_id)
+    FOREIGN KEY (cat_id) REFERENCES virginia_dev_saayam_rdbms.help_categories(cat_id)
 );
 
 /* insertion is done by req_add_info.csv file */
