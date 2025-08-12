@@ -15,7 +15,7 @@ create table if not exists organizations (
   people JSON  -- Future volunteer contact storage
   cat_id VARCHAR(50),
   UNIQUE(emo_id_num),
-  FOREIGN KEY (cat_id) REFERENCES help_category(cat_id) --Linking up help_category with organization
+  FOREIGN KEY (cat_id) REFERENCES help_categories(cat_id) --Linking up help_category with organization
 );
  
 /* insertion is done by organization_map.csv file */
