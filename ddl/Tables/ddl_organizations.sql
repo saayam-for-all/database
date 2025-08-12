@@ -1,9 +1,9 @@
- drop table if exists organization;
+ drop table if exists organizations;
 
-create table if not exists organization (
+create table if not exists organizations (
   org_id VARCHAR(255) PRIMARY KEY,
   org_name VARCHAR(255) NOT NULL,
-  emp_id_num VARCHAR(15),
+  govt_id_num VARCHAR(15), 
   mission_statement TEXT,
   website_url VARCHAR(255),
   phone VARCHAR(20),
