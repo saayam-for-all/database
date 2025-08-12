@@ -6,4 +6,8 @@ create table if not exists virginia_dev_saayam_rdbms.help_categories (
     cat_desc VARCHAR(150) NOT NULL                     -- purpose or goal of the category
 );
 
-/* insertion is done by help_categories.csv file */
+/* insertion is done by help_categories.csv file 
+0.0.0.0.0	GENERAL_CATEGORY	              GENERAL_CATEGORY_DESC
+1	        FOOD_AND_ESSENTIALS_SUPPORT	      FOOD_AND_ESSENTIALS_SUPPORT_DESC
+1.1	        FOOD_ASSISTANCE	                  FOOD_ASSISTANCE_DESC
+*/

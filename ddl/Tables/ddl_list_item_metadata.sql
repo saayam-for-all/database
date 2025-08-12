@@ -8,4 +8,9 @@ CREATE TABLE virginia_dev_saayam_rdbms.list_item_metadata (
     FOREIGN KEY (field_id) REFERENCES virginia_dev_saayam_rdbms.req_add_info_metadata(field_id)
 );
 
-/* insertion is done by list_item_metadata.csv file */
+/* insertion is done by list_item_metadata.csv file 
+1.1.A.1     1.1.A       VEG             string
+1.1.A.2     1.1.A       NON-VEG         string
+1.1.A.3     1.1.A       VEGAN           string
+*/
+

@@ -7,4 +7,9 @@ create table if not exists virginia_dev_saayam_rdbms.help_category_map (
     FOREIGN KEY (child_id) REFERENCES virginia_dev_saayam_rdbms.help_categories(cat_id)
 );
 
-/* insertion is done by help_categories_map.csv file */
+/* insertion is done by help_categories_map.csv file 
+	            0.0.0.0.0
+0.0.0.0.0	    1
+1	            1.1
+1	            1.2
+*/
