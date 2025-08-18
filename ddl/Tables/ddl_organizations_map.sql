@@ -1,6 +1,6 @@
-drop table if exists organization_map
+drop table if exists organizations_map
 
-create table if not exists organization_map (
+create table if not exists organizations_map (
     parent_org_id VARCHAR(50),
     child_org_id VARCHAR(50) PRIMARY KEY, --one parent multiple child
     FOREIGN KEY (parent_org_id) REFERENCES organizations(org_id),
