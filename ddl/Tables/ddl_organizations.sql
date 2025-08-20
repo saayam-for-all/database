@@ -1,4 +1,4 @@
- drop table if exists organizations;
+drop table if exists organizations;
 
 create table if not exists organizations (
   org_id VARCHAR(255) PRIMARY KEY,
