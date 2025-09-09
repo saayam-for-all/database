@@ -1,3 +1,6 @@
-A centralized repository of reusable automation scripts, utilities, and templates designed to streamline common tasks and workflows. This collection serves as our go-to library for future projects, containing battle-tested scripts that can be quickly deployed or adapted for new requirements.
+A centralized repository of reusable automation scripts, utilities, and templates designed to streamline common tasks and workflows.
+This collection serves as our go-to library for future projects, containing battle-tested scripts that can be quickly deployed or adapted for new requirements.
 
-Usage: Before creating new automation from scratch, check this library first to see if a suitable script already exists or can be modified to meet your needs. All scripts should be well-documented with clear usage instructions and examples.
+Usage: 
+Before creating new automation from scratch, check this library first to see if a suitable script already exists or can be modified to meet your needs. 
+All scripts should be well-documented with clear usage instructions and examples.
