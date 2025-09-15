@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.volunteer_details (
 	notification BOOL NULL,
 	iscomplete BOOL NULL,
 	completed_date TIMESTAMP NULL,
+	location geography(Point,4326),
     FOREIGN KEY (user_id) REFERENCES virginia_dev_saayam_rdbms.users (user_id) ON DELETE CASCADE
 );
 
