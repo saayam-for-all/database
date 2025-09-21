@@ -13,7 +13,6 @@ CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.volunteer_details (
     FOREIGN KEY (user_id) REFERENCES virginia_dev_saayam_rdbms.users (user_id) ON DELETE CASCADE
 );
 
---hey
 -- --IF you have already table exists and trying to change the column name and type from Pii varchar(255) to skills jsonb 
 -- -- Change the column type from varchar to json
 -- ALTER TABLE IF EXISTS virginia_dev_saayam_rdbms.volunteer_details ALTER COLUMN pii TYPE jsonb USING pii::jsonb;
