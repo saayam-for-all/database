@@ -6,3 +6,10 @@ CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.request_priority (
     last_updated_date TIMESTAMP,
     UNIQUE (priority_id)
 );
+
+
+-- CSV
+-- 0  CRITICAL
+-- 1  LOW
+-- 2  MEDIUM
+-- 3  HIGH
