@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.request (
     lead_volunteer_user_id INT,
     serviced_date TIMESTAMP,
     last_update_date TIMESTAMP,
-    UNIQUE (request_id),
+    UNIQUE (req	_id),
     FOREIGN KEY (req_user_id) REFERENCES virginia_dev_saayam_rdbms.users (user_id),
     FOREIGN KEY (req_status_id) REFERENCES virginia_dev_saayam_rdbms.request_status (req_status_id),
     FOREIGN KEY (req_priority_id) REFERENCES virginia_dev_saayam_rdbms.request_priority (req_priority_id),
