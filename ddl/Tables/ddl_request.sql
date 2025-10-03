@@ -1,19 +1,22 @@
 -- Table: request
+CREATE TYPE islead_volunteer AS ENUM('YES', 'NO');
 CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.request (
     req_id VARCHAR(255) PRIMARY KEY,
     req_user_id VARCHAR(255) NOT NULL,
-    req_status_id INT NOT NULL,
-    req_priority_id INT NOT NULL,
-    req_type_id INT NOT NULL,
+	req_for_id INT NOT NULL,
+	--lead_volunteer_user_id INT,   --there is a yes or no up there, we can have an ENUM here
+	islead_vol islead_volunteer NOT NULL DEFAULT 'NO';
     req_cat_id INT NOT NULL,
-    req_for_id INT NOT NULL,
-	city_name VARCHAR(255) NOT NULL,
-    zip_code VARCHAR(255) NOT NULL,
+    req_type_id INT NOT NULL,
+    req_priority_id INT NOT NULL,
+    req_status_id INT NOT NULL,
+	req_loc VARCHAR(125),
+	-- city_name VARCHAR(255) NOT NULL,
+    -- zip_code VARCHAR(255) NOT NULL,
+	req_subj VARCHAR(125) NOT NULL,
     req_desc VARCHAR(255) NOT NULL,
 	audio_req_desc VARCHAR(255) NULL,
-    req_for VARCHAR(255) NOT NULL,
     submission_date TIMESTAMP,
-    lead_volunteer_user_id INT,
     serviced_date TIMESTAMP,
     last_update_date TIMESTAMP,
     UNIQUE (req	_id),
