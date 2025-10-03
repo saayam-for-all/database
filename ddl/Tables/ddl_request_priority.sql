@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.request_priority (
 
 
 -- CSV
--- 0  CRITICAL
--- 1  LOW
--- 2  MEDIUM
--- 3  HIGH
+-- 0  LOW
+-- 1  MEDIUM
+-- 2  HIGH
+-- 3 CRITICAL
