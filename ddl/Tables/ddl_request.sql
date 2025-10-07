@@ -26,7 +26,8 @@ CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.request (
     FOREIGN KEY (req_priority_id) REFERENCES virginia_dev_saayam_rdbms.request_priority (req_priority_id),
     FOREIGN KEY (req_type_id) REFERENCES virginia_dev_saayam_rdbms.request_type (req_type_id),
     FOREIGN KEY (req_cat_id) REFERENCES virginia_dev_saayam_rdbms.help_categories (cat_id),
-    FOREIGN KEY (req_for_id) REFERENCES virginia_dev_saayam_rdbms.request_for (req_for_id)
+    FOREIGN KEY (req_for_id) REFERENCES virginia_dev_saayam_rdbms.request_for (req_for_id),
+	FOREIGN KEY (req_islead_id) REFERENCES virginia_dev_saayam_rdbms.request_isleadvol (req_islead_id)
 );
 
 -- Create the sequence for request IDs
