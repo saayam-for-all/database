@@ -22,3 +22,17 @@ CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.volunteer_details (
 -- ALTER TABLE IF EXISTS virginia_dev_saayam_rdbms.volunteer_details RENAME COLUMN pii TO skills;
 
 -- used to store unstructured data
+
+DO $$ 
+BEGIN
+   IF NOT EXISTS (
+       SELECT 1 FROM pg_constraint
+       WHERE conname = 'volunteer_details_user_uk'
+       AND conrelid = 'virginia_dev_saayam_rdbms.volunteer_details'::regclass
+) THEN
+  ALTER TABLE virginia_dev_saayam_rdbms.volunteer_details
+  ADD CONSTRAINT volunteer_details_user_uk UNIQUE (user_id);
+END IF;
+END;
+$$;
+

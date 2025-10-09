@@ -1,0 +1,5 @@
+﻿req_priority_id,req_priority,req_priority_desc,last_updated_date
+0,LOW,not urgent/time sensitive and can wait for help,
+1,MEDIUM,"standard request; needs attention soon, within few days",
+2,HIGH,urgent request and needs quick action,
+3,CRITICAL,"immediate help for a serious, non-life-threatening issue",
