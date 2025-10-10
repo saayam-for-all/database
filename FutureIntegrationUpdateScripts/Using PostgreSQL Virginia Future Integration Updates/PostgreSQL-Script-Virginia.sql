@@ -605,3 +605,12 @@ ALTER TABLE users
   ADD CONSTRAINT fk_users_city
   FOREIGN KEY (city_id)
   REFERENCES city (city_id);
+
+
+
+-- Enforce new columns to user_category
+ALTER TABLE user_category
+  ADD COLUMN user_access_level SMALLINT,
+  ADD COLUMN category_code VARCHAR(50),
+  ADD COLUMN is_deprecated BOOLEAN DEFAULT FALSE,
+  ADD COLUMN permissions JSONB;
