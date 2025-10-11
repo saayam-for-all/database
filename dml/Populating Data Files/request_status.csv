@@ -1,0 +1,7 @@
+﻿req_status_id,req_status,req_status_desc,last_updated_date
+0,CREATED,The request has been successfully submitted and is awaiting initial review,
+1,MATCHING VOLUNTEER,The request is currently being matched with a suitable volunteer,
+2,MANAGED,A volunteer has accepted the request and is actively working on fulfilling it,
+3,CLOSED,The request has been successfully completed and no further action is required,
+4,CANCELLED,The requester or administrator has officially canceled the request,
+5,DELETED,The request has been permanently removed from the system,
