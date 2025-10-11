@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.volunteer_details (
 	terms_and_conditions_update_date TIMESTAMP NULL,
 	govt_id VARCHAR(255) NULL,
 	govt_id_update_date TIMESTAMP NULL,
-	skills JSONB NULL,
+	skills JSONB NULL,  --to store unctructured data
 	notification BOOL NULL,
 	iscomplete BOOL NULL,
 	completed_date TIMESTAMP NULL,
