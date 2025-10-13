@@ -1,5 +1,5 @@
--- Table: sla
-CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.sla (
+-- Table: slas
+CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.slas (
     sla_id SERIAL PRIMARY KEY,
     sla_hours INT NOT NULL,
     sla_description VARCHAR(255) NOT NULL,
