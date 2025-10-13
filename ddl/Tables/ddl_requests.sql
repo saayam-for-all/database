@@ -1,6 +1,6 @@
--- Table: request
+-- Table: requests
 --CREATE TYPE islead_volunteer AS ENUM('YES', 'NO');
-CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.request (
+CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.requests (
     req_id VARCHAR(255) PRIMARY KEY,
     req_user_id VARCHAR(255) NOT NULL,
 	req_for_id INT NOT NULL,
@@ -56,6 +56,6 @@ END;
 $$ LANGUAGE plpgsql; 
 
 CREATE TRIGGER before_insert_requests
-BEFORE INSERT ON virginia_dev_saayam_rdbms.request
+BEFORE INSERT ON virginia_dev_saayam_rdbms.requests
 FOR EACH ROW
 EXECUTE FUNCTION virginia_dev_saayam_rdbms.generate_request_id();
