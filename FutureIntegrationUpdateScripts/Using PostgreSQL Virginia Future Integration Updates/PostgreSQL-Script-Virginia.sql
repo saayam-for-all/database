@@ -611,6 +611,5 @@ ALTER TABLE users
 -- Enforce new columns to user_category
 ALTER TABLE user_category
   ADD COLUMN user_access_level SMALLINT,
-  ADD COLUMN category_code VARCHAR(50),
   ADD COLUMN is_deprecated BOOLEAN DEFAULT FALSE,
-  ADD COLUMN permissions JSONB;
+  -- ADD COLUMN permissions JSONB;
