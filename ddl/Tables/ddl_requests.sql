@@ -22,9 +22,9 @@ CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.requests (
     last_update_date TIMESTAMP,
     UNIQUE (req	_id),
     FOREIGN KEY (req_user_id) REFERENCES virginia_dev_saayam_rdbms.users (user_id),
-    FOREIGN KEY (req_status_id) REFERENCES virginia_dev_saayam_rdbms.request_status (req_status_id),
-    FOREIGN KEY (req_priority_id) REFERENCES virginia_dev_saayam_rdbms.request_priority (req_priority_id),
-    FOREIGN KEY (req_type_id) REFERENCES virginia_dev_saayam_rdbms.request_type (req_type_id),
+    FOREIGN KEY (req_status_id) REFERENCES virginia_dev_saayam_rdbms.request_statuses (req_status_id),
+    FOREIGN KEY (req_priority_id) REFERENCES virginia_dev_saayam_rdbms.request_priorities (req_priority_id),
+    FOREIGN KEY (req_type_id) REFERENCES virginia_dev_saayam_rdbms.request_types (req_type_id),
     FOREIGN KEY (req_cat_id) REFERENCES virginia_dev_saayam_rdbms.help_categories (cat_id),
     FOREIGN KEY (req_for_id) REFERENCES virginia_dev_saayam_rdbms.request_for (req_for_id),
 	FOREIGN KEY (req_islead_id) REFERENCES virginia_dev_saayam_rdbms.request_isleadvol (req_islead_id)
