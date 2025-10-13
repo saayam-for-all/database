@@ -1,5 +1,5 @@
--- Table: identity_type
-CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.identity_type (
+-- Table: identity_types
+CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.identity_types (
     identity_type_id SERIAL PRIMARY KEY,
     identity_value VARCHAR(255) NOT NULL,
     identity_type_dsc VARCHAR(255),
