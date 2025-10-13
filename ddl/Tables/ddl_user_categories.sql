@@ -1,5 +1,5 @@
--- Table: user_category
-CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.user_category (
+-- Table: user_categories
+CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.user_categories (
     user_category_id SERIAL PRIMARY KEY,
     user_category VARCHAR(255) NOT NULL,
     user_category_desc VARCHAR(255),
