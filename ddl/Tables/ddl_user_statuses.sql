@@ -1,5 +1,5 @@
--- Table: user_status
-CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.user_status (
+-- Table: user_statuses
+CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.user_statuses (
     user_status_id SERIAL PRIMARY KEY,
     user_status VARCHAR(255) NOT NULL,
     user_status_desc VARCHAR(255),
