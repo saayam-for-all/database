@@ -1,5 +1,5 @@
--- Table: action
-CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.action (
+-- Table: actions
+CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.actions (
     action_id SERIAL PRIMARY KEY,
     action_desc VARCHAR(30) NOT NULL,
     created_date TIMESTAMP,
