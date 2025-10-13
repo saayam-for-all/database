@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.comments (
     user_id VARCHAR(255) NOT NULL,
     comment_desc TEXT NOT NULL,
     comment_date TIMESTAMP NOT NULL,
-    FOREIGN KEY (request_id) REFERENCES virginia_dev_saayam_rdbms.request (request_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (request_id) REFERENCES virginia_dev_saayam_rdbms.requests (request_id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (user_id) REFERENCES virginia_dev_saayam_rdbms.users (user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
