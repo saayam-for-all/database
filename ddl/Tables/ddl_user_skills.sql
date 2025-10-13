@@ -9,6 +9,6 @@ CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.user_skills (
     last_used_date TIMESTAMP,
     created_date TIMESTAMP,
     last_update_date TIMESTAMP,
-    FOREIGN KEY (skill_id) REFERENCES virginia_dev_saayam_rdbms.skill_list (skill_list_id),
+    FOREIGN KEY (skill_id) REFERENCES virginia_dev_saayam_rdbms.skills_list (skill_list_id),
     FOREIGN KEY (user_id) REFERENCES virginia_dev_saayam_rdbms.users (user_id)
 );
