@@ -23,6 +23,8 @@ CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.volunteer_details (
 
 -- used to store unstructured data
 
+-- To ensure each volunteer is unique by user_id as we don’t plan to allow multiple volunteer rows per use
+
 DO $$ 
 BEGIN
    IF NOT EXISTS (

@@ -35,7 +35,7 @@ FOR EACH ROW
 EXECUTE FUNCTION virginia_dev_saayam_rdbms.fn_shift_prev_loc_user();
 
 
-CREATE OR REPLACE FUNCTION virginia_dev_saayam_rdbms.fn_locations_insert_as_upsert_user() 
+/*CREATE OR REPLACE FUNCTION virginia_dev_saayam_rdbms.fn_locations_insert_as_upsert_user() 
 RETURNS trigger
 LANGUAGE plpgsql 
 AS $$ 
@@ -58,4 +58,4 @@ DROP TRIGGER IF EXISTS trg_locations_insert_as_upsert_user ON virginia_dev_saaya
 CREATE TRIGGER trg_locations_insert_as_upsert_user
 BEFORE INSERT ON virginia_dev_saayam_rdbms.user_locations 
 FOR EACH ROW
-EXECUTE FUNCTION virginia_dev_saayam_rdbms.fn_locations_insert_as_upsert_user();
+EXECUTE FUNCTION virginia_dev_saayam_rdbms.fn_locations_insert_as_upsert_user(); */
