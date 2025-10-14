@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.volunteer_details (
     user_id VARCHAR(255) NOT NULL,
 	terms_and_conditions BOOL NULL,
 	terms_and_conditions_update_date TIMESTAMP NULL,
-	govt_id VARCHAR(255) NULL,
+	govt_id VARCHAR(255) NULL,   --stored in S3, this attribute stored the S3 link of it
 	govt_id_update_date TIMESTAMP NULL,
 	skills JSONB NULL,  --to store unctructured data
 	notification BOOL NULL,
