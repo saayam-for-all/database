@@ -1,17 +1,20 @@
 -- Table: volunteer_details (Volunteer-specific details)
+DROP TABLE IF EXISTS virginia_dev_saayam_rdbms.volunteer_details CASCADE;
 CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.volunteer_details (
-    volunteer_detail_id SERIAL PRIMARY KEY,
-    user_id VARCHAR(255) NOT NULL,
-	terms_and_conditions BOOL NULL,
-	terms_and_conditions_update_date TIMESTAMP NULL,
-	govt_id VARCHAR(255) NULL,   --stored in S3, this attribute stored the S3 link of it
-	govt_id_update_date TIMESTAMP NULL,
-	skills JSONB NULL,  --to store unctructured data
-	notification BOOL NULL,
-	iscomplete BOOL NULL,
-	completed_date TIMESTAMP NULL,
-	location geography(Point,4326),
-    FOREIGN KEY (user_id) REFERENCES virginia_dev_saayam_rdbms.users (user_id) ON DELETE CASCADE
+    user_id VARCHAR(255) PRIMARY KEY,  
+    terms_and_conditions BOOL NULL,
+    terms_and_conditions_update_date TIMESTAMP NULL,
+    govt_id_path VARCHAR(255) NULL,   -- stored in S3, this attribute stores the S3 link
+    govt_id_update_date TIMESTAMP NULL,
+    skills JSONB NULL,  -- to store unstructured data
+    notification BOOL NULL,
+    iscomplete BOOL NULL,
+    completed_date TIMESTAMP NULL,
+    location geography(Point,4326),
+    CONSTRAINT volunteer_details_user_fk 
+        FOREIGN KEY (user_id) 
+        REFERENCES virginia_dev_saayam_rdbms.users (user_id) 
+        ON DELETE CASCADE
 );
 
 -- --IF you have already table exists and trying to change the column name and type from Pii varchar(255) to skills jsonb 
