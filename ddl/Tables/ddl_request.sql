@@ -43,9 +43,9 @@ CREATE FUNCTION virginia_dev_saayam_rdbms.generate_request_id()
 RETURNS TRIGGER AS $$
 DECLARE
     seq_id INT;
-    new_id VARCHAR(30);
+    new_id TEXT;
 BEGIN
-    seq_id := nextval('request_id_seq');
+    seq_id := nextval('virginia_dev_saayam_rdbms.request_id_seq');
     new_id := 'REQ-' || LPAD(FLOOR(seq_id / 100000000)::TEXT, 2, '0') || '-' || 
               LPAD(FLOOR((seq_id % 100000000) / 100000)::TEXT, 3, '0') || '-' || 
               LPAD(FLOOR((seq_id % 100000) / 1000)::TEXT, 3, '0') || '-' || 
