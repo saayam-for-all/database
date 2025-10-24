@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.request (
 	req_for_id INT NOT NULL,
 	--lead_volunteer_user_id INT,   --there is a yes or no up there, we can have an ENUM here
 	--islead_vol islead_volunteer NOT NULL DEFAULT 'NO';
-    req_cat_id INT NOT NULL,
+    req_cat_id VARCHAR(50) NOT NULL,
 	req_islead_id INT NOT NULL,
     req_type_id INT NOT NULL,
     req_priority_id INT NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.request (
     submission_date TIMESTAMP,
     serviced_date TIMESTAMP,
     last_update_date TIMESTAMP,
-    UNIQUE (req	_id),
+    UNIQUE (req_id),
     FOREIGN KEY (req_user_id) REFERENCES virginia_dev_saayam_rdbms.users (user_id),
     FOREIGN KEY (req_status_id) REFERENCES virginia_dev_saayam_rdbms.request_status (req_status_id),
     FOREIGN KEY (req_priority_id) REFERENCES virginia_dev_saayam_rdbms.request_priority (req_priority_id),
