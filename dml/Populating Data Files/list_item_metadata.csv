@@ -164,3 +164,93 @@ item_id,field_id,item_value,item_type
 4.7.A.4,4.7.A,Other,string
 4.7.B.1,4.7.B,PDF,string
 4.7.B.2,4.7.B,Image (JPG / PNG),string
+5.1.A.1,5.1.A,Walk-in Today,string
+5.1.A.2,5.1.A,Same/Next Day,string
+5.1.A.3,5.1.A,Within a Week,string
+5.1.A.4,5.1.A,No Preference,string
+5.1.B.1,5.1.B,General Consultation,string
+5.1.B.2,5.1.B,ENT (Ear, Nose & Throat),string
+5.1.B.3,5.1.B,Dental / Oral Health,string
+5.1.B.4,5.1.B,Eye / Vision Care,string
+5.1.B.5,5.1.B,Cardiac / Blood Pressure,string
+5.1.B.6,5.1.B,Orthopedic / Physiotherapy,string
+5.1.B.7,5.1.B,Skin / Dermatology,string
+5.1.B.8,5.1.B,Women’s / Reproductive Health,string
+5.1.B.9,5.1.B,Vaccinations & Preventive Screenings,string
+5.1.B.10,5.1.B,Pediatrics / Child Health,string
+5.1.B.11,5.1.B,Other,string
+5.1.C.1,5.1.C,Wheelchair Access,string
+5.1.C.2,5.1.C,Step-Free Entry,string
+5.1.C.3,5.1.C,Interpreter Support,string
+5.1.C.4,5.1.C,Caregiver Allowed,string
+5.1.C.5,5.1.C,Service-Animal Friendly,string
+5.1.C.6,5.1.C,None,string
+5.1.C.7,5.1.C,Other,string
+5.2.A.1,5.2.A,Delivery (OTC items),string
+5.2.A.2,5.2.A,Pickup Assistance,string
+5.2.A.3,5.2.A,Pharmacy Guidance,string
+5.2.B.1,5.2.B,Prescribed,string
+5.2.B.2,5.2.B,Non-Prescribed,string
+5.2.C.1,5.2.C,Pain Relief,string
+5.2.C.2,5.2.C,Cold & Flu Care,string
+5.2.C.3,5.2.C,Allergy Relief,string
+5.2.C.4,5.2.C,Digestive Health,string
+5.2.C.5,5.2.C,First Aid / Wound Care,string
+5.2.C.6,5.2.C,Vitamins & Supplements,string
+5.2.C.7,5.2.C,Skin Care / Topicals,string
+5.2.C.8,5.2.C,Women’s / Men’s Health,string
+5.2.C.9,5.2.C,Children’s Health,string
+5.2.C.10,5.2.C,Other,string
+5.2.D.1,5.2.D,Same/Next Day,string
+5.2.D.2,5.2.D,3 - 4 Days,string
+5.2.D.3,5.2.D,Within a Week,string
+5.2.D.4,5.2.D,No Preference,string
+5.3.A.1,5.3.A,Counseling referral,string
+5.3.A.2,5.3.A,Peer / Support Group,string
+5.3.A.3,5.3.A,Wellness Class / Workshop,string
+5.3.A.4,5.3.A,Self-Guided Resources,string
+5.3.B.1,5.3.B,Licensed Professional,string
+5.3.B.2,5.3.B,Peer Support Volunteer,string
+5.3.B.3,5.3.B,Community Organization,string
+5.3.C.1,5.3.C,Morning (9am–12pm),string
+5.3.C.2,5.3.C,Afternoon (12pm–5pm),string
+5.3.C.3,5.3.C,Evening (5pm–9pm),string
+5.3.C.4,5.3.C,Weekends,string
+5.3.C.5,5.3.C,Flexible,string
+5.4.A.1,5.4.A,Medication / Supplement Reminder,string
+5.4.A.2,5.4.A,Doctor Appointment,string
+5.4.A.3,5.4.A,Test / Lab Schedule,string
+5.4.A.4,5.4.A,Exercise or Physical Training Session,string
+5.4.A.5,5.4.A,Custom Wellness Task,string
+5.4.B.1,5.4.B,Single Time,string
+5.4.B.2,5.4.B,Multiple Times,string
+5.4.C.1,5.4.C,Once Daily,string
+5.4.C.2,5.4.C,Twice Daily,string
+5.4.C.3,5.4.C,Custom Times Per Day,string
+5.4.C.4,5.4.C,Specific Days (Mon–Fri),string
+5.4.C.5,5.4.C,Daily,string
+5.4.D.1,5.4.D,7 Days,string
+5.4.D.2,5.4.D,30 Days,string
+5.4.D.3,5.4.D,Custom Duration,string
+5.4.E.1,5.4.E,SMS,string
+5.4.E.2,5.4.E,Email,string
+5.4.E.3,5.4.E,Mobile App,string
+5.4.E.4,5.4.E,Caregiver Notification,string
+5.5.A.1,5.5.A,Nutrition & Healthy Eating,string
+5.5.A.2,5.5.A,Physical Activity & Movement,string
+5.5.A.3,5.5.A,Hygiene & Personal Care,string
+5.5.A.4,5.5.A,Preventive Health Tips,string
+5.5.A.5,5.5.A,Sleep & Well-being,string
+5.5.A.6,5.5.A,Healthy Aging,string
+5.5.A.7,5.5.A,Stress Management & Mindfulness,string
+5.5.A.8,5.5.A,General Wellness Education,string
+5.5.A.9,5.5.A,Other (Non-clinical),string
+5.5.B.1,5.5.B,Articles,string
+5.5.B.2,5.5.B,Videos,string
+5.5.B.3,5.5.B,Infographics,string
+5.5.B.4,5.5.B,Printable Guides / PDFs,string
+5.5.B.5,5.5.B,Short Tips / Summaries,string
+5.5.B.6,5.5.B,SMS-Friendly Links,string
+5.5.B.7,5.5.B,Audio Clips / Podcasts,string
+5.5.B.8,5.5.B,Mixed Format (Best Available),string
+
