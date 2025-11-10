@@ -4,3 +4,14 @@ item_id,field_id,item_value,item_type
 1.1.B.3,1.1.B,Non-Vegetarian,string
 1.1.B.4,1.1.B,Gluten-free,string
 1.1.B.5,1.1.B,Other,string
+1.1.C.1,1.1.C,Diabetic-Friendly,string
+1.1.C.2,1.1.C,Kosher/Halal,string
+1.1.C.3,1.1.C,Nut-Free,string
+1.1.C.4,1.1.C,Lactose-Free,string
+1.1.C.5,1.1.C,None,string
+1.1.C.6,1.1.C,Other,string
+
+
+
+
+
