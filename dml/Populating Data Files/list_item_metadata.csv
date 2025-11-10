@@ -25,7 +25,27 @@ item_id,field_id,item_value,item_type
 1.3.C.3,1.3.C,Utensils / Cookware Set,string
 1.3.C.4,1.3.C,Mixer / Blender,string
 1.3.C.5,1.3.C,None,string
-
+3.1.4.A,3.1.4,Yes,string
+3.1.4.B,3.1.4,No,string
+3.1.5.A,3.1.5,Remote (Virtual Assistance),string
+3.1.5.B,3.1.5,In-person,string
+3.1.7.A,3.1.7,Lease review (pre-signing),string
+3.1.7.B,3.1.7,Lease interpretation (post-signing),string
+3.1.7.C,3.1.7,Lease termination/break clause review,string
+3.1.7.D,3.1.7,Eviction notice/Non-renewal review,string
+3.1.7.E,3.1.7,Other,string
+3.1.8.A,3.1.8,English,string
+3.1.8.B,3.1.8,Spanish,string
+3.1.8.C,3.1.8,Mandarin,string
+3.1.8.D,3.1.8,French,string
+3.1.8.E,3.1.8,Other,string
+3.1.10.A,3.1.10,Immediate (Next 24-48 hours),string
+3.1.10.B,3.1.10,Within 1 week,string
+3.1.10.C,3.1.10,Within 1 month,string
+3.1.10.D,3.1.10,Flexible,string
+3.1.11.A,3.1.11,High,string
+3.1.11.B,3.1.11,Medium,string
+3.1.11.C,3.1.11,Low,string
 
 
 
