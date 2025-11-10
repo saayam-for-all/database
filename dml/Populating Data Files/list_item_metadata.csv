@@ -87,3 +87,20 @@ item_id,field_id,item_value,item_type
 2.3.E.1,2.3.E,Low,string
 2.3.E.2,2.3.E,Medium,string
 2.3.E.3,2.3.E,High,string
+2.4.A.1,2.4.A,Winter Clothing Drive,string
+2.4.A.2,2.4.A,Summer Essentials,string
+2.4.A.3,2.4.A,Children’s Clothing,string
+2.5.A.1,2.5.A,Yes,string
+2.5.A.2,2.5.A,No,string
+2.5.A.2.1,2.5.A.2,First Name,string
+2.5.A.2.2,2.5.A.2,Last Name,string
+2.5.A.2.3,2.5.A.2,Email,string
+2.5.A.2.4,2.5.A.2,Phone Number,string
+2.5.A.2.5,2.5.A.2,Age,string
+2.5.A.2.6,2.5.A.2,Gender,string
+2.5.A.2.7,2.5.A.2,Preferred Language,string
+2.5.B.1,2.5.B,Remote,string
+2.5.B.2,2.5.B,In person,string
+2.5.C.1,2.5.C,Low,string
+2.5.C.2,2.5.C,Medium,string
+2.5.C.3,2.5.C,High,string
