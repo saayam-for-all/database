@@ -104,3 +104,63 @@ item_id,field_id,item_value,item_type
 2.5.C.1,2.5.C,Low,string
 2.5.C.2,2.5.C,Medium,string
 2.5.C.3,2.5.C,High,string
+4.1.A.1,4.1.A,Application Form Guidance,string
+4.1.A.2,4.1.A,Common App / Coalition App Help,string
+4.1.A.3,4.1.A,Resume Building,string
+4.1.A.4,4.1.A,Choosing Majors / Colleges,string
+4.1.A.5,4.1.A,Interview Preparation,string
+4.2.A.1,4.2.A,Statement of Purpose (SOP),string
+4.2.A.2,4.2.A,Admission Essay,string
+4.2.A.3,4.2.A,Scholarship Essay,string
+4.2.A.4,4.2.A,Personal Statement,string
+4.2.B.1,4.2.B,Grammar & Spelling,string
+4.2.B.2,4.2.B,Structure & Flow,string
+4.2.B.3,4.2.B,Content Suggestions,string
+4.2.B.4,4.2.B,Full Review,string
+4.3.A.1,4.3.A,Math,string
+4.3.A.2,4.3.A,English,string
+4.3.A.3,4.3.A,Science,string
+4.3.A.4,4.3.A,Computer Science,string
+4.3.A.5,4.3.A,Test Prep,string
+4.3.A.6,4.3.A,Other,string
+4.3.B.1,4.3.B,Concept explanation,string
+4.3.B.2,4.3.B,Problem-solving practice,string
+4.3.B.3,4.3.B,Homework guidance,string
+4.3.B.4,4.3.B,Exam preparation,string
+4.3.B.5,4.3.B,Practice test review,string
+4.3.C.1,4.3.C,Primary School,string
+4.3.C.2,4.3.C,Middle School,string
+4.3.C.3,4.3.C,High School,string
+4.3.C.4,4.3.C,College,string
+4.3.C.5,4.3.C,University,string
+4.3.C.6,4.3.C,PhD,string
+4.4.A.1,4.4.A,High School,string
+4.4.A.2,4.4.A,Undergraduate,string
+4.4.A.3,4.4.A,Graduate,string
+4.4.A.4,4.4.A,PhD,string
+4.4.B.1,4.4.B,Resume / CV (PDF / DOCX),string
+4.4.B.2,4.4.B,Academic Transcripts (PDF / Image),string
+4.4.B.3,4.4.B,Certificates (Image / PDF),string
+4.4.B.4,4.4.B,Other,string
+4.5.A.1,4.5.A,Academic,string
+4.5.A.2,4.5.A,Exam Preparation,string
+4.5.A.3,4.5.A,Skill Development,string
+4.5.A.4,4.5.A,Career Development,string
+4.5.B.1,4.5.B,Subject / Topic,string
+4.5.B.2,4.5.B,Group Size,string
+4.5.B.3,4.5.B,Frequency (Daily / Weekly),string
+4.6.A.1,4.6.A,Resume Review,string
+4.6.A.2,4.6.A,Mock Interview,string
+4.6.A.3,4.6.A,Job Search Help,string
+4.6.A.4,4.6.A,Referral Guidance,string
+4.6.A.5,4.6.A,LinkedIn Optimization,string
+4.6.A.6,4.6.A,Career Mentorship,string
+4.6.B.1,4.6.B,Resume (PDF / DOCX),string
+4.6.B.2,4.6.B,Cover Letter (PDF / DOCX),string
+4.6.B.3,4.6.B,LinkedIn Profile Screenshot (Image),string
+4.7.A.1,4.7.A,Textbooks,string
+4.7.A.2,4.7.A,Notes / PDFs,string
+4.7.A.3,4.7.A,Stationery / Equipment,string
+4.7.A.4,4.7.A,Other,string
+4.7.B.1,4.7.B,PDF,string
+4.7.B.2,4.7.B,Image (JPG / PNG),string
