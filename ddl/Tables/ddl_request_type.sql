@@ -1,0 +1,11 @@
+-- Table: request_type
+CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.request_type (
+    req_type_id SERIAL PRIMARY KEY,
+    req_type VARCHAR(25),
+    req_type_desc VARCHAR(125),
+    last_updated_date TIMESTAMP
+);
+
+-- CSV
+-- 0  INPERSON
+-- 1  HYBRID
