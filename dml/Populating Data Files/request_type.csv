@@ -1,0 +1,3 @@
+﻿req_type_id,req_type,req_type_desc,last_updated_date
+0,INPERSON,Help requires a volunteer to be physically present at a specific location to assist,
+1,REMOTE,Help doesn't require the person to be there physically ,
