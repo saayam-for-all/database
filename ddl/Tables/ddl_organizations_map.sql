@@ -1,30 +1,10 @@
-drop table if exists organizations_map
-
-create table if not exists organizations_map (
-    parent_org_id VARCHAR(50),
-    child_org_id VARCHAR(50) PRIMARY KEY, --one parent multiple child
-    FOREIGN KEY (parent_org_id) REFERENCES organizations(org_id),
-    FOREIGN KEY (child_org_id) REFERENCES organizations(org_id)
+CREATE TABLE virginia_dev_saayam_rdbms.user_org_map (
+    user_id VARCHAR(255) NOT NULL,
+    org_id VARCHAR(255) NOT NULL,
+    user_role VARCHAR(50),        -- e.g. 'ADMIN', 'STAFF', 'VOLUNTEER'
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT user_org_map_pk PRIMARY KEY (user_id, org_id),
+    FOREIGN KEY (user_id) REFERENCES virginia_dev_saayam_rdbms.users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (org_id) REFERENCES virginia_dev_saayam_rdbms.organizations(org_id) ON DELETE CASCADE
 );
-
-/* insertion is done by organization_map.csv file 
-sample csv file:
-parent_org_id      child_org_id
-                   ORG-1
-ORG-1.1            ORG-1
-ORG-1.2            ORG-1
-ORG-1.3            ORG-1
-                   ORG-2
-ORG-2.1            ORG-2
-ORG-2.2            ORG-2
-ORG-2.2.1          ORG-2.2
-
-the .csv file has to be determined like this and manually populated into the db
-where, the parent would be the head branch, and the child would be the other branches
-for example, ORG-2 is of Red Cross, Washington, D.C
-ORG-2.1 is Red Cross, Newark
-ORG-2.2 is Red Cross, OH one of the chapter
-ORG-2.2.1 is Red Cross, Columbus, OH would be local chapter
-
-the collection should be done by data engineering team
-*/
