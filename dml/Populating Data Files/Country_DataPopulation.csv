@@ -1,4 +1,4 @@
-country_id,country_name,phone_country_code,country_code,last_update_date
+country_id,country_name,phone_code,country_code,last_update_date
 1,AFGHANISTAN,93,AFG,
 2,ALAND_ISLANDS,358,ALA,
 3,ALBANIA,355,ALB,
@@ -55,7 +55,7 @@ country_id,country_name,phone_country_code,country_code,last_update_date
 54,CONGO_(KINSHASA),243,CD,
 55,COOK_ISLANDS,682,COK,
 56,COSTA_RICA,506,CRI,
-57,C�TE_D'IVOIRE,225,CIV,
+57,CïTE_D'IVOIRE,225,CIV,
 58,CROATIA,385,HRV,
 59,CUBA,53,CUB,
 60,CYPRUS,357,CYP,
@@ -179,7 +179,7 @@ country_id,country_name,phone_country_code,country_code,last_update_date
 178,PORTUGAL,351,PRT,
 179,PUERTO_RICO,1,PRI,
 180,QATAR,974,QAT,
-181,RÉUNION,262,REU,
+181,RÃ‰UNION,262,REU,
 182,ROMANIA,40,ROU,
 183,RUSSIAN_FEDERATION,7,RUS,
 184,RWANDA,250,RWA,
@@ -245,4 +245,5 @@ country_id,country_name,phone_country_code,country_code,last_update_date
 244,WESTERN_SAHARA,212,ESH,
 245,YEMEN,967,YEM,
 246,ZAMBIA,260,ZMB,
+
 247,ZIMBABWE,263,ZWE,
