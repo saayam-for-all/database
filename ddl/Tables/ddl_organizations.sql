@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.organizations (
   city_name VARCHAR(100),
   state_code VARCHAR(6),
   zip_code VARCHAR(10),
-  mission_statement TEXT,
+  mission TEXT,
   web_url VARCHAR(255) CHECK (web_url IS NULL OR web_url LIKE 'http%'),
   phone VARCHAR(20),
   email VARCHAR(255) CHECK (email IS NULL OR email LIKE '%@%'),
