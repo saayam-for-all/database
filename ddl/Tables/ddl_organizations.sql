@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.organizations (
   source source_enum,
   cat_id VARCHAR(50),   --help_categories
   created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+  last_updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (cat_id) REFERENCES help_categories(cat_id) ON DELETE SET NULL,
   FOREIGN KEY (state_code) REFERENCES states(state_code) ON DELETE SET NULL
 );
