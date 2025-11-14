@@ -493,4 +493,108 @@ item_id,field_id,item_value,item_type
 5.5.B.6,5.5.B,SMS-Friendly Links,string
 5.5.B.7,5.5.B,Audio Clips / Podcasts,string
 5.5.B.8,5.5.B,Mixed Format (Best Available),string
+6.1.A.1,6.1.A,Remote,string
+6.1.A.2,6.1.A,In-person,string
+6.1.B.1,6.1.B,Low,string
+6.1.B.2,6.1.B,Medium,string
+6.1.B.3,6.1.B,High,string
+6.1.F.1,6.1.F,Number of boxes,string
+6.1.F.2,6.1.F,Furniture checklist,string
+6.1.F.3,6.1.F,Fragile items,string
+6.1.F.4,6.1.F,Special handling needs,string
+6.1.G.1,6.1.G,Packing,string
+6.1.G.2,6.1.G,Transport,string
+6.1.G.3,6.1.G,Unpacking,string
+6.1.G.4,6.1.G,Loading/Unloading,string
+6.2.A.1,6.2.A,Remote,string
+6.2.A.2,6.2.A,In-person,string
+6.2.B.1,6.2.B,Low,string
+6.2.B.2,6.2.B,Medium,string
+6.2.B.3,6.2.B,High,string
+6.3.A.1,6.3.A,Remote,string
+6.3.A.2,6.3.A,In-person,string
+6.3.B.1,6.3.B,Low,string
+6.3.B.2,6.3.B,Medium,string
+6.3.B.3,6.3.B,High,string
+6.3.D.1,6.3.D,Phone call,string
+6.3.D.2,6.3.D,App setup help,string
+6.3.D.3,6.3.D,Physical visit,string
+6.4.A.1,6.4.A,Remote,string
+6.4.A.2,6.4.A,In-person,string
+6.4.B.1,6.4.B,Low,string
+6.4.B.2,6.4.B,Medium,string
+6.4.B.3,6.4.B,High,string
+6.4.C.1,6.4.C,Blood pressure monitor,string
+6.4.C.2,6.4.C,Glucose meter,string
+6.4.C.3,6.4.C,Pulse oximeter,string
+6.4.C.4,6.4.C,Smartwatch / wearable,string
+6.4.D.1,6.4.D,Video call,string
+6.4.D.2,6.4.D,Home visit,string
+6.4.D.3,6.4.D,Remote step-by-step guide,string
+6.5.A.1,6.5.A,Remote,string
+6.5.A.2,6.5.A,In-person,string
+6.5.B.1,6.5.B,Low,string
+6.5.B.2,6.5.B,Medium,string
+6.5.B.3,6.5.B,High,string
+6.5.C.1,6.5.C,Grocery shopping,string
+6.5.C.2,6.5.C,Pharmacy pickup,string
+6.5.C.3,6.5.C,Bill payment,string
+6.5.C.4,6.5.C,General store,string
+6.5.D.1,6.5.D,One-time,string
+6.5.D.2,6.5.D,Weekly/Monthly,string
+6.5.D.3,6.5.D,Emergency,string
+6.6.A.1,6.6.A,Remote,string
+6.6.A.2,6.6.A,In-person,string
+6.6.B.1,6.6.B,Low,string
+6.6.B.2,6.6.B,Medium,string
+6.6.B.3,6.6.B,High,string
+6.6.D.1,6.6.D,Round trip,string
+6.6.D.2,6.6.D,One-way,string
+6.6.D.3,6.6.D,Wait and return,string
+6.6.E.1,6.6.E,Wheelchair-accessible vehicle,string
+6.6.E.2,6.6.E,Needs help entering/exiting vehicle,string
+6.6.E.3,6.6.E,Uses walker or cane,string
+6.6.E.4,6.6.E,No special needs,string
+6.6.F.1,6.6.F,Volunteer car,string
+6.6.F.2,6.6.F,Escort in public transit,string
+6.6.F.3,6.6.F,Ride booking assistance,string
+6.7.A.1,6.7.A,Remote,string
+6.7.A.2,6.7.A,In-person,string
+6.7.B.1,6.7.B,Low,string
+6.7.B.2,6.7.B,Medium,string
+6.7.B.3,6.7.B,High,string
+6.7.C.1,6.7.C,Doctor or Dentist,string
+6.7.C.2,6.7.C,Social Service,string
+6.7.C.3,6.7.C,Bank or Government,string
+6.7.C.4,6.7.C,Utility services,string
+6.7.D.1,6.7.D,Booking online,string
+6.7.D.2,6.7.D,Calling,string
+6.7.D.3,6.7.D,Going in-person with help,string
+6.8.A.1,6.8.A,Remote,string
+6.8.A.2,6.8.A,In-person,string
+6.8.B.1,6.8.B,Low,string
+6.8.B.2,6.8.B,Medium,string
+6.8.B.3,6.8.B,High,string
+6.8.C.1,6.8.C,Phone call or chat,string
+6.8.C.2,6.8.C,Walk in the park,string
+6.8.C.3,6.8.C,Board games or card games,string
+6.8.C.4,6.8.C,Reading together,string
+6.8.D.1,6.8.D,One-time,string
+6.8.D.2,6.8.D,Weekly/Monthly,string
+6.8.D.3,6.8.D,Specific dates,string
+6.9.A.1,6.9.A,Remote,string
+6.9.A.2,6.9.A,In-person,string
+6.9.B.1,6.9.B,Low,string
+6.9.B.2,6.9.B,Medium,string
+6.9.B.3,6.9.B,High,string
+6.9.C.1,6.9.C,Meal prep assistance,string
+6.9.C.2,6.9.C,Cooking together,string
+6.9.C.3,6.9.C,Supervision while cooking,string
+6.9.D.1,6.9.D,Volunteer’s home,string
+6.9.D.2,6.9.D,Elder’s home,string
+6.9.D.3,6.9.D,Community kitchen,string
+6.9.E.1,6.9.E,Vegetarian,string
+6.9.E.2,6.9.E,Diabetic-friendly,string
+6.9.E.3,6.9.E,Low-sodium,string
+6.9.E.4,6.9.E,No preference,string
 
