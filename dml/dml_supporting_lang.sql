@@ -1,6 +1,6 @@
 -- Issue #91: Seed 12 supported languages/locales
 
-INSERT INTO public.supporting_languages
+INSERT INTO public.supporting_lang
 (language_name, iso_639_1, locale_code, writing_direction, total_speakers_m)
 VALUES
 ('English',           'en', 'en_US', 'LTR', 1515.0),
