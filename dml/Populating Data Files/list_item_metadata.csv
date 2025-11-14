@@ -1,16 +1,29 @@
 item_id,field_id,item_value,item_type
-1.1.B.1,1.1.B,Vegetarian,string
-1.1.B.2,1.1.B,Vegan,string
-1.1.B.3,1.1.B,Non-Vegetarian,string
-1.1.B.4,1.1.B,Gluten-free,string
-1.1.B.5,1.1.B,Other,string
-1.1.C.1,1.1.C,Diabetic-Friendly,string
-1.1.C.2,1.1.C,Kosher/Halal,string
-1.1.C.3,1.1.C,Nut-Free,string
-1.1.C.4,1.1.C,Lactose-Free,string
-1.1.C.5,1.1.C,None,string
-1.1.C.6,1.1.C,Other,string
-1.3.A.1,1.3.A,Meal Prep,string
+1.1.A.1,1.1.A,Vegetarian,string
+1.1.A.2,1.1.A,Vegan,string
+1.1.A.3,1.1.A,Non-Vegetarian,string
+1.1.A.4,1.1.A,Gluten-Free,string
+1.1.A.5,1.1.A,Other,string
+1.1.B.1,1.1.B,Diabetic-Friendly,string
+1.1.B.2,1.1.B,Kosher / Halal,string
+1.1.B.3,1.1.B,Nut-Free,string
+1.1.B.4,1.1.B,Lactose-Free,string
+1.1.B.5,1.1.B,None,string
+1.1.B.6,1.1.B,Other,string
+1.2.A,1.2.A,Grocery List (free text),text
+1.2.B.1,1.2.B,Morning (8 AM–12 PM),string
+1.2.B.2,1.2.B,Afternoon (12 PM–5 PM),string
+1.2.B.3,1.2.B,Evening (5 PM–9 PM),string
+1.2.C.1,1.2.C,Volunteer Purchase & Reimburse,string
+1.2.C.2,1.2.C,Gift Card / Voucher,string
+1.2.C.3,1.2.C,Organization Sponsored,string
+1.2.C.4,1.2.C,Free Assistance,string
+1.2.D.1,1.2.D,Immediate (Next 24 hrs),string
+1.2.D.2,1.2.D,Within 3 Days,string
+1.2.D.3,1.2.D,Within 1 Week,string
+1.2.D.4,1.2.D,Flexible,string
+1.2.E,1.2.E,Special Notes / Additional Instructions,text
+1.3.A.1,1.3.A,Meal Prep (Basic Meals),string
 1.3.A.2,1.3.A,Festive Cooking or Bulk Prep,string
 1.3.A.3,1.3.A,Nutritional Meal Planning,string
 1.3.A.4,1.3.A,Cultural Cuisine Guidance,string
@@ -25,6 +38,10 @@ item_id,field_id,item_value,item_type
 1.3.C.3,1.3.C,Utensils / Cookware Set,string
 1.3.C.4,1.3.C,Mixer / Blender,string
 1.3.C.5,1.3.C,None,string
+1.3.D.1,1.3.D,Immediate (Next 24 Hours),string
+1.3.D.2,1.3.D,Within 3 Days,string
+1.3.D.3,1.3.D,Within 1 Week,string
+1.3.D.4,1.3.D,Flexible,string
 2.1.A.1,2.1.A,Yes,string
 2.1.A.2,2.1.A,No,string
 2.1.B.1,2.1.B,Men,string
