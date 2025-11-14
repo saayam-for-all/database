@@ -27,83 +27,88 @@ item_id,field_id,item_value,item_type
 1.3.C.5,1.3.C,None,string
 2.1.A.1,2.1.A,Yes,string
 2.1.A.2,2.1.A,No,string
-2.1.A.2.1,2.1.A.2,First Name,string
-2.1.A.2.2,2.1.A.2,Last Name,string
-2.1.A.2.3,2.1.A.2,Email,string
-2.1.A.2.4,2.1.A.2,Phone Number,string
-2.1.A.2.5,2.1.A.2,Age,string
-2.1.A.2.6,2.1.A.2,Gender,string
-2.1.A.2.7,2.1.A.2,Preferred Language,string
-2.1.B.1,2.1.B,Remote,string
-2.1.B.2,2.1.B,In person,string
-2.1.C.1,2.1.C,XS,string
-2.1.C.2,2.1.C,S,string
-2.1.C.3,2.1.C,M,string
-2.1.C.4,2.1.C,L,string
-2.1.C.5,2.1.C,XL,string
-2.1.C.6,2.1.C,XXL,string
-2.1.C.7,2.1.C,XXXL,string
-2.1.D.1,2.1.D,Low,string
-2.1.D.2,2.1.D,Medium,string
-2.1.D.3,2.1.D,High,string
+2.1.B.1,2.1.B,Men,string
+2.1.B.2,2.1.B,Women,string
+2.1.B.3,2.1.B,Unisex,string
+2.1.C.1,2.1.C,Baby (0–2 years),string
+2.1.C.2,2.1.C,Child (3–12 years),string
+2.1.C.3,2.1.C,Teen (13–18 years),string
+2.1.C.4,2.1.C,Adult (19–64 years),string
+2.1.C.5,2.1.C,Elderly (65+ years),string
+2.1.D.1,2.1.D,XS,string
+2.1.D.2,2.1.D,S,string
+2.1.D.3,2.1.D,M,string
+2.1.D.4,2.1.D,L,string
+2.1.D.5,2.1.D,XL,string
+2.1.D.6,2.1.D,XXL,string
+2.1.D.7,2.1.D,XXXL,string
+2.1.E.1,2.1.E,New with Tags,string
+2.1.E.2,2.1.E,Like New,string
+2.1.E.3,2.1.E,Worn but Usable,string
+2.1.E.4,2.1.E,Needs Repair (for recycling),string
+2.1.F.1,2.1.F,Drop-off at Partner Location,string
+2.1.F.2,2.1.F,Scheduled Pickup,string
+2.1.F.3,2.1.F,Mail-In (prepaid label),string
+2.1.G.1,2.1.G,High,string
+2.1.G.2,2.1.G,Medium,string
+2.1.G.3,2.1.G,Low,string
 2.2.A.1,2.2.A,Yes,string
 2.2.A.2,2.2.A,No,string
-2.2.A.2.1,2.2.A.2,First Name,string
-2.2.A.2.2,2.2.A.2,Last Name,string
-2.2.A.2.3,2.2.A.2,Email,string
-2.2.A.2.4,2.2.A.2,Phone Number,string
-2.2.A.2.5,2.2.A.2,Age,string
-2.2.A.2.6,2.2.A.2,Gender,string
-2.2.A.2.7,2.2.A.2,Preferred Language,string
-2.2.C.1,2.2.C,XS,string
-2.2.C.2,2.2.C,S,string
-2.2.C.3,2.2.C,M,string
-2.2.C.4,2.2.C,L,string
-2.2.C.5,2.2.C,XL,string
-2.2.C.6,2.2.C,XXL,string
-2.2.C.7,2.2.C,Other,string
-2.2.D.1,2.2.D,Borrow temporarily,string
-2.2.D.2,2.2.D,Request as donation (keep the item),string
-2.2.E.1,2.2.E,Low,string
-2.2.E.2,2.2.E,Medium,string
-2.2.E.3,2.2.E,High,string
-2.3.A.1,2.3.A,Yes,string
-2.3.A.2,2.3.A,No,string
-2.3.A.2.1,2.3.A.2,First Name,string
-2.3.A.2.2,2.3.A.2,Last Name,string
-2.3.A.2.3,2.3.A.2,Email,string
-2.3.A.2.4,2.3.A.2,Phone Number,string
-2.3.A.2.5,2.3.A.2,Age,string
-2.3.A.2.6,2.3.A.2,Gender,string
-2.3.A.2.7,2.3.A.2,Preferred Language,string
-2.3.B.1,2.3.B,Remote,string
-2.3.B.2,2.3.B,In person,string
-2.3.C.1,2.3.C,Flood,string
-2.3.C.2,2.3.C,Fire,string
-2.3.C.3,2.3.C,Eviction,string
-2.3.C.4,2.3.C,Other,string
-2.3.D.1,2.3.D,Immediate (<24 hours),string
-2.3.D.2,2.3.D,Urgent (<48 hours),string
-2.3.E.1,2.3.E,Low,string
-2.3.E.2,2.3.E,Medium,string
-2.3.E.3,2.3.E,High,string
-2.4.A.1,2.4.A,Winter Clothing Drive,string
-2.4.A.2,2.4.A,Summer Essentials,string
-2.4.A.3,2.4.A,Children’s Clothing,string
+2.2.B.1,2.2.B,Men,string
+2.2.B.2,2.2.B,Women,string
+2.2.B.3,2.2.B,Unisex,string
+2.2.C.1,2.2.C,Baby (0–2 years),string
+2.2.C.2,2.2.C,Child (3–12 years),string
+2.2.C.3,2.2.C,Teen (13–18 years),string
+2.2.C.4,2.2.C,Adult (19–64 years),string
+2.2.C.5,2.2.C,Elderly (65+ years),string
+2.2.D.1,2.2.D,XS,string
+2.2.D.2,2.2.D,S,string
+2.2.D.3,2.2.D,M,string
+2.2.D.4,2.2.D,L,string
+2.2.D.5,2.2.D,XL,string
+2.2.D.6,2.2.D,XXL,string
+2.2.D.7,2.2.D,XXXL,string
+2.2.E.1,2.2.E,New/Like New,string
+2.2.E.2,2.2.E,Gently Used,string
+2.2.E.3,2.2.E,Worn but Clean,string
+2.2.F.1,2.2.F,Borrow Temporarily (return required),string
+2.2.F.2,2.2.F,Request as Donation (keep item),string
+2.2.G.1,2.2.G,High,string
+2.2.G.2,2.2.G,Medium,string
+2.2.G.3,2.2.G,Low,string
+2.3.A.1,2.3.A,Flood,string
+2.3.A.2,2.3.A,Fire,string
+2.3.A.3,2.3.A,Eviction,string
+2.3.A.4,2.3.A,Other,string
+2.3.B.1,2.3.B,Immediate (<6 hrs),string
+2.3.B.2,2.3.B,Urgent (<24 hrs),string
+2.3.B.3,2.3.B,Soon (<48 hrs),string
+2.4.A.1,2.4.A,Winter Coats,string
+2.4.A.2,2.4.A,Back-to-School,string
+2.4.A.3,2.4.A,Summer Essentials,string
+2.4.A.4,2.4.A,Children’s Clothing,string
 2.5.A.1,2.5.A,Yes,string
 2.5.A.2,2.5.A,No,string
-2.5.A.2.1,2.5.A.2,First Name,string
-2.5.A.2.2,2.5.A.2,Last Name,string
-2.5.A.2.3,2.5.A.2,Email,string
-2.5.A.2.4,2.5.A.2,Phone Number,string
-2.5.A.2.5,2.5.A.2,Age,string
-2.5.A.2.6,2.5.A.2,Gender,string
-2.5.A.2.7,2.5.A.2,Preferred Language,string
-2.5.B.1,2.5.B,Remote,string
-2.5.B.2,2.5.B,In person,string
-2.5.C.1,2.5.C,Low,string
-2.5.C.2,2.5.C,Medium,string
-2.5.C.3,2.5.C,High,string
+2.5.B.1,2.5.B,Men,string
+2.5.B.2,2.5.B,Women,string
+2.5.B.3,2.5.B,Unisex,string
+2.5.C.1,2.5.C,Baby (0–2 years),string
+2.5.C.2,2.5.C,Child (3–12 years),string
+2.5.C.3,2.5.C,Teen (13–18 years),string
+2.5.C.4,2.5.C,Adult (19–64 years),string
+2.5.C.5,2.5.C,Elderly (65+ years),string
+2.5.D.1,2.5.D,Shirt,string
+2.5.D.2,2.5.D,Pants,string
+2.5.D.3,2.5.D,Dress,string
+2.5.D.4,2.5.D,Jacket,string
+2.5.D.5,2.5.D,Other,string
+2.5.F.1,2.5.F,Drop-off at Partner Location,string
+2.5.F.2,2.5.F,Scheduled Pickup,string
+2.5.F.3,2.5.F,Mail-In (prepaid label),string
+2.5.G.1,2.5.G,High,string
+2.5.G.2,2.5.G,Medium,string
+2.5.G.3,2.5.G,Low,string
 3.1.A.1,3.1.A,Yes,string
 3.1.A.2,3.1.A,No,string
 3.1.B.1,3.1.B,First Name,string
