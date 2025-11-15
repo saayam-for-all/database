@@ -80,11 +80,11 @@
 3.8.B,ESTIMATED_MOVING_DATE,datetime,active,3.8
 3.8.C,VOLUME_OF_ITEMS_TO_MOVE,list,active,3.8
 3.8.D,BUDGET_FOR_MOVERS,textbox,active,3.8
-3.8.E,NEED_FOR_INSURANCE/LIABILITY,boolean,active,3.8
+3.8.E,NEED_FOR_INSURANCE_LIABILITY,boolean,active,3.8
 3.9.A,ITEM_CATEGORY,checkbox,active,3.9
 3.9.B,PREFERENCE,checkbox,active,3.9
 3.9.C,BUDGET_RANGE,list,active,3.9
-3.9.D,NEED_FOR_LOGISTICS/TRANSPORT,boolean,active,3.9
+3.9.D,NEED_FOR_LOGISTICS_TRANSPORT,boolean,active,3.9
 3.9.E,SUPPORT_TIMELINE,list,active,3.9
 3.10.A,ITEM_CATEGORY,checkbox,active,3.10
 3.10.B,AREA_OF_SUPPORT,checkbox,active,3.10
@@ -118,7 +118,7 @@
 5.2.D,DELIVERY_TIME,list,active,5.2
 5.3.A,HELP_TYPE,list,active,5.3
 5.3.B,PROVIDER_TYPE,list,active,5.3
-5.3.C,TIMEFRAME/TIMEZONE,list,active,5.3
+5.3.C,TIMEFRAME_TIMEZONE,list,active,5.3
 5.4.A,REMINDER_TYPE,list,active,5.4
 5.4.B,REMINDER_TIME,list,active,5.4
 5.4.C,REPETITION_SCHEDULE,list,active,5.4
@@ -133,7 +133,7 @@
 6.1.E,TYPE_OF_ASSISTANCE_NEEDED,checkbox,active,6.1
 6.1.F,IMAGE,textbox,active,6.1
 6.1.G,SPECIAL_NOTES,textbox,active,6.1
-6.2.A,HELP_USING_MOBILE/COMPUTER,list,active,6.2
+6.2.A,HELP_USING_MOBILE_COMPUTER,list,active,6.2
 6.2.B,IMAGE,textbox,active,6.2
 6.3.A,INFO,list,active,6.3
 6.3.B,REMINDER_TYPE,list,active,6.3
@@ -163,5 +163,5 @@
 6.9.B,LOCATION,list,active,6.9
 6.9.C,DIETARY_PREFERENCES,checkbox,active,6.9
 6.9.D,SCHEDULE,list,active,6.9
-
 6.9.E,PREFERRED_LANGUAGE,list,active,6.9
+
