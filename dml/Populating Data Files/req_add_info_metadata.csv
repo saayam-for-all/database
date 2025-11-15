@@ -86,11 +86,11 @@
 3.9.C,BUDGET_RANGE,list,active,3.9
 3.9.D,NEED_FOR_LOGISTICS/TRANSPORT,boolean,active,3.9
 3.9.E,SUPPORT_TIMELINE,list,active,3.9
-3.10.A,ITEM_CATEGORY,checkbox,active,3.1
-3.10.B,AREA_OF_SUPPORT,checkbox,active,3.1
-3.10.C,ITEM_CONDITION,list,active,3.1
-3.10.D,SALE_TIMELINE,list,active,3.1
-3.10.E,IMAGE,textbox,active,3.1
+3.10.A,ITEM_CATEGORY,checkbox,active,3.10
+3.10.B,AREA_OF_SUPPORT,checkbox,active,3.10
+3.10.C,ITEM_CONDITION,list,active,3.10
+3.10.D,SALE_TIMELINE,list,active,3.10
+3.10.E,IMAGE,textbox,active,3.10
 4.1.A,AREA_OF_HELP,checkbox,active,4.1
 4.2.A,DOCUMENT_TYPE,list,active,4.2
 4.2.B,FEEDBACK_TYPE,checkbox,active,4.2
@@ -163,4 +163,5 @@
 6.9.B,LOCATION,list,active,6.9
 6.9.C,DIETARY_PREFERENCES,checkbox,active,6.9
 6.9.D,SCHEDULE,list,active,6.9
+
 6.9.E,PREFERRED_LANGUAGE,list,active,6.9
