@@ -1,0 +1,522 @@
+﻿item_id,field_id,item_value,item_type
+1.1.A.1,1.1.A,Vegetarian,string
+1.1.A.2,1.1.A,Vegan,string
+1.1.A.3,1.1.A,Non-Vegetarian,string
+1.1.A.4,1.1.A,Gluten-Free,string
+1.1.A.5,1.1.A,Other,textbox
+1.1.B.1,1.1.B,Diabetic-Friendly,string
+1.1.B.2,1.1.B,Kosher / Halal,string
+1.1.B.3,1.1.B,Nut-Free,string
+1.1.B.4,1.1.B,Lactose-Free,string
+1.1.B.5,1.1.B,None,string
+1.1.B.6,1.1.B,Other,textbox
+1.2.B.1,1.2.B,Morning (8 AM -12 PM),string
+1.2.B.2,1.2.B,Afternoon (12 PM - 5 PM),string
+1.2.B.3,1.2.B,Evening (5 PM - 9 PM),string
+1.2.C.1,1.2.C,Volunteer_Purchase_Reimburse,string
+1.2.C.2,1.2.C,Gift_Card / Voucher,string
+1.2.C.3,1.2.C,Organization_Sponsored,string
+1.2.C.4,1.2.C,Free_Assistance,string
+1.2.D.1,1.2.D,Immediate (Next_24hrs),string
+1.2.D.2,1.2.D,Within_3_Days,string
+1.2.D.3,1.2.D,Within_1_Week,string
+1.2.D.4,1.2.D,Flexible,string
+1.3.A.1,1.3.A,Meal_Prep (Basic_Meals),string
+1.3.A.2,1.3.A,Festive_Cooking_Bulk Prep,string
+1.3.A.3,1.3.A,Nutritional_Meal_Planning,string
+1.3.A.4,1.3.A,Cultural_Cuisine_Guidance,string
+1.3.A.5,1.3.A,Other,textbox
+1.3.B.1,1.3.B,Vegetarian,string
+1.3.B.2,1.3.B,Vegan,string
+1.3.B.3,1.3.B,High-Protein,string
+1.3.B.4,1.3.B,Low-Carb,string
+1.3.B.5,1.3.B,Culturally-Specific,textbox
+1.3.C.1,1.3.C,Stove / Cooktop,string
+1.3.C.2,1.3.C,Oven / Microwave,string
+1.3.C.3,1.3.C,Utensils / Cookware_Set,string
+1.3.C.4,1.3.C,Mixer / Blender,string
+1.3.C.5,1.3.C,None,string
+1.3.D.1,1.3.D,Immediate (Next_24Hours),string
+1.3.D.2,1.3.D,Within_3_Days,string
+1.3.D.3,1.3.D,Within_1_Week,string
+1.3.D.4,1.3.D,Flexible,string
+2.1.A.1,2.1.A,Men,string
+2.1.A.2,2.1.A,Women,string
+2.1.A.3,2.1.A,Unisex,string
+2.1.B.1,2.1.B,Baby (0-2 years),string
+2.1.B.2,2.1.B,Child (3-12 years),string
+2.1.B.3,2.1.B,Teen (13-18 years),string
+2.1.B.4,2.1.B,Adult (19-64 years),string
+2.1.B.5,2.1.B,Elderly (65+ years),string
+2.1.C.1,2.1.C,XS,string
+2.1.C.2,2.1.C,S,string
+2.1.C.3,2.1.C,M,string
+2.1.C.4,2.1.C,L,string
+2.1.C.5,2.1.C,XL,string
+2.1.C.6,2.1.C,XXL,string
+2.1.C.7,2.1.C,XXXL,string
+2.1.D.1,2.1.D,New_with_Tags,string
+2.1.D.2,2.1.D,Like_New,string
+2.1.D.3,2.1.D,Gently_Used,string
+2.1.D.4,2.1.D,Worn_but_Usable,string
+2.1.D.5,2.1.D,Needs_Repair (for_recycling),string
+2.1.G.1,2.1.G,Drop-off_at_Partner_Location,string
+2.1.G.2,2.1.G,Scheduled_Pickup,string
+2.1.G.3,2.1.G,Mail-In (prepaid_label),string
+2.2.B.1,2.2.B,Men,string
+2.2.B.2,2.2.B,Women,string
+2.2.B.3,2.2.B,Unisex,string
+2.2.C.1,2.2.C,Baby (0-2 years),string
+2.2.C.2,2.2.C,Child (3-12 years),string
+2.2.C.3,2.2.C,Teen (13-18 years),string
+2.2.C.4,2.2.C,Adult (19-64 years),string
+2.2.C.5,2.2.C,Elderly (65+ years),string
+2.2.D.1,2.2.D,XS,string
+2.2.D.2,2.2.D,S,string
+2.2.D.3,2.2.D,M,string
+2.2.D.4,2.2.D,L,string
+2.2.D.5,2.2.D,XL,string
+2.2.D.6,2.2.D,XXL,string
+2.2.D.7,2.2.D,XXXL,string
+2.2.E.1,2.2.E,New_with_Tags,string
+2.2.E.2,2.2.E,Like_New,string
+2.2.E.3,2.2.E,Gently_Used,string
+2.2.E.4,2.2.E,Worn_but_Clean,string
+2.2.E.5,2.2.E,Needs_Repair,string
+2.2.H.1,2.2.H,Borrow_Temporarily (return_required),string
+2.2.H.2,2.2.H,Request_as_Donation (keep_item),string
+2.3.B.1,2.3.B,Men,string
+2.3.B.2,2.3.B,Women,string
+2.3.B.3,2.3.B,Unisex,string
+2.3.C.1,2.3.C,Baby (0-2 years),string
+2.3.C.2,2.3.C,Child (3-12 years),string
+2.3.C.3,2.3.C,Teen (13-18 years),string
+2.3.C.4,2.3.C,Adult (19-64 years),string
+2.3.C.5,2.3.C,Elderly (65+ years),string
+2.3.D.1,2.3.D,XS,string
+2.3.D.2,2.3.D,S,string
+2.3.D.3,2.3.D,M,string
+2.3.D.4,2.3.D,L,string
+2.3.D.5,2.3.D,XL,string
+2.3.D.6,2.3.D,XXL,string
+2.3.D.7,2.3.D,XXXL,string
+2.3.F.1,2.3.F,Flood,string
+2.3.F.2,2.3.F,Fire,string
+2.3.F.3,2.3.F,Eviction,string
+2.3.F.4,2.3.F,Other,textbox
+2.3.G.1,2.3.G,Immediate (<6 hrs),string
+2.3.G.2,2.3.G,Urgent (<24 hrs),string
+2.3.G.3,2.3.G,Soon (<48 hrs),string
+2.4.B.1,2.4.B,Men,string
+2.4.B.2,2.4.B,Women,string
+2.4.B.3,2.4.B,Unisex,string
+2.4.C.1,2.4.C,Baby (0-2 years),string
+2.4.C.2,2.4.C,Child (3-12 years),string
+2.4.C.3,2.4.C,Teen (13-18 years),string
+2.4.C.4,2.4.C,Adult (19-64 years),string
+2.4.C.5,2.4.C,Elderly (65+ years),string
+2.4.D.1,2.4.D,Shirt,string
+2.4.D.2,2.4.D,Pants,string
+2.4.D.3,2.4.D,Dress,string
+2.4.D.4,2.4.D,Skirt,string
+2.4.D.5,2.4.D,Jacket_Coat,string
+2.4.D.6,2.4.D,Suit,string
+2.4.D.7,2.4.D,Saree/Traditional_Wear,string
+2.4.D.8,2.4.D,Accessories,string
+2.4.D.9,2.4.D,Other,textbox
+2.5.G.1,2.5.G,Drop-off_at_Partner_Location,string
+2.5.G.2,2.5.G,Scheduled_Pickup,string
+2.5.G.3,2.5.G,Mail-In (prepaid_label),string
+3.1.A.1,3.1.A,Lease_review (pre-signing),string
+3.1.A.2,3.1.A,Lease_interpretation (post-signing),string
+3.1.A.3,3.1.A,Lease_termination / break_clause_review,string
+3.1.A.4,3.1.A,Eviction_notice / Non-renewal_review,string
+3.1.A.5,3.1.A,Other,textbox
+3.1.B.1,3.1.B,English,string
+3.1.B.2,3.1.B,Spanish,string
+3.1.B.3,3.1.B,Mandarin,string
+3.1.B.4,3.1.B,French,string
+3.1.B.5,3.1.B,Other,textbox
+3.1.D.1,3.1.D,Immediate (Next_24-48_hours),string
+3.1.D.2,3.1.D,Within_1_week,string
+3.1.D.3,3.1.D,Within_1_month,string
+3.1.D.4,3.1.D,Flexible,string
+3.2.A.1,3.2.A,Unlawful_Rent_Increase,string
+3.2.A.2,3.2.A,Eviction__Lockout (Illegal_Action),string
+3.2.A.3,3.2.A,Health_Safety / Maintenance_Issues,string
+3.2.A.4,3.2.A,Security_Deposit_Return_Dispute,string
+3.2.A.5,3.2.A,Discrimination / Harassment,string
+3.2.A.6,3.2.A,Other_Tenant_Rights_Issue,textbox
+3.2.B.1,3.2.B,Initial Concern / Requesting Advice,string
+3.2.B.2,3.2.B,Formal Letter / Notice Exchanged,string
+3.2.B.3,3.2.B,Filed with Housing / Tenancy Board,string
+3.2.B.4,3.2.B,Court / Legal Action Initiated,string
+3.2.C.1,3.2.C,Lease Agreement,string
+3.2.C.2,3.2.C,Notice of Rent Increase / Eviction,string
+3.2.C.3,3.2.C,Communication Logs (Emails / Texts),string
+3.2.C.4,3.2.C,Photos / Videos of Issue,textbox
+3.2.C.5,3.2.C,No Documents Available,string
+3.2.E.1,3.2.E,English,string
+3.2.E.2,3.2.E,Spanish,string
+3.2.E.3,3.2.E,Other,textbox
+3.3.A.1,3.3.A,Household (Plumbing/ Electrical/ HVAC),string
+3.3.A.2,3.3.A,Appliances / Electronics,string
+3.3.A.3,3.3.A,Furniture / Carpentry,string
+3.3.A.4,3.3.A,Garden / Yard Work,string
+3.3.A.5,3.3.A,Other,textbox
+3.3.B.1,3.3.B,Emergency (<4 hours),string
+3.3.B.2,3.3.B,Urgent (<24 hours),string
+3.3.B.3,3.3.B,Standard (Within 1 week),string
+3.3.B.4,3.3.B,Flexible,string
+3.3.C.1,3.3.C,Rented / Leased Property,string
+3.3.C.2,3.3.C,Personal Item / Owner responsibility,string
+3.3.E.1,3.3.E,Weekday Mornings,string
+3.3.E.2,3.3.E,Weekday Afternoons,string
+3.3.E.3,3.3.E,Evenings,string
+3.3.E.4,3.3.E,Weekends,string
+3.4.A.1,3.4.A,Utility Connection (Water/ Gas/ Electric),string
+3.4.A.2,3.4.A,Internet / Cable / Phone Setup,string
+3.4.A.3,3.4.A,Electronics Installation (TV/ Wi-Fi),string
+3.4.A.4,3.4.A,Furniture Assembly / Setup,string
+3.4.A.5,3.4.A,Household Goods (Appliances/ Kitchenware),string
+3.4.A.6,3.4.A,Garden / Outdoor Setup,string
+3.4.A.7,3.4.A,Other,textbox
+3.4.B.1,3.4.B,Available at the Location,string
+3.4.B.2,3.4.B,Before Move-In,string
+3.4.B.3,3.4.B,Post Move-In,string
+3.4.B.4,3.4.B,Flexible,string
+3.5.A.1,3.5.A,Apartment / Room Search Assistance,string
+3.5.B.1,3.5.B,Apartment / Condo,string
+3.5.B.2,3.5.B,House / Townhome,string
+3.5.B.3,3.5.B,Room (Shared Housing),string
+3.5.B.4,3.5.B,Studio,string
+3.5.C.1,3.5.C,New Lease,string
+3.5.C.2,3.5.C,Sublet,string
+3.5.C.3,3.5.C,Lease Transfer,string
+3.5.C.4,3.5.C,Month-to-Month,string
+3.5.C.5,3.5.C,Doesn't Matter,string
+3.5.D.1,3.5.D,Minimum_budget,float
+3.5.D.2,3.5.D,Maximum_budget,float
+3.5.E.1,3.5.E,Immediately,string
+3.5.E.2,3.5.E,Within 1 Month,string
+3.5.E.3,3.5.E,1-3 Months,string
+3.5.E.4,3.5.E,Flexible,string
+3.5.F.1,3.5.F,Same Gender,string
+3.5.F.2,3.5.F,Pet Friendly,string
+3.5.F.3,3.5.F,Non-Smoking,string
+3.5.F.4,3.5.F,Work Schedule,string
+3.5.F.5,3.5.F,Guest Policy,string
+3.5.G.1,3.5.G,Number_of_People_sharing_Room,integer
+3.5.G.2,3.5.G,Number_of_Bathrooms,integer
+3.5.G.3,3.5.G,Parking_Space_Available,boolean
+3.5.G.4,3.5.G,Furniture_Provided,boolean
+3.5.G.5,3.5.G,Furniture_included,textbox
+3.6.A.1,3.6.A,Listing a Full Unit,string
+3.6.A.2,3.6.A,Listing a Room,string
+3.6.B.1,3.6.B,Apartment / Condo,string
+3.6.B.2,3.6.B,House / Townhome,string
+3.6.B.3,3.6.B,Room (Shared Housing),string
+3.6.B.4,3.6.B,Studio,string
+3.6.C.1,3.6.C,Street_Address,textbox
+3.6.C.2,3.6.C,City_State_Zip_Code,textbox
+3.6.D.1,3.6.D,New Lease,string
+3.6.D.2,3.6.D,Sublet,string
+3.6.D.3,3.6.D,Lease Transfer,string
+3.6.D.4,3.6.D,Month-to-Month,string
+3.6.D.5,3.6.D,Doesn't_Matter,string
+3.6.E.1,3.6.E,Advertised_Rent_Price,integer
+3.6.E.2,3.6.E,Utilities_Included,list
+3.6.F.1,3.6.F,Immediately,string
+3.6.F.2,3.6.F,Within 1 Month,string
+3.6.F.3,3.6.F,1-3 Months,string
+3.6.F.4,3.6.F,Flexible,string
+3.7.A.1,3.7.A,Packing / Unpacking,string
+3.7.A.2,3.7.A,Loading / Unloading,string
+3.7.A.3,3.7.A,Driving / Transportation,string
+3.7.A.4,3.7.A,Minor Assembly / Setup,string
+3.7.A.5,3.7.A,Other,textbox
+3.7.B.1,3.7.B,Date(Date_Picker),date
+3.7.B.2,3.7.B,Time(Time_Packer),time
+3.7.C.1,3.7.C,1-2 Hours,string
+3.7.C.2,3.7.C,2-4 Hours,string
+3.7.C.3,3.7.C,4-8 Hours,string
+3.7.C.4,3.7.C,Full Day,string
+3.7.E.1,3.7.E,Minimal (Few boxes),string
+3.7.E.2,3.7.E,Small (Studio / Room),string
+3.7.E.3,3.7.E,Medium (1 Bedroom),string
+3.7.E.4,3.7.E,Large (2+ Bedroom),string
+3.8.A.1,3.8.A,Full Packing and Moving,string
+3.8.A.2,3.8.A,Moving Only (I‚Äôll Pack),string
+3.8.A.3,3.8.A,Packing Only,string
+3.8.A.4,3.8.A,Specialty Item Moving,string
+3.8.C.1,3.8.C,Minimal (Few boxes),string
+3.8.C.2,3.8.C,Small (Studio / Room),string
+3.8.C.3,3.8.C,Medium (1 Bedroom),string
+3.8.C.4,3.8.C,Large (2+ Bedroom),string
+3.8.D.1,3.8.D,Approximate_maximum_Budget,float
+3.9.A.1,3.9.A,Furniture,string
+3.9.A.2,3.9.A,Major Appliances,string
+3.9.A.3,3.9.A,Small Electronics,string
+3.9.A.4,3.9.A,Kitchenware / Cookware,string
+3.9.A.5,3.9.A,Gardening / Outdoor Equipment,string
+3.9.A.6,3.9.A,Other,textbox
+3.9.B.1,3.9.B,New Items Only,string
+3.9.B.2,3.9.B,Used / Second-hand,string
+3.9.B.3,3.9.B,Repair / Refurbishing Guidance,string
+3.9.B.4,3.9.B,Budget-Friendly Options,string
+3.9.C.1,3.9.C,Minimum_Budget,float
+3.9.C.2,3.9.C,Maximum_Budget,float
+3.9.E.1,3.9.E,Immediate (Next 48 Hours),string
+3.9.E.2,3.9.E,Within 1 Week,string
+3.9.E.3,3.9.E,Within 1 Month,string
+3.9.E.4,3.9.E,Flexible,string
+3.10.A.1,3.10.A,Furniture,string
+3.10.A.2,3.10.A,Major Appliances,string
+3.10.A.3,3.10.A,Small Electronics,string
+3.10.A.4,3.10.A,Kitchenware / Cookware,string
+3.10.A.5,3.10.A,Gardening / Outdoor Equipment,string
+3.10.A.6,3.10.A,Other,textbox
+3.10.B.1,3.10.B,Pricing / Valuation Guidance,string
+3.10.B.2,3.10.B,Best Selling Platform,string
+3.10.B.3,3.10.B,Listing Creation / Photo Taking,string
+3.10.B.4,3.10.B,Buyer Communication / Safety,string
+3.10.C.1,3.10.C,New (Unused with tags),string
+3.10.C.2,3.10.C,Gently Used (Good Condition),string
+3.10.C.3,3.10.C,Used (Wear and Tear),string
+3.10.C.4,3.10.C,Needs Repair,string
+3.10.E.1,3.10.E,Must Go Immediately,string
+3.10.E.2,3.10.E,Within 1 Month,string
+3.10.E.3,3.10.E,Flexible,string
+4.1.A.1,4.1.A,Application Form Guidance,string
+4.1.A.2,4.1.A,Common App / Coalition App Help,string
+4.1.A.3,4.1.A,Resume Building,string
+4.1.A.4,4.1.A,Choosing Majors / Colleges,string
+4.1.A.5,4.1.A,Interview Preparation,string
+4.2.A.1,4.2.A,Statement of Purpose (SOP),string
+4.2.A.2,4.2.A,Admission Essay,string
+4.2.A.3,4.2.A,Scholarship Essay,string
+4.2.A.4,4.2.A,Personal Statement,string
+4.2.B.1,4.2.B,Grammar & Spelling,string
+4.2.B.2,4.2.B,Structure & Flow,string
+4.2.B.3,4.2.B,Content Suggestions,string
+4.2.B.4,4.2.B,Full Review,string
+4.3.A.1,4.3.A,Math,string
+4.3.A.2,4.3.A,English,string
+4.3.A.3,4.3.A,Science,string
+4.3.A.4,4.3.A,Computer Science,string
+4.3.A.5,4.3.A,Test Prep,string
+4.3.A.6,4.3.A,Other,textbox
+4.3.B.1,4.3.B,Concept explanation,string
+4.3.B.2,4.3.B,Problem-solving practice,string
+4.3.B.3,4.3.B,Homework guidance,string
+4.3.B.4,4.3.B,Exam preparation,string
+4.3.B.5,4.3.B,Practice test review,string
+4.3.C.1,4.3.C,Primary School,string
+4.3.C.2,4.3.C,Middle School,string
+4.3.C.3,4.3.C,High School,string
+4.3.C.4,4.3.C,College,string
+4.3.C.5,4.3.C,University,string
+4.3.C.6,4.3.C,PhD,string
+4.3.E.1,4.3.E,Minimum,float
+4.3.E.2,4.3.E,Maximum,float
+4.4.A.1,4.4.A,Education_Level,textbox
+4.4.A.2,4.4.A,Field_of_study,textbox
+4.4.A.3,4.4.A,Location,textbox
+4.4.A.4,4.4.A,Financial_Need_Status,boolean
+4.4.A.5,4.4.A,Special_category,textbox
+4.4.B.1,4.4.B,Resume / CV (PDF / DOCX),textbox
+4.4.B.2,4.4.B,Academic Transcripts (PDF / Image),textbox
+4.4.B.3,4.4.B,Certificates (Image / PDF),textbox
+4.4.B.4,4.4.B,Other,textbox
+4.5.A.1,4.5.A,Academic,string
+4.5.A.2,4.5.A,Exam Preparation,string
+4.5.A.3,4.5.A,Skill Development,string
+4.5.A.4,4.5.A,Career Development,string
+4.5.B.1,4.5.B,Subject / Topic,textbox
+4.5.B.2,4.5.B,Group Size,integer
+4.5.B.3,4.5.B,Frequency (Daily / Weekly),list
+4.6.A.1,4.6.A,Resume Review,string
+4.6.A.2,4.6.A,Mock Interview,string
+4.6.A.3,4.6.A,Job Search Help,string
+4.6.A.4,4.6.A,Referral Guidance,string
+4.6.A.5,4.6.A,LinkedIn Optimization,string
+4.6.A.6,4.6.A,Career Mentorship,string
+4.6.B.1,4.6.B,Resume (PDF / DOCX),textbox
+4.6.B.2,4.6.B,Cover Letter (PDF / DOCX),textbox
+4.6.B.3,4.6.B,LinkedIn Profile Screenshot (Image),textbox
+4.7.A.1,4.7.A,Textbooks,string
+4.7.A.2,4.7.A,Notes / PDFs,string
+4.7.A.3,4.7.A,Stationery / Equipment,string
+4.7.A.4,4.7.A,Other,string
+4.7.B.1,4.7.B,PDF,textbox
+4.7.B.2,4.7.B,Image (JPG / PNG),textbox
+5.1.A.1,5.1.A,Walk-in Today,string
+5.1.A.2,5.1.A,Same/Next Day,string
+5.1.A.3,5.1.A,Within a Week,string
+5.1.A.4,5.1.A,No Preference,string
+5.1.B.1,5.1.B,General Consultation,string
+5.1.B.2,5.1.B,ENT,string
+5.1.B.3,5.1.B,Dental / Oral Health,string
+5.1.B.4,5.1.B,Eye / Vision Care,string
+5.1.B.5,5.1.B,Cardiac / Blood Pressure,string
+5.1.B.6,5.1.B,Orthopedic / Physiotherapy,string
+5.1.B.7,5.1.B,Skin / Dermatology,string
+5.1.B.8,5.1.B,Women‚Äôs / Reproductive Health,string
+5.1.B.9,5.1.B,Vaccinations & Preventive Screenings,string
+5.1.B.10,5.1.B,Pediatrics / Child Health,string
+5.1.B.11,5.1.B,Other,textbox
+5.1.C.1,5.1.C,Wheelchair Access,string
+5.1.C.2,5.1.C,Step-Free Entry,string
+5.1.C.3,5.1.C,Interpreter Support,string
+5.1.C.4,5.1.C,Caregiver Allowed,string
+5.1.C.5,5.1.C,Service-Animal Friendly,string
+5.1.C.6,5.1.C,None,string
+5.1.C.7,5.1.C,Other,textbox
+5.2.A.1,5.2.A,Delivery (OTC items),string
+5.2.A.2,5.2.A,Pickup Assistance,string
+5.2.A.3,5.2.A,Pharmacy Guidance,string
+5.2.B.1,5.2.B,Prescribed,string
+5.2.B.2,5.2.B,Non-Prescribed,string
+5.2.C.1,5.2.C,Pain Relief,string
+5.2.C.2,5.2.C,Cold & Flu Care,string
+5.2.C.3,5.2.C,Allergy Relief,string
+5.2.C.4,5.2.C,Digestive Health,string
+5.2.C.5,5.2.C,First Aid / Wound Care,string
+5.2.C.6,5.2.C,Vitamins & Supplements,string
+5.2.C.7,5.2.C,Skin Care / Topicals,string
+5.2.C.8,5.2.C,Women's / Men's Health,string
+5.2.C.9,5.2.C,Children's Health,string
+5.2.C.10,5.2.C,Other,textbox
+5.2.D.1,5.2.D,Same/Next Day,string
+5.2.D.2,5.2.D,3 - 4 Days,string
+5.2.D.3,5.2.D,Within a Week,string
+5.2.D.4,5.2.D,No Preference,string
+5.3.A.1,5.3.A,Counseling referral,string
+5.3.A.2,5.3.A,Peer / Support Group,string
+5.3.A.3,5.3.A,Wellness Class / Workshop,string
+5.3.A.4,5.3.A,Self-Guided Resources,string
+5.3.B.1,5.3.B,Licensed Professional,string
+5.3.B.2,5.3.B,Peer Support Volunteer,string
+5.3.B.3,5.3.B,Community Organization,string
+5.3.C.1,5.3.C,Morning (9am-12pm),string
+5.3.C.2,5.3.C,Afternoon (12pm-5pm),string
+5.3.C.3,5.3.C,Evening (5pm-9pm),string
+5.3.C.4,5.3.C,Weekends,string
+5.3.C.5,5.3.C,Flexible,string
+5.4.A.1,5.4.A,Medication / Supplement Reminder,string
+5.4.A.2,5.4.A,Doctor Appointment,string
+5.4.A.3,5.4.A,Test / Lab Schedule,string
+5.4.A.4,5.4.A,Exercise or Physical Training Session,string
+5.4.A.5,5.4.A,Custom Wellness Task,string
+5.4.B.1,5.4.B,Single Time,string
+5.4.B.2,5.4.B,Multiple Times,string
+5.4.C.1,5.4.C,Once Daily,string
+5.4.C.2,5.4.C,Twice Daily,string
+5.4.C.3,5.4.C,Custom Times Per Day,string
+5.4.C.4,5.4.C,Specific Days (Mon‚ÄìFri),string
+5.4.C.5,5.4.C,Daily,string
+5.4.D.1,5.4.D,7 Days,string
+5.4.D.2,5.4.D,30 Days,string
+5.4.D.3,5.4.D,Custom Duration,textbox
+5.4.E.1,5.4.E,SMS,string
+5.4.E.2,5.4.E,Email,string
+5.4.E.3,5.4.E,Mobile App,string
+5.4.E.4,5.4.E,Caregiver Notification,string
+5.5.A.1,5.5.A,Nutrition & Healthy Eating,string
+5.5.A.2,5.5.A,Physical Activity & Movement,string
+5.5.A.3,5.5.A,Hygiene & Personal Care,string
+5.5.A.4,5.5.A,Preventive Health Tips,string
+5.5.A.5,5.5.A,Sleep & Well-being,string
+5.5.A.6,5.5.A,Healthy Aging,string
+5.5.A.7,5.5.A,Stress Management & Mindfulness,string
+5.5.A.8,5.5.A,General Wellness Education,string
+5.5.A.9,5.5.A,Other (Non-clinical),textbox
+5.5.B.1,5.5.B,Articles,string
+5.5.B.2,5.5.B,Videos,string
+5.5.B.3,5.5.B,Infographics,string
+5.5.B.4,5.5.B,Printable Guides / PDFs,string
+5.5.B.5,5.5.B,Short Tips / Summaries,string
+5.5.B.6,5.5.B,SMS-Friendly Links,string
+5.5.B.7,5.5.B,Audio Clips / Podcasts,string
+5.5.B.8,5.5.B,Mixed Format (Best Available),string
+6.1.A.1,6.1.A,Street,textbox
+6.1.A.2,6.1.A,City,textbox
+6.1.A.3,6.1.A,Zip,textbox
+6.1.A.4,6.1.A,Access_Info,textbox
+6.1.B.1,6.1.B,Street,textbox
+6.1.B.2,6.1.B,City,textbox
+6.1.B.3,6.1.B,Zip,textbox
+6.1.B.4,6.1.B,Access_Info,textbox
+6.1.C.1,6.1.C,Primary_slot,datetime
+6.1.C.2,6.1.C,Alternate_slot,datetime
+6.1.D.1,6.1.D,Number of boxes,integer
+6.1.D.2,6.1.D,Furniture checklist,string
+6.1.D.3,6.1.D,Fragile items,string
+6.1.D.4,6.1.D,Special handling needs,string
+6.1.E.1,6.1.E,Packing,string
+6.1.E.2,6.1.E,Transport,string
+6.1.E.3,6.1.E,Unpacking,string
+6.1.E.4,6.1.E,Loading/Unloading,string
+6.2.A.1,6.2.A,App_Name,textbox
+6.2.A.2,6.2.A,Type_of_Device,textbox
+6.2.A.3,6.2.A,Operating_system,textbox
+6.2.A.4,6.2.A,Description_of_Issue,textbox
+6.3.A.1,6.3.A,Number_of_medications,integer
+6.3.A.2,6.3.A,Timing_per_day,time
+6.3.A.3,6.3.A,Doctor's_prescription,boolean
+6.3.B.1,6.3.B,Phone call,string
+6.3.B.2,6.3.B,App setup help,string
+6.3.B.3,6.3.B,Physical visit,string
+6.4.A.1,6.4.A,Blood pressure monitor,string
+6.4.A.2,6.4.A,Glucose meter,string
+6.4.A.3,6.4.A,Pulse oximeter,string
+6.4.A.4,6.4.A,Smartwatch / wearable,string
+6.4.B.1,6.4.B,Video call,string
+6.4.B.2,6.4.B,Home visit,string
+6.4.B.3,6.4.B,Remote step-by-step guide,string
+6.5.A.1,6.5.A,Grocery shopping,string
+6.5.A.2,6.5.A,Pharmacy pickup,string
+6.5.A.3,6.5.A,Bill payment,string
+6.5.A.4,6.5.A,General store,string
+6.5.C.1,6.5.C,One-time,string
+6.5.C.2,6.5.C,Weekly/Monthly,string
+6.5.C.3,6.5.C,Emergency,string
+6.6.A.1,6.6.A,Pickup_Drop_location,textbox
+6.6.A.2,6.6.A,Appointment/Event_type,textbox
+6.6.A.3,6.6.A,Date_time,datetime
+6.6.B.1,6.6.B,Round trip,string
+6.6.B.2,6.6.B,One-way,string
+6.6.B.3,6.6.B,Wait and return,string
+6.6.C.1,6.6.C,Wheelchair-accessible vehicle,string
+6.6.C.2,6.6.C,Needs help entering/exiting vehicle,string
+6.6.C.3,6.6.C,Uses walker or cane,string
+6.6.C.4,6.6.C,No special needs,string
+6.6.D.1,6.6.D,Volunteer car,string
+6.6.D.2,6.6.D,Escort in public transit,string
+6.6.D.3,6.6.D,Ride booking assistance,string
+6.7.A.1,6.7.A,Doctor or Dentist,string
+6.7.A.2,6.7.A,Social Service,string
+6.7.A.3,6.7.A,Bank or Government,string
+6.7.A.4,6.7.A,Utility services,string
+6.7.B.1,6.7.B,Booking online,string
+6.7.B.2,6.7.B,Calling,string
+6.7.B.3,6.7.B,Going in-person with help,string
+6.8.A.1,6.8.A,Phone call or chat,string
+6.8.A.2,6.8.A,Walk in the park,string
+6.8.A.3,6.8.A,Board games or card games,string
+6.8.A.4,6.8.A,Reading together,string
+6.8.B.1,6.8.B,One-time,string
+6.8.B.2,6.8.B,Weekly/Monthly,string
+6.8.B.3,6.8.B,Specific dates,string
+6.9.A.1,6.9.A,Meal prep assistance,string
+6.9.A.2,6.9.A,Cooking together,string
+6.9.A.3,6.9.A,Supervision while cooking,string
+6.9.B.1,6.9.B,Volunteer's home,string
+6.9.B.2,6.9.B,Elder's home,string
+6.9.B.3,6.9.B,Community kitchen,string
+6.9.C.1,6.9.C,Vegetarian,string
+6.9.C.2,6.9.C,Diabetic-friendly,string
+6.9.C.3,6.9.C,Low-sodium,string
+6.9.C.4,6.9.C,No preference,string
+6.9.D.1,6.9.D,Frequency,textbox
+6.9.D.2,6.9.D,Time_of_day,datetime
