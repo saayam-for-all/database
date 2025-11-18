@@ -6,5 +6,6 @@
 4,CANCELLED,The requester or administrator has officially canceled the request,
 5,DELETED,The request has been permanently removed from the system,
 6,RATED_BY_REQUESTER,The requester has provided a rating, 
-7,RATED_BY_VOLUNTEER,The volunteer has provided a rating
+7,RATED_BY_VOLUNTEER,The volunteer has provided a rating,
+
 
