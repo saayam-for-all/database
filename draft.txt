@@ -1,0 +1,2 @@
+Working on testing pulumi script
+Ref: Issue #43 
