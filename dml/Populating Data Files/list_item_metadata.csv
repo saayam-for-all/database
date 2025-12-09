@@ -473,5 +473,4 @@
 6.9.C.4,6.9.C,NO_PREFERENCE,checkbox
 6.9.D.1,6.9.D,ONE_TIME,radiobutton
 6.9.D.2,6.9.D,WEEKLY_MONTHLY,radiobutton
-
 6.9.D.3,6.9.D,SPECIFIC_DATES,radiobutton
