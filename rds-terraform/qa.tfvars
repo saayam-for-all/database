@@ -2,7 +2,7 @@
 # tfvars to pass parameterized inputs tot he terraform script
 # =============================================================================
 # 1. We can create similar tfvars for different instances, this way the main terraform deployment script stays untouched and we can deploy the instance across different regions with custom parameters
-===============================================================================
+# ===============================================================================
 
 aws_region              = "eu-west-1"           # Placeholder for EU region, will update accordingly
 environment             = "qa"                  #  environment
