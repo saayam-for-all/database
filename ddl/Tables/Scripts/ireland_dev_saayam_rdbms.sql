@@ -13,6 +13,8 @@ CREATE SCHEMA IF NOT EXISTS proposed_saayam;
 -- Set schema for following operations
 SET search_path TO proposed_saayam;
 
+CREATE EXTENSION IF NOT EXISTS postgis;
+
 -- Table: action # No changes as on 12/01/2025
 CREATE TABLE IF NOT EXISTS action (
     action_id SERIAL PRIMARY KEY,
@@ -33,6 +35,12 @@ CREATE TABLE IF NOT EXISTS country (
     last_update_date TIMESTAMP,
     UNIQUE (country_id)
 );
+CREATE SEQUENCE IF NOT EXISTS country_seq
+    INCREMENT 50
+    START 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    CACHE 1;
 
 -- Table: identity_type # No changes as on 12/01/2025
 CREATE TABLE IF NOT EXISTS identity_type (
@@ -51,6 +59,12 @@ CREATE TABLE IF NOT EXISTS request_priority (
     last_updated_date TIMESTAMP,
     UNIQUE (req_priority_id)
 );
+CREATE SEQUENCE IF NOT EXISTS user_status_seq
+    INCREMENT 50
+    START 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    CACHE 1;
 -- Table: user_status # No changes as on 12/01/2025
 CREATE TABLE IF NOT EXISTS user_status (
     user_status_id SERIAL PRIMARY KEY,
@@ -61,8 +75,21 @@ CREATE TABLE IF NOT EXISTS user_status (
 );
 
 -- Table: user_category # No changes as on 12/01/2025
+CREATE SEQUENCE IF NOT EXISTS user_category_seq
+    INCREMENT 50
+    START 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    CACHE 1;
+CREATE SEQUENCE IF NOT EXISTS user_category_user_category_id_seq
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 2147483647
+    CACHE 1;
+	
 CREATE TABLE IF NOT EXISTS user_category (
-    user_category_id SERIAL PRIMARY KEY,
+    user_category_id integer NOT NULL DEFAULT nextval('user_category_user_category_id_seq'::regclass),
     user_category VARCHAR(255) NOT NULL,
     user_category_desc VARCHAR(255),
     last_update_date TIMESTAMP,
@@ -75,14 +102,20 @@ CREATE TABLE IF NOT EXISTS state (
     country_id INT NOT NULL,
     state_name VARCHAR(100) NOT NULL,
     state_code VARCHAR(6),
-    last_update_date TIMESTAMP,
+    last_update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (country_id) REFERENCES country (country_id)
 );
+CREATE SEQUENCE IF NOT EXISTS state_seq
+    INCREMENT 50
+    START 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    CACHE 1;
 
 -- Table: city # Updated as per Virginia on 12/01/2025
 CREATE TABLE IF NOT EXISTS city (
     city_id SERIAL PRIMARY KEY,
-    state_id INT NOT NULL,
+    state_id VARCHAR(50) NOT NULL,
     city_name VARCHAR(30) NOT NULL, 
     lattitude DECIMAL(9, 6),
     longitude DECIMAL(9, 6),
@@ -94,7 +127,7 @@ CREATE TABLE IF NOT EXISTS city (
 -- Table: users # Updated as per Virginia on 12/01/2025
    CREATE TABLE IF NOT EXISTS users (
     user_id VARCHAR(255) PRIMARY KEY,
-    state_id INT NULL,
+    state_id VARCHAR(50) NULL,
     country_id INT NULL,
     user_status_id INT NULL,
     user_category_id INT NULL,
@@ -167,7 +200,12 @@ CREATE TABLE IF NOT EXISTS user_additional_details (
 );
 
 -- Table: volunteer_details # Updated as per Virginia on 12/01/2025
-
+CREATE SEQUENCE IF NOT EXISTS volunteer_details_seq
+    INCREMENT 50
+    START 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    CACHE 1;
 DROP TABLE IF EXISTS volunteer_details CASCADE;
 CREATE TABLE IF NOT EXISTS volunteer_details (
     user_id VARCHAR(255) PRIMARY KEY,
@@ -182,15 +220,15 @@ CREATE TABLE IF NOT EXISTS volunteer_details (
     location geography(Point,4326),
     CONSTRAINT volunteer_details_user_fk 
         FOREIGN KEY (user_id) 
-        REFERENCES virginia_dev_saayam_rdbms.users (user_id) 
+        REFERENCES users (user_id) 
         ON DELETE CASCADE
 );
 -- --IF you have already table exists and trying to change the column name and type from Pii varchar(255) to skills jsonb 
 -- -- Change the column type from varchar to json
--- ALTER TABLE IF EXISTS virginia_dev_saayam_rdbms.volunteer_details ALTER COLUMN pii TYPE jsonb USING pii::jsonb;
+-- ALTER TABLE IF EXISTS volunteer_details ALTER COLUMN pii TYPE jsonb USING pii::jsonb;
 
 -- -- Rename the column from pii to skills
--- ALTER TABLE IF EXISTS virginia_dev_saayam_rdbms.volunteer_details RENAME COLUMN pii TO skills;
+-- ALTER TABLE IF EXISTS volunteer_details RENAME COLUMN pii TO skills;
 
 -- used to store unstructured data
 
@@ -201,9 +239,9 @@ BEGIN
    IF NOT EXISTS (
        SELECT 1 FROM pg_constraint
        WHERE conname = 'volunteer_details_user_uk'
-       AND conrelid = 'virginia_dev_saayam_rdbms.volunteer_details'::regclass
+       AND conrelid = 'volunteer_details'::regclass
 ) THEN
-  ALTER TABLE virginia_dev_saayam_rdbms.volunteer_details
+  ALTER TABLE volunteer_details
   ADD CONSTRAINT volunteer_details_user_uk UNIQUE (user_id);
 END IF;
 END;
@@ -211,7 +249,7 @@ $$;
 -- Table: user_volunteer_skills
 /* CREATE TABLE IF NOT EXISTS user_volunteer_skills (
     skills JSONB
-); /
+); */
 
 -- Table: request_status # Updated as per Virginia on 12/01/2025
 CREATE TABLE IF NOT EXISTS request_status (
@@ -243,6 +281,22 @@ CREATE TABLE IF NOT EXISTS request_for (
     req_for VARCHAR(25) NOT NULL,
     req_for_desc VARCHAR(125), --15words7charlength
     last_updated_date TIMESTAMP
+);
+
+-- Request_isleadvol # Added as per Virginia on 12/01/2025
+
+CREATE TABLE IF NOT EXISTS request_isleadvol (
+    req_islead_id SERIAL PRIMARY KEY,
+    req_islead VARCHAR(15) NOT NULL,  
+    req_islead_desc VARCHAR(100), 
+    last_updated_date TIMESTAMP
+);
+
+-- Help Categories # Added as per Virginia on 12/01/2025
+CREATE TABLE IF NOT EXISTS help_categories (
+    cat_id VARCHAR(50) PRIMARY KEY,           -- e.g., '1', '1.1', '1.1.1'
+    cat_name VARCHAR(100) NOT NULL,                    -- string_key, e.g., 'DONATE_CLOTHES'
+    cat_desc VARCHAR(150) NOT NULL                     -- purpose or goal of the category
 );
 
 -- Table: request # Updated as per Virginia on 12/01/2025
@@ -301,11 +355,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql; 
 
-CREATE TRIGGER before_insert_requests
-BEFORE INSERT ON request
-FOR EACH ROW
-EXECUTE FUNCTION generate_request_id();
-
 -- Table: fraud_requests # No changes as on 12/01/2025
 CREATE TABLE IF NOT EXISTS fraud_requests (
     fraud_request_id SERIAL PRIMARY KEY,
@@ -318,26 +367,26 @@ CREATE TABLE IF NOT EXISTS fraud_requests (
 -- Table: volunteers_assigned # No changes as on 12/01/2025
 CREATE TABLE IF NOT EXISTS volunteers_assigned (
     volunteers_assigned_id SERIAL PRIMARY KEY,
-    request_id VARCHAR(255) NOT NULL,
+    req_id VARCHAR(255) NOT NULL,
     volunteer_id VARCHAR(255) NOT NULL,
     volunteer_type VARCHAR(255) NOT NULL,
     last_update_date TIMESTAMP NOT NULL,
-    FOREIGN KEY (request_id) REFERENCES request (request_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (req_id) REFERENCES request (req_id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (volunteer_id) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Table: comments # No changes as on 12/01/2025
 CREATE TABLE IF NOT EXISTS comments (
     comment_id SERIAL PRIMARY KEY,
-    request_id VARCHAR(255) NOT NULL,
+    req_id VARCHAR(255) NOT NULL,
     user_id VARCHAR(255) NOT NULL,
     comment_desc TEXT NOT NULL,
     comment_date TIMESTAMP NOT NULL,
-    FOREIGN KEY (request_id) REFERENCES request (request_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (req_id) REFERENCES request (req_id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE INDEX IF NOT EXISTS fk_comments_request_id_idx ON comments (request_id);
+CREATE INDEX IF NOT EXISTS fk_comments_request_id_idx ON comments (req_id);
 CREATE INDEX IF NOT EXISTS fk_comments_user_id_idx ON comments (user_id);
 
 -- Table: volunteer_organizations  # Updated as per Virginia on 12/01/2025
@@ -433,7 +482,6 @@ CREATE TABLE IF NOT EXISTS user_skills (
     last_used_date TIMESTAMP,
     created_date TIMESTAMP,
     last_update_date TIMESTAMP,
-    FOREIGN KEY (skill_id) REFERENCES skill_list (skill_list_id),
     FOREIGN KEY (user_id) REFERENCES users (user_id)
 );
 
@@ -443,20 +491,33 @@ CREATE TYPE rating_enum AS ENUM ('0', '1', '2', '3', '4', '5');
 CREATE TABLE IF NOT EXISTS volunteer_rating (
     volunteer_rating_id SERIAL PRIMARY KEY,
     user_id VARCHAR(255) NOT NULL,
-    request_id VARCHAR(255) NOT NULL,
+    req_id VARCHAR(255) NOT NULL,
     rating rating_enum NOT NULL,
     feedback TEXT,
     last_update_date TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (request_id) REFERENCES request (request_id) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (req_id) REFERENCES request (req_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE INDEX IF NOT EXISTS idx_volunteer_rating_user_id ON volunteer_rating (user_id);
-CREATE INDEX IF NOT EXISTS idx_volunteer_rating_request_id ON volunteer_rating (request_id);
+CREATE INDEX IF NOT EXISTS idx_volunteer_rating_request_id ON volunteer_rating (req_id);
 
 -- Table: user_availability # No changes as on 12/01/2025
+CREATE SEQUENCE IF NOT EXISTS user_availability_user_availability_id_seq
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 2147483647
+    CACHE 1;
+CREATE SEQUENCE IF NOT EXISTS user_availability_seq
+    INCREMENT 50
+    START 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    CACHE 1;
+	
 CREATE TABLE IF NOT EXISTS user_availability (
-    user_availability_id SERIAL PRIMARY KEY,
+    user_availability_id integer NOT NULL DEFAULT nextval('user_availability_user_availability_id_seq'::regclass),
     user_id VARCHAR(255) NOT NULL,
     day_of_week VARCHAR(10) CHECK (day_of_week IN ('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')),
     start_time TIMESTAMP NOT NULL,
@@ -466,61 +527,38 @@ CREATE TABLE IF NOT EXISTS user_availability (
 );
 
 CREATE INDEX IF NOT EXISTS idx_user_availability_user_id ON user_availability (user_id);
-
--- Create the sequence for request IDs
-CREATE SEQUENCE request_id_seq
-START WITH 1
-INCREMENT BY 1
-NO MINVALUE
-NO MAXVALUE
-CACHE 1;
-
--- Create the function to generate the formatted request ID
-CREATE FUNCTION generate_request_id()
-RETURNS TRIGGER AS $$
-DECLARE
-    seq_id INT;
-    new_id VARCHAR(30);
-BEGIN
-    seq_id := nextval('request_id_seq');
-    new_id := 'REQ-' || LPAD(FLOOR(seq_id / 100000000)::TEXT, 2, '0') || '-' || 
-              LPAD(FLOOR((seq_id % 100000000) / 100000)::TEXT, 3, '0') || '-' || 
-              LPAD(FLOOR((seq_id % 100000) / 1000)::TEXT, 3, '0') || '-' || 
-              LPAD((seq_id % 1000)::TEXT, 4, '0');
-    NEW.request_id := new_id;
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql; 
-
 CREATE TRIGGER before_insert_requests
 BEFORE INSERT ON request
 FOR EACH ROW
-WHEN (NEW.request_id IS NULL OR NEW.request_id = '')
+WHEN (NEW.req_id IS NULL OR NEW.req_id = '')
 EXECUTE FUNCTION generate_request_id();
 
 -- Emergency Numbers # Updated as per Virginia on 12/01/2025
 CREATE TABLE IF NOT EXISTS emergency_numbers(    
-    emergency_num_id SERIAL PRIMARY KEY,
+    emergency_number_id SERIAL PRIMARY KEY,
     country VARCHAR(100),
     police VARCHAR(20),
     ambulance VARCHAR(20),
     fire VARCHAR(20),
     other_emergency VARCHAR(100)
 );
-
--- Help Categories # Added as per Virginia on 12/01/2025
-CREATE TABLE IF NOT EXISTS help_categories (
-    cat_id VARCHAR(50) PRIMARY KEY,           -- e.g., '1', '1.1', '1.1.1'
-    cat_name VARCHAR(100) NOT NULL,                    -- string_key, e.g., 'DONATE_CLOTHES'
-    cat_desc VARCHAR(150) NOT NULL                     -- purpose or goal of the category
-);
-
 -- Help Category Map # Added as per Virginia on 12/01/2025
 CREATE TABLE IF NOT EXISTS help_category_map (
     parent_id VARCHAR(50),
     child_id VARCHAR(50) PRIMARY KEY, --one parent multiple child
     FOREIGN KEY (parent_id) REFERENCES help_categories(cat_id),
     FOREIGN KEY (child_id) REFERENCES help_categories(cat_id)
+);
+
+-- Req_Add_Info_MetaData # Added as per Virginia on 12/01/2025
+
+CREATE TABLE IF NOT EXISTS req_add_info_metadata(
+    field_id VARCHAR(70) PRIMARY KEY,                         --  primary key
+    field_name_key VARCHAR(100),
+    field_type VARCHAR(20),                                   -- examples: 'string', 'int', 'float', 'list'
+    status VARCHAR(10) DEFAULT 'active' CHECK (status IN ('active', 'inactive')),  -- Fixed syntax
+    cat_id VARCHAR(50),                                       
+    FOREIGN KEY (cat_id) REFERENCES help_categories(cat_id)
 );
 
 -- List Item Meta_Data  # Added as per Virginia on 12/01/2025
@@ -556,8 +594,7 @@ CREATE TABLE IF NOT EXISTS organizations (
   cat_id VARCHAR(50),   --help_categories
   created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
   last_updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (cat_id) REFERENCES help_categories(cat_id) ON DELETE SET NULL,
-  FOREIGN KEY (state_code) REFERENCES state(state_code) ON DELETE SET NULL
+  FOREIGN KEY (cat_id) REFERENCES help_categories(cat_id) ON DELETE SET NULL
 );
 
 -- Indexes
@@ -567,8 +604,8 @@ CREATE INDEX idx_org_cat_id ON organizations(cat_id);
 CREATE INDEX idx_org_name ON organizations(org_name);
  
 ALTER TYPE org_type_enum ADD VALUE 'Government';
-ALTER TYPE org_type_enum ADD VALUE 'Hybrid' AFTER 'Nonprofit';
-Deleting an enum type is a complex process; it requires a temp table in between. Stop using the type.*/
+ALTER TYPE org_type_enum ADD VALUE 'Hybrid' AFTER 'non_profit';
+/*Deleting an enum type is a complex process; it requires a temp table in between. Stop using the type.*/
 
 -- Create sequence for organization IDs
 CREATE SEQUENCE org_id_seq
@@ -611,17 +648,6 @@ CREATE TABLE IF NOT EXISTS req_add_info(
     FOREIGN KEY (field_id) REFERENCES req_add_info_metadata(field_id)
 );
 
--- Req_Add_Info_MetaData # Added as per Virginia on 12/01/2025
-
-CREATE TABLE IF NOT EXISTS req_add_info_metadata(
-    field_id VARCHAR(70) PRIMARY KEY,                         --  primary key
-    field_name_key VARCHAR(100),
-    field_type VARCHAR(20),                                   -- examples: 'string', 'int', 'float', 'list'
-    status VARCHAR(10) DEFAULT 'active' CHECK (status IN ('active', 'inactive')),  -- Fixed syntax
-    cat_id VARCHAR(50),                                       
-    FOREIGN KEY (cat_id) REFERENCES help_categories(cat_id)
-);
-
 -- Request_Guest_Details # Added as per Virginia on 12/01/2025
 
 CREATE TABLE IF NOT EXISTS request_guest_details (
@@ -636,16 +662,6 @@ CREATE TABLE IF NOT EXISTS request_guest_details (
     req_pref_lang VARCHAR(50),
     FOREIGN KEY (req_id) REFERENCES request (req_id) ON DELETE CASCADE
 );
-
--- Request_isleadvol # Added as per Virginia on 12/01/2025
-
-CREATE TABLE IF NOT EXISTS request_isleadvol (
-    req_islead_id SERIAL PRIMARY KEY,
-    req_islead VARCHAR(15) NOT NULL,  
-    req_islead_desc VARCHAR(100), 
-    last_updated_date TIMESTAMP
-);
-
 -- User Locations # Added as per Virginia on 12/01/2025
 
 -- User locations table
@@ -812,4 +828,51 @@ BEFORE INSERT ON volunteer_locations
 FOR EACH ROW
 EXECUTE FUNCTION fn_locations_insert_as_upsert_volunteer();
 
+CREATE TABLE IF NOT EXISTS req_comments (
+    -- comment_id is the primary key, using a BIGINT and auto-generated identity (like SERIAL)
+    comment_id BIGINT PRIMARY KEY GENERATED BY DEFAULT AS IDENTITY,
+    req_id VARCHAR(255) NOT NULL,
+    commenter_id VARCHAR(255) NOT NULL,
+    comment_desc TEXT NOT NULL,
+    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
+    last_updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
+    isdeleted BOOLEAN DEFAULT FALSE,
+    CONSTRAINT fk_req_comment_request
+        FOREIGN KEY (req_id) 
+        REFERENCES request (req_id) 
+        ON UPDATE CASCADE 
+        ON DELETE CASCADE,    
+    CONSTRAINT fk_req_comment_user
+        FOREIGN KEY (commenter_id) 
+        REFERENCES users (user_id) 
+        ON UPDATE CASCADE 
+        ON DELETE CASCADE
+);
 
+-- Index for efficient lookup by request ID
+CREATE INDEX IF NOT EXISTS idx_req_comment_req_id
+    ON req_comments (req_id);
+
+-- Index for efficient lookup by commenter ID
+CREATE INDEX IF NOT EXISTS idx_req_comment_commenter_id
+    ON req_comments (commenter_id);
+
+-- Index for filtering out soft-deleted comments
+CREATE INDEX IF NOT EXISTS idx_req_comment_isdeleted
+    ON req_comments (isdeleted);
+
+CREATE SEQUENCE IF NOT EXISTS skill_list_skill_list_id_seq
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 2147483647
+    CACHE 1;
+
+CREATE TABLE IF NOT EXISTS skill_list
+(
+    skill_list_id integer NOT NULL DEFAULT nextval('skill_list_skill_list_id_seq'::regclass),
+    request_category_id integer NOT NULL,
+    skill_desc character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    last_update_date timestamp without time zone,
+    CONSTRAINT skill_list_pkey PRIMARY KEY (skill_list_id)
+);
