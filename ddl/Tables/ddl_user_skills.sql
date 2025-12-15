@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS virginia_dev_saayam_rdbms.user_skills CASCADE;
 
 CREATE TABLE virginia_dev_saayam_rdbms.user_skills (
-    user_id uuid NOT NULL,
+    user_id VARCHAR(255) NOT NULL,
     cat_id varchar(50) NOT NULL,
     created_at timestamp without time zone DEFAULT now(),
 
