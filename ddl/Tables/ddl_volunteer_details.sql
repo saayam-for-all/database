@@ -1,18 +1,28 @@
-CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.volunteer_details (
+DROP TABLE IF EXISTS virginia_dev_saayam_rdbms.volunteer_details CASCADE;
+
+CREATE TABLE virginia_dev_saayam_rdbms.volunteer_details (
     user_id uuid PRIMARY KEY,
+
     terms_and_conditions boolean,
     terms_and_conditions_update_date timestamp without time zone,
+
     govt_id_path text,
     govt_id_update_date timestamp without time zone,
-    skills jsonb,
+    gov_id_content_type text,
+
     notification boolean,
     iscomplete boolean,
     completed_date timestamp without time zone,
-    location text,
-    full_name text,
-    email text,
-    phone text,
+
     availability_days text[],
     availability_time text,
-    gov_id_content_type text
+
+    location text,
+
+    created_at timestamp without time zone DEFAULT now(),
+
+    CONSTRAINT volunteer_details_user_fk
+        FOREIGN KEY (user_id)
+        REFERENCES virginia_dev_saayam_rdbms.users(user_id)
+        ON DELETE CASCADE
 );
