@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS virginia_dev_saayam_rdbms.volunteer_details CASCADE;
 
 CREATE TABLE virginia_dev_saayam_rdbms.volunteer_details (
-    user_id uuid PRIMARY KEY,
+    user_id VARCHAR(255) PRIMARY KEY,
 
     terms_and_conditions boolean,
     terms_and_conditions_update_date timestamp without time zone,
