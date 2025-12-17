@@ -1,5 +1,5 @@
 
-CREATE TABLE IF NOT EXISTS public.supporting_lang (
+CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.supporting_languages (
     id                BIGSERIAL PRIMARY KEY,
     language_name     VARCHAR(64)  NOT NULL,
     iso_639_1_code CHAR(2) NOT NULL,                 -- e.g., en, zh, hi
@@ -15,8 +15,8 @@ CREATE TABLE IF NOT EXISTS public.supporting_lang (
     CONSTRAINT ck_locale CHECK (locale_code ~ '^[a-z]{2}_[A-Z]{2}$')
 );
 
-CREATE INDEX IF NOT EXISTS ix_supporting_lang_name
-    ON public.supporting_lang (language_name);
+CREATE INDEX IF NOT EXISTS ix_supporting_languages_name
+    ON virginia_dev_saayam_rdbms.supporting_languages (language_name);
 
 -- Keep updated_at fresh
 CREATE OR REPLACE FUNCTION set_updated_at()
@@ -27,7 +27,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-DROP TRIGGER IF EXISTS trg_supporting_lang_updated_at ON public.supporting_lang;
+DROP TRIGGER IF EXISTS trg_supporting_languages_updated_at ON virginia_dev_saayam_rdbms.supporting_languages;
 
 CREATE TRIGGER trg_supporting_lang_updated_at
 BEFORE UPDATE ON public.supporting_lang
