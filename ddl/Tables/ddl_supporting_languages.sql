@@ -1,6 +1,6 @@
 
 CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.supporting_languages (
-    id                BIGSERIAL PRIMARY KEY,
+    lang_id                BIGSERIAL PRIMARY KEY,
     language_name     VARCHAR(64)  NOT NULL,
     iso_639_1_code CHAR(2) NOT NULL,                 -- e.g., en, zh, hi
     locale_code       VARCHAR(10)  NOT NULL,                 -- e.g., en_US, zh_CN
