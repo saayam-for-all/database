@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS virginia_dev_saayam_rdbms.volunteer_applications CASCADE;
 CREATE TABLE virginia_dev_saayam_rdbms.volunteer_applications (
     user_id VARCHAR(255) NOT NULL,
     application_status VARCHAR(50) NOT NULL,
+    availability JSONB,
     selected_skill_codes INT[],
     govt_id_storage_path VARCHAR(255),
     created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
