@@ -6,5 +6,14 @@ CREATE TABLE virginia_dev_saayam_rdbms.user_skills (
     created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
 
     CONSTRAINT user_skills_pkey PRIMARY KEY (user_id, cat_id)
+
+--    CONSTRAINT user_skills_user_fk
+--        FOREIGN KEY (user_id)
+--        REFERENCES virginia_dev_saayam_rdbms.users(user_id)
+--        ON DELETE CASCADE
+
+--    CONSTRAINT user_skills_cat_fk
+--        FOREIGN KEY (cat_id)
+--        REFERENCES virginia_dev_saayam_rdbms.help_categories(cat_id)
 );
 

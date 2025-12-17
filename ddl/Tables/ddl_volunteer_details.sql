@@ -7,8 +7,9 @@ CREATE TABLE virginia_dev_saayam_rdbms.volunteer_details (
     terms_and_conditions_update_date timestamp without time zone,
 
     govt_id_path text,
+    govt_id_path2 text,
     govt_id_update_date timestamp without time zone,
-    gov_id_content_type text,
+    
 
     notification boolean,
     iscomplete boolean,
@@ -19,10 +20,10 @@ CREATE TABLE virginia_dev_saayam_rdbms.volunteer_details (
 
     location text,
 
-    created_at timestamp without time zone DEFAULT now(),
+    created_at timestamp without time zone DEFAULT now()
 
-    CONSTRAINT volunteer_details_user_fk
-        FOREIGN KEY (user_id)
-        REFERENCES virginia_dev_saayam_rdbms.users(user_id)
-        ON DELETE CASCADE
+--    CONSTRAINT volunteer_details_user_fk
+--        FOREIGN KEY (user_id)
+--        REFERENCES virginia_dev_saayam_rdbms.users(user_id)
+--        ON DELETE CASCADE
 );
