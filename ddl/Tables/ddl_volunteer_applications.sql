@@ -9,11 +9,7 @@ CREATE TABLE virginia_dev_saayam_rdbms.volunteer_applications (
     created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
     updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
 
-    CONSTRAINT volunteer_applications_pkey PRIMARY KEY (user_id),
-    CONSTRAINT volunteer_applications_user_fk
-        FOREIGN KEY (user_id)
-        REFERENCES virginia_dev_saayam_rdbms.users(user_id)
-        ON DELETE CASCADE
+    CONSTRAINT volunteer_applications_pkey PRIMARY KEY (user_id)
 );
 
 CREATE OR REPLACE FUNCTION virginia_dev_saayam_rdbms.handle_application_acceptance()
