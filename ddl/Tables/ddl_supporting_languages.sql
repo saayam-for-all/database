@@ -1,6 +1,6 @@
 
 CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.supporting_languages (
-    id                BIGSERIAL PRIMARY KEY,
+    language_id       BIGSERIAL PRIMARY KEY,
     language_name     VARCHAR(64)  NOT NULL,
     iso_639_1_code CHAR(2) NOT NULL,                 -- e.g., en, zh, hi
     locale_code       VARCHAR(10)  NOT NULL,                 -- e.g., en_US, zh_CN
@@ -30,6 +30,6 @@ $$ LANGUAGE plpgsql;
 DROP TRIGGER IF EXISTS trg_supporting_languages_updated_at ON virginia_dev_saayam_rdbms.supporting_languages;
 
 CREATE TRIGGER trg_supporting_lang_updated_at
-BEFORE UPDATE ON public.supporting_lang
+BEFORE UPDATE ON virginia_dev_saayam_rdbms.supporting_languages
 FOR EACH ROW
 EXECUTE FUNCTION set_updated_at();
