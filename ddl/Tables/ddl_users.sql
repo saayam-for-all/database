@@ -1,7 +1,7 @@
 -- Table: users (Main table for user details)
 CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.users (
     user_id VARCHAR(255) PRIMARY KEY,
-    state_id INT NULL,
+    state_id VARCHAR(30) NULL,
     country_id INT NULL,
     user_status_id INT NULL,
     user_category_id INT NULL,
@@ -26,8 +26,8 @@ CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.users (
     language_3 VARCHAR(255) NULL,
 	promotion_wizard_stage INT NULL,
     promotion_wizard_last_update_date TIMESTAMP,
-    FOREIGN KEY (country_id) REFERENCES virginia_dev_saayam_rdbms.country (country_id),
-    FOREIGN KEY (state_id) REFERENCES virginia_dev_saayam_rdbms.state (state_id),
+    FOREIGN KEY (country_id) REFERENCES virginia_dev_saayam_rdbms.country (country_id) ON DELETE SET NULL,
+    FOREIGN KEY (state_id) REFERENCES virginia_dev_saayam_rdbms.state (state_id) ON DELETE SET NULL,
     FOREIGN KEY (user_status_id) REFERENCES virginia_dev_saayam_rdbms.user_status (user_status_id),
     FOREIGN KEY (user_category_id) REFERENCES virginia_dev_saayam_rdbms.user_category (user_category_id) ON DELETE SET NULL
 );
