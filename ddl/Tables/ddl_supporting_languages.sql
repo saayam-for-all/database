@@ -30,6 +30,6 @@ $$ LANGUAGE plpgsql;
 DROP TRIGGER IF EXISTS trg_supporting_languages_updated_at ON virginia_dev_saayam_rdbms.supporting_languages;
 
 CREATE TRIGGER trg_supporting_lang_updated_at
-BEFORE UPDATE ON public.supporting_lang
+BEFORE UPDATE ON virginia_dev_saayam_rdbms.supporting_languages
 FOR EACH ROW
 EXECUTE FUNCTION set_updated_at();
