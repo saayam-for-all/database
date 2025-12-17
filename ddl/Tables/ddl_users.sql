@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.users (
     FOREIGN KEY (country_id) REFERENCES virginia_dev_saayam_rdbms.country (country_id),
     FOREIGN KEY (state_id) REFERENCES virginia_dev_saayam_rdbms.state (state_id),
     FOREIGN KEY (user_status_id) REFERENCES virginia_dev_saayam_rdbms.user_status (user_status_id),
-    FOREIGN KEY (user_category_id) REFERENCES virginia_dev_saayam_rdbms.user_category (user_category_id)
+    FOREIGN KEY (user_category_id) REFERENCES virginia_dev_saayam_rdbms.user_category (user_category_id) ON DELETE SET NULL
 );
 -- Example: last_location (37.3382, -121.8863) for San Jose
 
