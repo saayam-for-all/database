@@ -3,17 +3,9 @@ DROP TABLE IF EXISTS virginia_dev_saayam_rdbms.user_skills CASCADE;
 CREATE TABLE virginia_dev_saayam_rdbms.user_skills (
     user_id VARCHAR(255) NOT NULL,
     cat_id INT NOT NULL,
-    created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
+
+    created_at TIMESTAMP WITHOUT TIME ZONE,
+    updated_at TIMESTAMP WITHOUT TIME ZONE,
 
     CONSTRAINT user_skills_pkey PRIMARY KEY (user_id, cat_id)
-
---    CONSTRAINT user_skills_user_fk
---        FOREIGN KEY (user_id)
---        REFERENCES virginia_dev_saayam_rdbms.users(user_id)
---        ON DELETE CASCADE
-
---    CONSTRAINT user_skills_cat_fk
---        FOREIGN KEY (cat_id)
---        REFERENCES virginia_dev_saayam_rdbms.help_categories(cat_id)
 );
-
