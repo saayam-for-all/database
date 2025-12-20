@@ -1,70 +1,96 @@
 DROP TABLE IF EXISTS virginia_dev_saayam_rdbms.volunteer_applications CASCADE;
 
 CREATE TABLE virginia_dev_saayam_rdbms.volunteer_applications (
-    user_id VARCHAR(255) NOT NULL,
-    application_status VARCHAR(50) NOT NULL,
-    selected_skill_codes INT[],
-    govt_id_storage_path VARCHAR(255),
-    created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
-    updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
+    user_id VARCHAR(255) PRIMARY KEY,
 
-    CONSTRAINT volunteer_applications_pkey PRIMARY KEY (user_id),
-    CONSTRAINT volunteer_applications_user_fk
-        FOREIGN KEY (user_id)
-        REFERENCES virginia_dev_saayam_rdbms.users(user_id)
-        ON DELETE CASCADE
+    terms_and_conditions BOOLEAN,
+    terms_and_conditions_accepted_at TIMESTAMP WITHOUT TIME ZONE,
+
+    skill_codes JSON,
+    availability JSONB,
+
+    application_status TEXT,
+    is_completed BOOLEAN,
+    current_page TEXT,
+
+    govt_id_storage_path TEXT,
+    path_updated_at TIMESTAMP WITHOUT TIME ZONE,
+
+    created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
+    updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT now()
 );
 
--- Trigger function: handle application acceptance
+CREATE OR REPLACE FUNCTION virginia_dev_saayam_rdbms.set_application_updated_at()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    NEW.updated_at = now();
+    RETURN NEW;
+END;
+$$;
+
+DROP TRIGGER IF EXISTS trg_set_application_updated_at
+ON virginia_dev_saayam_rdbms.volunteer_applications;
+
+CREATE TRIGGER trg_set_application_updated_at
+BEFORE UPDATE
+ON virginia_dev_saayam_rdbms.volunteer_applications
+FOR EACH ROW
+EXECUTE FUNCTION virginia_dev_saayam_rdbms.set_application_updated_at();
+
 CREATE OR REPLACE FUNCTION virginia_dev_saayam_rdbms.handle_application_acceptance()
 RETURNS TRIGGER
 LANGUAGE plpgsql
 AS $$
 BEGIN
-    -- Only act when status changes to 'accepted'
-    IF NEW.application_status = 'accepted'
-       AND OLD.application_status IS DISTINCT FROM NEW.application_status
+ IF OLD.application_status = 'submitted'
+       AND NEW.application_status = 'accepted'
     THEN
-        -- Upsert into volunteer_details
         INSERT INTO virginia_dev_saayam_rdbms.volunteer_details (
             user_id,
-            govt_id_path,
-            govt_id_path2,
-            iscomplete,
-            completed_date
+            terms_and_conditions,
+            terms_and_conditions_update_date,
+            govt_id_path1, 
+            availability_days,
+            availability_times,
+            created_at,
+            updated_at
         )
         VALUES (
             NEW.user_id,
+            NEW.terms_and_conditions,
+            NEW.terms_and_conditions_accepted_at,
             NEW.govt_id_storage_path,
-            NULL,
-            TRUE,
-            now()
-        )
-        ON CONFLICT (user_id)
-        DO UPDATE SET
-            govt_id_path   = EXCLUDED.govt_id_path,
-            iscomplete     = TRUE,
-            completed_date = now();
+            NEW.availability -> 'days',
+            NEW.availability -> 'time',
+            NEW.updated_at,
+            NEW.updated_at
+        );
 
-        -- Insert user skills
-        IF NEW.selected_skill_codes IS NOT NULL THEN
-            INSERT INTO virginia_dev_saayam_rdbms.user_skills (user_id, cat_id)
+        IF NEW.skill_codes IS NOT NULL THEN
+            INSERT INTO virginia_dev_saayam_rdbms.user_skills (
+                user_id,
+                cat_id,
+                created_at,
+                updated_at
+            )
             SELECT
-                NEW.user_id,
-                unnest(NEW.selected_skill_codes)
-            ON CONFLICT DO NOTHING;
+ NEW.user_id,
+                value::INT,
+                NEW.updated_at,
+                NEW.updated_at 
+            FROM json_array_elements_text(NEW.skill_codes);
         END IF;
-
-        -- Remove the application after acceptance
+         
         DELETE FROM virginia_dev_saayam_rdbms.volunteer_applications
         WHERE user_id = NEW.user_id;
     END IF;
-
+            
     RETURN NULL;
 END;
 $$;
-
--- Trigger
+            
 DROP TRIGGER IF EXISTS trg_handle_application_acceptance
 ON virginia_dev_saayam_rdbms.volunteer_applications;
 
@@ -73,4 +99,3 @@ AFTER UPDATE OF application_status
 ON virginia_dev_saayam_rdbms.volunteer_applications
 FOR EACH ROW
 EXECUTE FUNCTION virginia_dev_saayam_rdbms.handle_application_acceptance();
-
