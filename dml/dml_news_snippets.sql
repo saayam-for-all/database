@@ -4,7 +4,7 @@ INSERT INTO virginia_dev_saayam_rdbms.news_snippets (headline,snippet_text,image
 'Volunteer Drive Success',
 'Our latest volunteer drive was a huge success! Over 50 new volunteers joined us to support our mission. Special thanks to CHP for leading the effort',
 's3:---01.jpg',
-'[{"name": "Priyanka Tiwari", "url": "https://linkedin.com/in/priyanka"}, {"name": "Ankit Sharma", "url": "https://linkedin.com/in/ankit"}]'::jsonb, --checks if the given is valid jsob, else the transaction will fail
+'[{"name": "PersonA", "url": "https://linkedin.com/in/PersonA"}, {"name": "PersonB", "url": "https://linkedin.com/in/PersonB"}]'::jsonb, --checks if the given is valid jsob, else the transaction will fail
 '2025-12-15' -- The date the event actually happened
 );
 
