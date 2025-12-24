@@ -1,101 +1,104 @@
-DROP TABLE IF EXISTS virginia_dev_saayam_rdbms.volunteer_applications CASCADE;
+-- ENUM for application status
+CREATE TYPE virginia_dev_saayam_rdbms.app_status_type AS ENUM ('STARTED', 'IN_REVIEW', 'ACCEPTED', 'REJECTED');
 
+-- Create the volunteer_applications table
 CREATE TABLE virginia_dev_saayam_rdbms.volunteer_applications (
     user_id VARCHAR(255) PRIMARY KEY,
-
-    terms_and_conditions BOOLEAN,
-    terms_and_conditions_accepted_at TIMESTAMP WITHOUT TIME ZONE,
-
+    terms_and_conditions BOOLEAN DEFAULT FALSE,
+    terms_accepted_at TIMESTAMP WITHOUT TIME ZONE DEFAULT (now() AT TIME ZONE 'UTC'),
+    govt_id_path TEXT,
+    path_updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT (now() AT TIME ZONE 'UTC'),
     skill_codes JSON,
     availability JSONB,
-
-    application_status TEXT,
-    is_completed BOOLEAN,
-    current_page TEXT,
-
-    govt_id_storage_path TEXT,
-    path_updated_at TIMESTAMP WITHOUT TIME ZONE,
-
-    created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
-    updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT now()
+    current_page INT DEFAULT 1, -- Changed from TEXT to INT for numerical tracking
+    application_status virginia_dev_saayam_rdbms.app_status_type DEFAULT 'STARTED',    
+    is_completed BOOLEAN DEFAULT FALSE, --extra precaution    
+    created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT (now() AT TIME ZONE 'UTC'),
+    last_updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT (now() AT TIME ZONE 'UTC'),
+    FOREIGN KEY (user_id) REFERENCES virginia_dev_saayam_rdbms.users(user_id)
 );
 
-CREATE OR REPLACE FUNCTION virginia_dev_saayam_rdbms.set_application_updated_at()
-RETURNS TRIGGER
-LANGUAGE plpgsql
-AS $$
+CREATE OR REPLACE FUNCTION virginia_dev_saayam_rdbms.updated_at_handler()
+RETURNS TRIGGER AS $$
 BEGIN
-    NEW.updated_at = now();
+    -- handle application table 
+    IF (TG_TABLE_NAME = 'volunteer_applications') THEN
+    
+        NEW.last_updated_at = COALESCE(NEW.last_updated_at, (now() AT TIME ZONE 'UTC')); -- for any attribute
+        
+        -- Update path timestamp if path changed
+        IF (NEW.govt_id_path IS DISTINCT FROM OLD.govt_id_path) THEN
+            NEW.path_updated_at = COALESCE(NEW.path_updated_at, (now() AT TIME ZONE 'UTC'));
+        END IF;
+
+        -- Update terms timestamp if accepted
+        IF (NEW.terms_and_conditions IS TRUE AND (OLD.terms_and_conditions IS FALSE OR OLD.terms_and_conditions IS NULL)) THEN
+            NEW.terms_accepted_at = COALESCE(NEW.terms_accepted_at, (now() AT TIME ZONE 'UTC'));
+        END IF;
+
+    -- handle details table 
+    ELSIF (TG_TABLE_NAME = 'volunteer_details') THEN
+        
+        NEW.last_updated_at = COALESCE(NEW.last_updated_at, (now() AT TIME ZONE 'UTC')); -- for any attribute
+        
+        -- update path1 timestamp if changed
+        IF (NEW.govt_id_path1 IS DISTINCT FROM OLD.govt_id_path1) THEN
+            NEW.path1_updated_at = COALESCE(NEW.path1_updated_at, (now() AT TIME ZONE 'UTC'));
+        END IF;
+        
+        -- update path2 timestamp if changed
+        IF (NEW.govt_id_path2 IS DISTINCT FROM OLD.govt_id_path2) THEN
+            NEW.path2_updated_at = COALESCE(NEW.path2_updated_at, (now() AT TIME ZONE 'UTC'));
+        END IF;
+
+        -- update terms timestamp if accepted
+        IF (NEW.terms_and_conditions IS TRUE AND (OLD.terms_and_conditions IS FALSE OR OLD.terms_and_conditions IS NULL)) THEN
+            NEW.terms_accepted_at = COALESCE(NEW.terms_accepted_at, (now() AT TIME ZONE 'UTC'));
+        END IF;
+    END IF;
+
     RETURN NEW;
 END;
-$$;
+$$ LANGUAGE plpgsql;
 
-DROP TRIGGER IF EXISTS trg_set_application_updated_at
-ON virginia_dev_saayam_rdbms.volunteer_applications;
-
-CREATE TRIGGER trg_set_application_updated_at
-BEFORE UPDATE
-ON virginia_dev_saayam_rdbms.volunteer_applications
-FOR EACH ROW
-EXECUTE FUNCTION virginia_dev_saayam_rdbms.set_application_updated_at();
-
-CREATE OR REPLACE FUNCTION virginia_dev_saayam_rdbms.handle_application_acceptance()
-RETURNS TRIGGER
-LANGUAGE plpgsql
-AS $$
+CREATE OR REPLACE FUNCTION virginia_dev_saayam_rdbms.handle_volunteer_application()
+RETURNS TRIGGER AS $$
 BEGIN
- IF OLD.application_status = 'submitted'
-       AND NEW.application_status = 'accepted'
-    THEN
+    IF (NEW.application_status = 'ACCEPTED' AND OLD.application_status != 'ACCEPTED') THEN
+        
+        -- Migrate to volunteer_details
         INSERT INTO virginia_dev_saayam_rdbms.volunteer_details (
-            user_id,
-            terms_and_conditions,
-            terms_and_conditions_update_date,
-            govt_id_path1, 
-            availability_days,
-            availability_times,
-            created_at,
-            updated_at
-        )
-        VALUES (
-            NEW.user_id,
-            NEW.terms_and_conditions,
-            NEW.terms_and_conditions_accepted_at,
-            NEW.govt_id_storage_path,
-            NEW.availability -> 'days',
-            NEW.availability -> 'time',
-            NEW.updated_at,
-            NEW.updated_at
+            user_id, terms_and_conditions, terms_accepted_at, 
+            govt_id_path1, availability_days, availability_times, 
+            created_at, last_updated_at
+        ) VALUES (
+            NEW.user_id, NEW.terms_and_conditions, NEW.terms_accepted_at,
+            NEW.govt_id_path, (NEW.availability -> 'days')::JSONB, (NEW.availability -> 'time')::JSONB,
+            NEW.last_updated_at, NEW.last_updated_at
         );
 
-        IF NEW.skill_codes IS NOT NULL THEN
+        -- Migrate to user_skills (unrolling the JSON array)
+        IF (NEW.skill_codes IS NOT NULL) THEN
             INSERT INTO virginia_dev_saayam_rdbms.user_skills (
-                user_id,
-                cat_id,
-                created_at,
-                updated_at
+                user_id, cat_id, created_at, last_updated_at
             )
-            SELECT
- NEW.user_id,
-                value::INT,
-                NEW.updated_at,
-                NEW.updated_at 
-            FROM json_array_elements_text(NEW.skill_codes);
+            SELECT 
+                NEW.user_id, 
+                skill_id, 
+                NEW.last_updated_at, 
+                NEW.last_updated_at
+            FROM json_array_elements_text(NEW.skill_codes) AS skill_id;
         END IF;
-         
-        DELETE FROM virginia_dev_saayam_rdbms.volunteer_applications
-        WHERE user_id = NEW.user_id;
     END IF;
-            
-    RETURN NULL;
+    
+    RETURN NEW;
 END;
-$$;
-            
-DROP TRIGGER IF EXISTS trg_handle_application_acceptance
-ON virginia_dev_saayam_rdbms.volunteer_applications;
+$$ LANGUAGE plpgsql;
 
-CREATE TRIGGER trg_handle_application_acceptance
-AFTER UPDATE OF application_status
-ON virginia_dev_saayam_rdbms.volunteer_applications
-FOR EACH ROW
-EXECUTE FUNCTION virginia_dev_saayam_rdbms.handle_application_acceptance();
+CREATE TRIGGER trg_volunteer_app_updated_at
+    BEFORE UPDATE ON virginia_dev_saayam_rdbms.volunteer_applications
+    FOR EACH ROW EXECUTE FUNCTION virginia_dev_saayam_rdbms.updated_at_handler();
+
+CREATE TRIGGER trg_handle_volunteer_application
+    AFTER UPDATE ON virginia_dev_saayam_rdbms.volunteer_applications
+    FOR EACH ROW EXECUTE FUNCTION virginia_dev_saayam_rdbms.handle_volunteer_application();
