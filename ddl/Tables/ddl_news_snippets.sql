@@ -12,8 +12,8 @@ snippet_text TEXT NOT NULL,
 image_path TEXT,
 
 -- JSON to store one or more LinkedIn URLs for mentioned people
--- E.g., [{"name": "Priyanka Tiwari", "url": "..."}]
-profile_links JSONB,
+-- E.g., [{"name": "PersonA", "url": "..."}]
+profile_links JSONB DEFAULT '[]'::jsonb,
 
 -- The date the event occurred, used for chronological ordering 
 event_date DATE NOT NULL,
@@ -27,4 +27,4 @@ last_updated_at TIMESTAMP DEFAULT NOW()
 CREATE TRIGGER trg_news_snippets_updated_at
 BEFORE UPDATE ON virginia_dev_saayam_rdbms.news_snippets
 FOR EACH ROW
-EXECUTE FUNCTION set_updated_at();
+EXECUTE FUNCTION virginia_dev_saayam_rdbms.set_updated_at();
