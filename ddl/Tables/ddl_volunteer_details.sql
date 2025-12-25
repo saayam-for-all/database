@@ -1,43 +1,28 @@
--- Table: volunteer_details (Volunteer-specific details)
-DROP TABLE IF EXISTS virginia_dev_saayam_rdbms.volunteer_details CASCADE;
-CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.volunteer_details (
-    user_id VARCHAR(255) PRIMARY KEY,  
-    terms_and_conditions BOOL NULL,
-    terms_and_conditions_update_date TIMESTAMP NULL,
-    govt_id_path VARCHAR(255) NULL,   -- stored in S3, this attribute stores the S3 link
-    govt_id_update_date TIMESTAMP NULL,
-    skills JSONB NULL,  -- to store unstructured data
-    notification BOOL NULL,
-    iscomplete BOOL NULL,
-    completed_date TIMESTAMP NULL,
-    location geography(Point,4326),
-    CONSTRAINT volunteer_details_user_fk 
-        FOREIGN KEY (user_id) 
-        REFERENCES virginia_dev_saayam_rdbms.users (user_id) 
-        ON DELETE CASCADE
+-- DROP TABLE IF EXISTS virginia_dev_saayam_rdbms.volunteer_details CASCADE;
+
+CREATE TABLE virginia_dev_saayam_rdbms.volunteer_details (
+    user_id VARCHAR(255) PRIMARY KEY,
+    terms_and_conditions BOOLEAN,
+    terms_accepted_at TIMESTAMP WITHOUT TIME ZONE DEFAULT (now() AT TIME ZONE 'UTC'),
+    govt_id_path1 TEXT,
+    govt_id_path2 TEXT,
+    path1_updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT (now() AT TIME ZONE 'UTC'),
+    path2_updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT (now() AT TIME ZONE 'UTC'),
+    availability_days JSONB,
+    availability_times JSONB,
+    created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT (now() AT TIME ZONE 'UTC'),
+    last_updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT (now() AT TIME ZONE 'UTC'),
+    FOREIGN KEY (user_id) REFERENCES virginia_dev_saayam_rdbms.users(user_id)
 );
 
--- --IF you have already table exists and trying to change the column name and type from Pii varchar(255) to skills jsonb 
--- -- Change the column type from varchar to json
--- ALTER TABLE IF EXISTS virginia_dev_saayam_rdbms.volunteer_details ALTER COLUMN pii TYPE jsonb USING pii::jsonb;
+CREATE TRIGGER trg_volunteer_details_updated_at
+    BEFORE UPDATE ON virginia_dev_saayam_rdbms.volunteer_details
+    FOR EACH ROW EXECUTE FUNCTION virginia_dev_saayam_rdbms.updated_at_handler();
 
--- -- Rename the column from pii to skills
--- ALTER TABLE IF EXISTS virginia_dev_saayam_rdbms.volunteer_details RENAME COLUMN pii TO skills;
+-- Index for searching specific days (e.g., 'Monday')
+CREATE INDEX idx_volunteer_availability_days 
+ON virginia_dev_saayam_rdbms.volunteer_details USING GIN (availability_days);
 
--- used to store unstructured data
-
--- To ensure each volunteer is unique by user_id as we don’t plan to allow multiple volunteer rows per use
-
-DO $$ 
-BEGIN
-   IF NOT EXISTS (
-       SELECT 1 FROM pg_constraint
-       WHERE conname = 'volunteer_details_user_uk'
-       AND conrelid = 'virginia_dev_saayam_rdbms.volunteer_details'::regclass
-) THEN
-  ALTER TABLE virginia_dev_saayam_rdbms.volunteer_details
-  ADD CONSTRAINT volunteer_details_user_uk UNIQUE (user_id);
-END IF;
-END;
-$$;
-
+-- Index for searching specific time slots
+CREATE INDEX idx_volunteer_availability_times 
+ON virginia_dev_saayam_rdbms.volunteer_details USING GIN (availability_times);
