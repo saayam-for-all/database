@@ -1,14 +1,18 @@
-CREATE TYPE skill_levels AS ENUM('BEGINNER', 'INTERMEDIATE', 'ADVANCED', 'EXPERT');
+DROP TABLE IF EXISTS virginia_dev_saayam_rdbms.user_skills CASCADE;
 
--- Table: user_skills
-CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.user_skills (
-	user_skills_id SERIAL PRIMARY KEY,
-    user_id VARCHAR(255) NOT NULL,
-    skill_id INT NOT NULL,
-    skill_level skill_levels,
-    last_used_date TIMESTAMP,
-    created_date TIMESTAMP,
-    last_update_date TIMESTAMP,
-    FOREIGN KEY (skill_id) REFERENCES virginia_dev_saayam_rdbms.skill_list (skill_list_id),
-    FOREIGN KEY (user_id) REFERENCES virginia_dev_saayam_rdbms.users (user_id)
+CREATE TABLE virginia_dev_saayam_rdbms.user_skills (
+    user_id VARCHAR(255),
+    cat_id VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT (now() AT TIME ZONE 'UTC'),
+    last_updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT (now() AT TIME ZONE 'UTC'),
+    PRIMARY KEY (user_id, cat_id),
+    FOREIGN KEY (user_id) REFERENCES virginia_dev_saayam_rdbms.users(user_id),
+    FOREIGN KEY (cat_id) REFERENCES virginia_dev_saayam_rdbms.help_categories(cat_id)
 );
+
+CREATE TRIGGER trg_user_skills_updated_at
+BEFORE UPDATE ON virginia_dev_saayam_rdbms.user_skills
+FOR EACH ROW
+EXECUTE FUNCTION set_updated_at();
+
+CREATE INDEX idx_user_skills_cat_id  ON virginia_dev_saayam_rdbms.user_skills (cat_id);
