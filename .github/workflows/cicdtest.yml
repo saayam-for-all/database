@@ -2,7 +2,7 @@ name: Database Pipeline
 
 on:
     push: 
-        branches: [main]
+        branches: [main, ashirwadtest]
     pull_request: 
         branches: [main]
 
