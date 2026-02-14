@@ -1,1 +1,10 @@
 .DS_Store
+
+# Virtual environments
+SAAYAM/
+venv/
+.env/
+
+# Python cache
+__pycache__/
+*.pyc
