@@ -3,7 +3,7 @@
 
 SET TIME ZONE 'UTC';
 
-CREATE TABLE meetings (
+CREATE TABLE virginia_dev_saayam_rdbms.meetings (
 meeting_id VARCHAR(255) NOT NULL,
 meeting_date DATE NOT NULL, 
 start_time TIME WITHOUT TIME ZONE NOT NULL,

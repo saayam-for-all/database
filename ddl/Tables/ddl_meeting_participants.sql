@@ -1,4 +1,4 @@
-CREATE TABLE meeting_participants(
+CREATE TABLE virginia_dev_saayam_rdbms.meeting_participants(
     meeting_id VARCHAR(255) NOT NULL,
     participant_id VARCHAR(255) NOT NULL, 
 
