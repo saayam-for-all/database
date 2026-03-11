@@ -12,4 +12,4 @@ CREATE TABLE req_add_info (
     FOREIGN KEY (field_id) REFERENCES req_add_info_metadata(field_id),
     FOREIGN KEY (item_id)  REFERENCES list_item_metadata(item_id)  
 );
-/* insertion is done by req_add_info.csv file */
+
