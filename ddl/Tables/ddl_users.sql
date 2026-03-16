@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.users (
     last_location point,
     last_update_date TIMESTAMP,
     time_zone VARCHAR(255) NULL,
+    is_emergency_available BOOLEAN DEFAULT FALSE,
     profile_picture_path VARCHAR(255) NULL,
     gender VARCHAR(255) NULL,
     language_1 VARCHAR(255) NULL,
