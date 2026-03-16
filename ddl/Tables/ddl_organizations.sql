@@ -1,51 +1,40 @@
 -- Create ENUM types
 CREATE TYPE org_type_enum AS ENUM ('non_profit', 'for_profit');
-CREATE TYPE source_enum AS ENUM ('irs', 'self_registered');
+CREATE TYPE org_size_enum AS ENUM ('small', 'medium', 'large');
 
 DROP TABLE IF EXISTS virginia_dev_saayam_rdbms.organizations CASCADE;
+
 CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.organizations (
   org_id VARCHAR(255) PRIMARY KEY,
   org_name VARCHAR(125) NOT NULL,
-  govt_id_num VARCHAR(20) UNIQUE,  -- EIN for lookups
   street VARCHAR(255),
   city_name VARCHAR(100),
-  state_code VARCHAR(6),
+  state_id VARCHAR(50),
   zip_code VARCHAR(10),
   mission TEXT,
   web_url VARCHAR(255) CHECK (web_url IS NULL OR web_url LIKE 'http%'),
   phone VARCHAR(20),
   email VARCHAR(255) CHECK (email IS NULL OR email LIKE '%@%'),
   org_type org_type_enum,
-  source source_enum,
-  cat_id VARCHAR(50),   --help_categories
-  created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-  last_updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (cat_id) REFERENCES help_categories(cat_id) ON DELETE SET NULL,
-  FOREIGN KEY (state_code) REFERENCES states(state_code) ON DELETE SET NULL
+  org_size org_size_enum,
+  org_rating INTEGER CHECK (org_rating >= 1 AND org_rating <= 5),
+  is_collaborator BOOLEAN,
+  created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT (now() AT TIME ZONE 'UTC'),
+  last_updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT (now() AT TIME ZONE 'UTC'),  
+  FOREIGN KEY (state_id) REFERENCES states(state_id) ON DELETE SET NULL
 );
 
 -- Indexes
-CREATE INDEX idx_org_city_state ON virginia_dev_saayam_rdbms.organizations(city_name, state_code);
-CREATE INDEX idx_org_state ON virginia_dev_saayam_rdbms.organizations(state_code);
-CREATE INDEX idx_org_cat_id ON virginia_dev_saayam_rdbms.organizations(cat_id);
 CREATE INDEX idx_org_name ON virginia_dev_saayam_rdbms.organizations(org_name);
- 
-/* insertion is done by organization_map.csv file \
-ALTER TYPE org_type_enum ADD VALUE 'Government';
-ALTER TYPE org_type_enum ADD VALUE 'Hybrid' AFTER 'Nonprofit';
-Deleting an enum type is a complex process; it requires a temp table in between. Stop using the type.*/
+CREATE INDEX idx_org_state_id ON virginia_dev_saayam_rdbms.organizations(state_id);
+CREATE INDEX idx_org_city_state ON virginia_dev_saayam_rdbms.organizations(city_name, state_id);
 
--- Create sequence for organization IDs
-CREATE SEQUENCE virginia_dev_saayam_rdbms.org_id_seq
-START WITH 1
-INCREMENT BY 1
-NO MINVALUE
-NO MAXVALUE
-CACHE 1;
-
--- Create a function to generate ORG IDs in the format: ORG-00-XXX-XXX-XXX
-CREATE FUNCTION virginia_dev_saayam_rdbms.generate_org_id()
-RETURNS TRIGGER AS $$
+CREATE OR REPLACE FUNCTION virginia_dev_saayam_rdbms.generate_org_id()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$
 DECLARE
     seq_id INT;
     new_id VARCHAR(20);
@@ -57,11 +46,10 @@ BEGIN
     NEW.org_id := new_id;
     RETURN NEW;
 END;
-$$ LANGUAGE plpgsql;
+$BODY$;
 
--- Create trigger to auto-generate org_id before insert
-CREATE TRIGGER before_insert_organizations
-BEFORE INSERT ON virginia_dev_saayam_rdbms.organizations
-FOR EACH ROW
-EXECUTE FUNCTION virginia_dev_saayam_rdbms.generate_org_id();
-
+CREATE OR REPLACE TRIGGER before_insert_organizations
+    BEFORE INSERT
+    ON virginia_dev_saayam_rdbms.organizations
+    FOR EACH ROW
+    EXECUTE FUNCTION virginia_dev_saayam_rdbms.generate_org_id();
