@@ -16,12 +16,13 @@ ALTER TABLE virginia_dev_saayam_rdbms.organizations
 -- 3. Drop unused ENUMs
 DROP TYPE IF EXISTS source_enum;
 
--- 4. Create new ENUM and add new columns
+-- 4. Create a new ENUM and add new columns
 CREATE TYPE org_size_enum AS ENUM ('small', 'medium', 'large');
 
 ALTER TABLE virginia_dev_saayam_rdbms.organizations 
     ADD COLUMN org_size org_size_enum,
-    ADD COLUMN org_rating INTEGER CHECK (org_rating >= 1 AND org_rating <= 5);
+    ADD COLUMN org_rating INTEGER CHECK (org_rating >= 1 AND org_rating <= 5),
+    ADD COLUMN is_collaborator BOOLEAN;
 
 ALTER TABLE virginia_dev_saayam_rdbms.organizations 
     RENAME COLUMN state_code TO state_id;
