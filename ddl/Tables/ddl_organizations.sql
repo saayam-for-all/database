@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.organizations (
   org_type org_type_enum,
   org_size org_size_enum,
   org_rating INTEGER CHECK (org_rating >= 1 AND org_rating <= 5),
+  is_collaborator BOOLEAN,
   created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT (now() AT TIME ZONE 'UTC'),
   last_updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT (now() AT TIME ZONE 'UTC'),  
   FOREIGN KEY (state_id) REFERENCES states(state_id) ON DELETE SET NULL
