@@ -16,7 +16,7 @@ Saayam means that help in Telugu, one of the south indian languages. The app pur
    | user | Contains basic information related to users like contact# , addresss.. | 
    | usr_idnty | contains information related tp users personal information , The attribute which contains PII to be *encrypted* |
    | usr_typ | Contains user type information look up table for user. |
-   | usr_skils | contains sill information related to user or volunteer. The skills may tech or non-technical skills |
+   | usr_skils | contains skill information related to user or volunteer. The skills may tech or non-technical skills |
    | usr_status | contains the status of the user/volunterr like *active* , *inactive* , *suspended* , *verification in progress* or *deleted*. |
 
  ## Request tables
@@ -33,7 +33,7 @@ Saayam means that help in Telugu, one of the south indian languages. The app pur
   | priority | contains priority types |
   | SLA | Governing SLA Types |
   | action | This lookup table contains the action details corresponding to the request details |
-  | Skill_lst | Contains the ;ist of skills both technical and non tech skils.|
+  | Skill_lst | Contains the list of skills both technical and non tech skils.|
   | conuntry | List of countries. } 
   | state    | List of states corresponding to the countries.| 
   | idnty_typ | Govt issued ID Proofs. Since it holds only identity type it doesn't need any encrption. |
