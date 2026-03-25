@@ -1,36 +1,69 @@
-# This is a basic workflow to help you get started with Actions
+name: aurora-db-ci
 
-name: CI
-
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
-  push:
-    branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
+  push:
+    branches: [ main ]
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  lint-and-format:
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
+      - name: Install SQLFluff
+        run: pip install sqlfluff
+      - name: Lint SQL
+        run: sqlfluff lint ddl/**/*.sql --dialect postgres
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+  ci-tests:
+    runs-on: ubuntu-latest
+    needs: lint-and-format
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd "pg_isready -U postgres" --health-interval 10s --health-timeout 5s --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Wait for Postgres
+        run: sleep 10
+      - name: Apply migrations to ephemeral DB
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          curl -sL https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/9.0.0/flyway-commandline-9.0.0-linux-x64.tar.gz | tar xz
+          ./flyway-*/flyway -url=jdbc:postgresql://localhost:5432/postgres -user=postgres -password=postgres migrate
+      - name: Run integration tests
+        run: psql postgresql://postgres:postgres@localhost:5432/postgres -f tests/integration.sql
+
+  deploy-staging:
+    runs-on: ubuntu-latest
+    needs: ci-tests
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run pre-deploy checks and deploy to staging
+        env:
+          FLYWAY_URL: ${{ secrets.STAGING_DB_URL }}
+          FLYWAY_USER: ${{ secrets.STAGING_DB_USER }}
+          FLYWAY_PASSWORD: ${{ secrets.STAGING_DB_PASS }}
+        run: |
+          ./flyway-*/flyway -url="$FLYWAY_URL" -user="$FLYWAY_USER" -password="$FLYWAY_PASSWORD" info
+          ./flyway-*/flyway -url="$FLYWAY_URL" -user="$FLYWAY_USER" -password="$FLYWAY_PASSWORD" migrate
+
+  approve-and-deploy-prod:
+    runs-on: ubuntu-latest
+    needs: deploy-staging
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Await manual approval
+        uses: peter-evans/repository-dispatch@v2
+      - name: Snapshot production cluster
+        run: aws rds create-db-cluster-snapshot --db-cluster-identifier ${{ secrets.PROD_CLUSTER_ID }} --db-cluster-snapshot-identifier "pre-migrate-${{ github.run_id }}"
+      - name: Run Flyway migrate to production
+        env:
+          FLYWAY_URL: ${{ secrets.PROD_DB_URL }}
+          FLYWAY_USER: ${{ secrets.PROD_DB_USER }}
+          FLYWAY_PASSWORD: ${{ secrets.PROD_DB_PASS }}
+        run: ./flyway-*/flyway -url="$FLYWAY_URL" -user="$FLYWAY_USER" -password="$FLYWAY_PASSWORD" migrate
