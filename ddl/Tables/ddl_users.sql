@@ -21,15 +21,18 @@ CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.users (
     time_zone VARCHAR(255) NULL,
     profile_picture_path VARCHAR(255) NULL,
     gender VARCHAR(255) NULL,
-    language_1 VARCHAR(255) NULL,
-    language_2 VARCHAR(255) NULL,
-    language_3 VARCHAR(255) NULL,
+    language_1 BIGINT NULL,
+    language_2 BIGINT NULL,
+    language_3 BIGINT NULL,
 	promotion_wizard_stage INT NULL,
     promotion_wizard_last_update_date TIMESTAMP,
     FOREIGN KEY (country_id) REFERENCES virginia_dev_saayam_rdbms.country (country_id) ON DELETE SET NULL,
     FOREIGN KEY (state_id) REFERENCES virginia_dev_saayam_rdbms.state (state_id) ON DELETE SET NULL,
     FOREIGN KEY (user_status_id) REFERENCES virginia_dev_saayam_rdbms.user_status (user_status_id),
-    FOREIGN KEY (user_category_id) REFERENCES virginia_dev_saayam_rdbms.user_category (user_category_id) ON DELETE SET NULL
+    FOREIGN KEY (user_category_id) REFERENCES virginia_dev_saayam_rdbms.user_category (user_category_id) ON DELETE SET NULL,
+	FOREIGN KEY (language_1) REFERENCES virginia_dev_saayam_rdbms.supporting_languages (language_id) ON DELETE SET NULL,
+	FOREIGN KEY (language_2) REFERENCES virginia_dev_saayam_rdbms.supporting_languages (language_id) ON DELETE SET NULL,
+	FOREIGN KEY (language_3) REFERENCES virginia_dev_saayam_rdbms.supporting_languages (language_id) ON DELETE SET NULL
 );
 -- Example: last_location (37.3382, -121.8863) for San Jose
 
