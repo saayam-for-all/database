@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.users (
     time_zone VARCHAR(255) NULL,
     profile_picture_path VARCHAR(255) NULL,
     gender VARCHAR(255) NULL,
+	date_of_birth DATE NULL,
     language_1 VARCHAR(255) NULL,
     language_2 VARCHAR(255) NULL,
     language_3 VARCHAR(255) NULL,
