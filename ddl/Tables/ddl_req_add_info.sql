@@ -13,3 +13,8 @@ CREATE TABLE req_add_info (
     FOREIGN KEY (item_id)  REFERENCES list_item_metadata(item_id)  
 );
 
+
+1 /REQ-1 /1.3.1.A /1.3.1.A.1 /NULL
+1 /REQ-1 /1.3.1.B /1.3.1.B.1 /NULL
+1 /REQ-1 /1.3.1.B /1.3.1.B.2 /NULL
+1 /REQ-1 /1.3.1.A / NULL/English
