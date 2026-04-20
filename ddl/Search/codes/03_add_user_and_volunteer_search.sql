@@ -1,0 +1,3 @@
+-- Phase 1 / Stage 3: User and volunteer search
+-- TODO: Add users.search_vector, volunteer skills JSONB index,
+--       and search_users(...) / search_volunteers(...) functions

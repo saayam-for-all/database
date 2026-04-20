@@ -1,0 +1,3 @@
+-- Phase 2 / Stage 1: Enable semantic search with pgvector
+-- TODO: CREATE EXTENSION vector, add embedding columns,
+--       and create vector indexes

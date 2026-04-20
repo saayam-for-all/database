@@ -1,0 +1,3 @@
+-- Phase 1 / Stage 4: Category and advanced search
+-- TODO: Add help_categories.search_vector, autocomplete support,
+--       filters/highlighting, and search_logs table

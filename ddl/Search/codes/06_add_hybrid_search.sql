@@ -1,0 +1,3 @@
+-- Phase 2 / Stage 2: Hybrid search
+-- TODO: Implement hybrid search function combining
+--       FTS + pg_trgm + pgvector signals
