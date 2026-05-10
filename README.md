@@ -56,7 +56,7 @@ Saayam means that help in Telugu, one of the south indian languages. The app pur
 
  # saayam - Physical data model 
 
- <link> https://drawsql.app/teams/sayam-team/diagrams/saayam-arch </link>
+ <link> https://drive.google.com/file/d/1jpk7zPnjqbKc_ZFwwAKwCXOy6skI4Zkh/view?usp=sharing </link>
   
   
 
