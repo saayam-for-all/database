@@ -1,0 +1,27 @@
+# macOS metadata
+.DS_Store
+**/.DS_Store
+
+# Python generated files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Python virtual environments
+.venv/
+venv/
+
+# Test/cache folders
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# RDS/Pulumi local generated files
+rds-terraform/**/__pycache__/
+rds-terraform/**/*.py[cod]
+rds-terraform/**/.pytest_cache/
+rds-terraform/**/.venv/
+rds-terraform/**/venv/
+
+# Search local generated files
+ddl/Search/**/.DS_Store
