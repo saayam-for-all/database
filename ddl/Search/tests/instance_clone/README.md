@@ -23,7 +23,6 @@ The search scripts are schema-level migrations. Testing them against a local clo
 
 - `virginia_search_instance_clone.sql`: search-scoped Virginia clone for validating the current MVP search scripts.
 - `ireland_search_instance_clone.sql`: search-scoped Ireland clone for validating Ireland schema shape without requiring local PostGIS.
-- `ireland_reference_instance_clone.sql`: wrapper around the existing combined Ireland script for structure comparison.
 - `README.md`: this guide.
 
 The Virginia clone intentionally includes only the search-relevant tables and dependencies. It is not a replacement for the production DDL.
@@ -39,15 +38,6 @@ psql -d saayam_search_clone_test -v ON_ERROR_STOP=1 -f ddl/Search/tests/run_loca
 ```
 
 Add smoke-test SQL files under `ddl/Search/tests/` as the search validation suite grows.
-
-## Ireland Reference Check
-
-```bash
-createdb saayam_ireland_reference_test
-psql -d saayam_ireland_reference_test -f ddl/Search/tests/instance_clone/ireland_reference_instance_clone.sql
-```
-
-Do not run the current Virginia-targeted search scripts against the Ireland reference clone until schema targeting is explicitly handled.
 
 ## Ireland Search Clone Check
 
