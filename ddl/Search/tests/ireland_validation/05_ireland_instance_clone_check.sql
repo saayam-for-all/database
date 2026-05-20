@@ -1,5 +1,5 @@
 -- Ireland local instance clone check.
--- Run after ddl/Search/tests/instance_clone/ireland_search_instance_clone.sql.
+-- Run after ddl/Search/tests/test_clones/ireland_search_instance_clone.sql.
 
 DO $$
 DECLARE

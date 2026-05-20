@@ -32,9 +32,9 @@ The Ireland search clone follows the Ireland schema name, `proposed_saayam`, and
 
 ```bash
 createdb saayam_search_clone_test
-psql -d saayam_search_clone_test -f ddl/Search/tests/instance_clone/virginia_search_instance_clone.sql
-psql -d saayam_search_clone_test -f ddl/Search/tests/run_virginia_search_migrations.sql
-psql -d saayam_search_clone_test -v ON_ERROR_STOP=1 -f ddl/Search/tests/run_local_search_validation.sql
+psql -d saayam_search_clone_test -f ddl/Search/tests/test_clones/virginia_search_instance_clone.sql
+psql -d saayam_search_clone_test -f ddl/Search/tests/runners/run_virginia_search_migrations.sql
+psql -d saayam_search_clone_test -v ON_ERROR_STOP=1 -f ddl/Search/tests/runners/run_virginia_search_validation.sql
 ```
 
 Add smoke-test SQL files under `ddl/Search/tests/` as the search validation suite grows.
@@ -45,8 +45,8 @@ Use this when local PostGIS is not available or when the goal is only to confirm
 
 ```bash
 createdb saayam_ireland_search_clone_test
-psql -d saayam_ireland_search_clone_test -f ddl/Search/tests/instance_clone/ireland_search_instance_clone.sql
-psql -d saayam_ireland_search_clone_test -f ddl/Search/tests/run_ireland_clone_validation.sql
+psql -d saayam_ireland_search_clone_test -f ddl/Search/tests/test_clones/ireland_search_instance_clone.sql
+psql -d saayam_ireland_search_clone_test -f ddl/Search/tests/runners/run_ireland_clone_validation.sql
 ```
 
 This confirms the Ireland-style `proposed_saayam` clone has the tables and columns needed by the current search plan.
@@ -57,9 +57,9 @@ Use this to validate the same search behavior against the Ireland schema name:
 
 ```bash
 createdb saayam_ireland_full_search_test
-psql -d saayam_ireland_full_search_test -f ddl/Search/tests/instance_clone/ireland_search_instance_clone.sql
-psql -d saayam_ireland_full_search_test -f ddl/Search/tests/run_ireland_search_migrations.sql
-psql -d saayam_ireland_full_search_test -v ON_ERROR_STOP=1 -f ddl/Search/tests/run_ireland_search_validation.sql
+psql -d saayam_ireland_full_search_test -f ddl/Search/tests/test_clones/ireland_search_instance_clone.sql
+psql -d saayam_ireland_full_search_test -f ddl/Search/tests/runners/run_ireland_search_migrations.sql
+psql -d saayam_ireland_full_search_test -v ON_ERROR_STOP=1 -f ddl/Search/tests/runners/run_ireland_search_validation.sql
 ```
 
 The same production search scripts are used for Ireland through `run_ireland_search_migrations.sql`.

@@ -18,18 +18,18 @@ Search migration files:
 
 Local validation files:
 
-- `ddl/Search/tests/run_virginia_search_migrations.sql`
-- `ddl/Search/tests/run_ireland_search_migrations.sql`
-- `ddl/Search/tests/run_local_search_validation.sql`
-- `ddl/Search/tests/run_ireland_clone_validation.sql`
-- `ddl/Search/tests/run_ireland_search_validation.sql`
-- `ddl/Search/tests/01_search_smoke_test.sql`
-- `ddl/Search/tests/02_search_index_check.sql`
-- `ddl/Search/tests/03_search_function_check.sql`
-- `ddl/Search/tests/04_instance_clone_check.sql`
-- `ddl/Search/tests/05_ireland_instance_clone_check.sql`
-- `ddl/Search/tests/instance_clone/virginia_search_instance_clone.sql`
-- `ddl/Search/tests/instance_clone/ireland_search_instance_clone.sql`
+- `ddl/Search/tests/runners/run_virginia_search_migrations.sql`
+- `ddl/Search/tests/runners/run_ireland_search_migrations.sql`
+- `ddl/Search/tests/runners/run_virginia_search_validation.sql`
+- `ddl/Search/tests/runners/run_ireland_clone_validation.sql`
+- `ddl/Search/tests/runners/run_ireland_search_validation.sql`
+- `ddl/Search/tests/virginia_validation/01_search_smoke_test.sql`
+- `ddl/Search/tests/virginia_validation/02_search_index_check.sql`
+- `ddl/Search/tests/virginia_validation/03_search_function_check.sql`
+- `ddl/Search/tests/virginia_validation/04_instance_clone_check.sql`
+- `ddl/Search/tests/ireland_validation/05_ireland_instance_clone_check.sql`
+- `ddl/Search/tests/test_clones/virginia_search_instance_clone.sql`
+- `ddl/Search/tests/test_clones/ireland_search_instance_clone.sql`
 - `ddl/Search/tests/ireland_validation/`
 
 ## Local Validation Runbook
@@ -40,20 +40,20 @@ Use this before QA to confirm the current branch works locally.
 createdb saayam_search_clone_test
 
 psql -d saayam_search_clone_test \
-  -f ddl/Search/tests/instance_clone/virginia_search_instance_clone.sql
+  -f ddl/Search/tests/test_clones/virginia_search_instance_clone.sql
 
 psql -d saayam_search_clone_test \
-  -f ddl/Search/tests/run_virginia_search_migrations.sql
+  -f ddl/Search/tests/runners/run_virginia_search_migrations.sql
 
 psql -d saayam_search_clone_test \
   -v ON_ERROR_STOP=1 \
-  -f ddl/Search/tests/run_local_search_validation.sql
+  -f ddl/Search/tests/runners/run_virginia_search_validation.sql
 ```
 
 Expected local result:
 
 - all scripts complete without errors
-- runner prints `Local search validation completed`
+- runner prints `Virginia search validation completed`
 
 ## Ireland Local Clone Validation
 
@@ -64,11 +64,11 @@ The production search scripts are schema-agnostic and use the active `search_pat
 createdb saayam_ireland_search_clone_test
 
 psql -d saayam_ireland_search_clone_test \
-  -f ddl/Search/tests/instance_clone/ireland_search_instance_clone.sql
+  -f ddl/Search/tests/test_clones/ireland_search_instance_clone.sql
 
 psql -d saayam_ireland_search_clone_test \
   -v ON_ERROR_STOP=1 \
-  -f ddl/Search/tests/run_ireland_clone_validation.sql
+  -f ddl/Search/tests/runners/run_ireland_clone_validation.sql
 ```
 
 Expected Ireland local result:
@@ -85,14 +85,14 @@ Use this to validate the same search behavior against the Ireland schema name:
 createdb saayam_ireland_full_search_test
 
 psql -d saayam_ireland_full_search_test \
-  -f ddl/Search/tests/instance_clone/ireland_search_instance_clone.sql
+  -f ddl/Search/tests/test_clones/ireland_search_instance_clone.sql
 
 psql -d saayam_ireland_full_search_test \
-  -f ddl/Search/tests/run_ireland_search_migrations.sql
+  -f ddl/Search/tests/runners/run_ireland_search_migrations.sql
 
 psql -d saayam_ireland_full_search_test \
   -v ON_ERROR_STOP=1 \
-  -f ddl/Search/tests/run_ireland_search_validation.sql
+  -f ddl/Search/tests/runners/run_ireland_search_validation.sql
 ```
 
 Expected Ireland full-search result:
@@ -121,13 +121,13 @@ Run search scripts with the correct target schema.
 For Virginia QA:
 
 ```sql
-\i ddl/Search/tests/run_virginia_search_migrations.sql
+\i ddl/Search/tests/runners/run_virginia_search_migrations.sql
 ```
 
 For Ireland QA:
 
 ```sql
-\i ddl/Search/tests/run_ireland_search_migrations.sql
+\i ddl/Search/tests/runners/run_ireland_search_migrations.sql
 ```
 
 Then run validation checks.
@@ -135,15 +135,15 @@ Then run validation checks.
 Recommended first QA checks:
 
 ```sql
-\i ddl/Search/tests/02_search_index_check.sql
-\i ddl/Search/tests/04_instance_clone_check.sql
+\i ddl/Search/tests/virginia_validation/02_search_index_check.sql
+\i ddl/Search/tests/virginia_validation/04_instance_clone_check.sql
 ```
 
 Run behavior checks only after confirming temporary QA inserts are acceptable:
 
 ```sql
-\i ddl/Search/tests/01_search_smoke_test.sql
-\i ddl/Search/tests/03_search_function_check.sql
+\i ddl/Search/tests/virginia_validation/01_search_smoke_test.sql
+\i ddl/Search/tests/virginia_validation/03_search_function_check.sql
 ```
 
 ## QA Safety Notes
@@ -163,7 +163,7 @@ Still confirm before running on QA:
 Capture the following for PR review:
 
 - output showing `run_virginia_search_migrations.sql` completed locally
-- output showing `run_local_search_validation.sql` passed locally for Virginia
+- output showing `run_virginia_search_validation.sql` passed locally for Virginia
 - output showing `run_ireland_search_migrations.sql` completed locally
 - output showing `run_ireland_search_validation.sql` passed locally for Ireland
 - output showing QA index check passed

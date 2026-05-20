@@ -2,12 +2,12 @@
 
 This folder is for search-specific local testing only.
 
-Do not edit the original schema files under `ddl/Tables/` for search testing. If a local clone of a deployed schema is needed, place the copied or generated schema assets under `instance_clone/`.
+Do not edit the original schema files under `ddl/Tables/` for search testing. If a local clone of a deployed schema is needed, place the copied or generated schema assets under `test_clones/`.
 
 ## Intended Flow
 
 1. Create a local PostgreSQL database.
-2. Load a Virginia or Ireland schema clone from `instance_clone/`.
+2. Load a Virginia or Ireland schema clone from `test_clones/`.
 3. Run the search scripts from `../codes/` in order.
 4. Run local search validation.
 
@@ -18,14 +18,12 @@ Do not edit the original schema files under `ddl/Tables/` for search testing. If
 - `../codes/03_add_user_and_volunteer_search.sql`
 - `../codes/04_add_category_and_advanced_search.sql`
 
-## Smoke Test
-
 ## Run All Local Checks
 
 Run this after loading the local clone and applying search migrations:
 
 ```bash
-psql -d saayam_search_clone_test -f ddl/Search/tests/run_local_search_validation.sql
+psql -d saayam_search_clone_test -f ddl/Search/tests/runners/run_virginia_search_validation.sql
 ```
 
 This runs the smoke test, index check, function check, and instance clone check in order.
@@ -34,9 +32,9 @@ This runs the smoke test, index check, function check, and instance clone check 
 
 ```bash
 createdb saayam_search_clone_test
-psql -d saayam_search_clone_test -f ddl/Search/tests/instance_clone/virginia_search_instance_clone.sql
-psql -d saayam_search_clone_test -f ddl/Search/tests/run_virginia_search_migrations.sql
-psql -d saayam_search_clone_test -v ON_ERROR_STOP=1 -f ddl/Search/tests/run_local_search_validation.sql
+psql -d saayam_search_clone_test -f ddl/Search/tests/test_clones/virginia_search_instance_clone.sql
+psql -d saayam_search_clone_test -f ddl/Search/tests/runners/run_virginia_search_migrations.sql
+psql -d saayam_search_clone_test -v ON_ERROR_STOP=1 -f ddl/Search/tests/runners/run_virginia_search_validation.sql
 ```
 
 ## Ireland Clone Check
@@ -46,8 +44,8 @@ Ireland uses `proposed_saayam`, so the Ireland runner sets that schema before ap
 
 ```bash
 createdb saayam_ireland_search_clone_test
-psql -d saayam_ireland_search_clone_test -f ddl/Search/tests/instance_clone/ireland_search_instance_clone.sql
-psql -d saayam_ireland_search_clone_test -f ddl/Search/tests/run_ireland_clone_validation.sql
+psql -d saayam_ireland_search_clone_test -f ddl/Search/tests/test_clones/ireland_search_instance_clone.sql
+psql -d saayam_ireland_search_clone_test -f ddl/Search/tests/runners/run_ireland_clone_validation.sql
 ```
 
 This confirms the Ireland-style clone has the tables and columns needed by the search plan.
@@ -59,9 +57,9 @@ The Ireland migration runner sets `search_path` to `proposed_saayam`.
 
 ```bash
 createdb saayam_ireland_full_search_test
-psql -d saayam_ireland_full_search_test -f ddl/Search/tests/instance_clone/ireland_search_instance_clone.sql
-psql -d saayam_ireland_full_search_test -f ddl/Search/tests/run_ireland_search_migrations.sql
-psql -d saayam_ireland_full_search_test -v ON_ERROR_STOP=1 -f ddl/Search/tests/run_ireland_search_validation.sql
+psql -d saayam_ireland_full_search_test -f ddl/Search/tests/test_clones/ireland_search_instance_clone.sql
+psql -d saayam_ireland_full_search_test -f ddl/Search/tests/runners/run_ireland_search_migrations.sql
+psql -d saayam_ireland_full_search_test -v ON_ERROR_STOP=1 -f ddl/Search/tests/runners/run_ireland_search_validation.sql
 ```
 
 This runs the same behavior, index, function, and migrated-clone checks against the Ireland schema name, `proposed_saayam`.
@@ -71,7 +69,7 @@ This runs the same behavior, index, function, and migrated-clone checks against 
 Run this after loading the local clone and search scripts:
 
 ```bash
-psql -d saayam_search_clone_test -f ddl/Search/tests/01_search_smoke_test.sql
+psql -d saayam_search_clone_test -f ddl/Search/tests/virginia_validation/01_search_smoke_test.sql
 ```
 
 This inserts temporary sample data, checks search behavior, and rolls the data back.
@@ -81,7 +79,7 @@ This inserts temporary sample data, checks search behavior, and rolls the data b
 Run this after loading the local clone and search scripts:
 
 ```bash
-psql -d saayam_search_clone_test -f ddl/Search/tests/02_search_index_check.sql
+psql -d saayam_search_clone_test -f ddl/Search/tests/virginia_validation/02_search_index_check.sql
 ```
 
 This fails if any expected search index is missing or uses the wrong strategy.
@@ -92,7 +90,7 @@ It checks GIN full-text indexes, GIN trigram indexes, and the exact email btree 
 Run this after loading the local clone and search scripts:
 
 ```bash
-psql -d saayam_search_clone_test -f ddl/Search/tests/03_search_function_check.sql
+psql -d saayam_search_clone_test -f ddl/Search/tests/virginia_validation/03_search_function_check.sql
 ```
 
 This checks the main search functions directly:
@@ -108,7 +106,7 @@ It verifies keyword matching, exact email matching, organization name matching, 
 Run this after loading the local clone and search scripts:
 
 ```bash
-psql -d saayam_search_clone_test -f ddl/Search/tests/04_instance_clone_check.sql
+psql -d saayam_search_clone_test -f ddl/Search/tests/virginia_validation/04_instance_clone_check.sql
 ```
 
 This verifies the local Virginia clone has the search-required tables, search columns, and search functions.
