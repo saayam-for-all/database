@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.users (
     language_1 VARCHAR(255) NULL,
     language_2 VARCHAR(255) NULL,
     language_3 VARCHAR(255) NULL,
-	date_of_birth DATE NULL,
+	dob DATE,
 	promotion_wizard_stage INT NULL,
     promotion_wizard_last_update_date TIMESTAMP,
     FOREIGN KEY (country_id) REFERENCES virginia_dev_saayam_rdbms.country (country_id) ON DELETE SET NULL,
