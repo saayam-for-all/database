@@ -3,7 +3,7 @@
 
 SET search_path = virginia_dev_saayam_rdbms, public;
 
--- T1: rename applied
+# T1: rename applied
 DO $$
 BEGIN
     ASSERT NOT EXISTS (
@@ -19,7 +19,7 @@ BEGIN
     ), 'T1: is_collaborative missing or wrong type.';
 END $$;
 
--- T2: new column added
+# T2: new column added
 DO $$
 BEGIN
     ASSERT EXISTS (
@@ -30,7 +30,7 @@ BEGIN
     ), 'T2: is_contributing missing or wrong type.';
 END $$;
 
--- T3: PK, FK, ENUMs, and new CHECK constraint exist
+# T3: PK, FK, ENUMs, and new CHECK constraint exist
 DO $$
 BEGIN
     ASSERT EXISTS (SELECT 1 FROM information_schema.table_constraints
@@ -47,7 +47,7 @@ BEGIN
         'T3: chk_contributing_only_for_profit constraint missing.';
 END $$;
 
--- T4: insert + round-trip via new column names; trigger still populates org_id
+# T4: insert + round-trip via new column names; trigger still populates org_id
 INSERT INTO virginia_dev_saayam_rdbms.organizations
     (org_name, org_type, org_size, is_collaborative, is_contributing)
 VALUES ('TEST_ORG_RENAME', 'non_profit', 'small', TRUE, NULL);
@@ -63,7 +63,7 @@ BEGIN
     ASSERT v_id LIKE 'ORG-00-%', 'T4: org_id pattern broken.';
 END $$;
 
--- T5: trigger generate_org_id produces correct format
+# T5: trigger generate_org_id produces correct format
 INSERT INTO virginia_dev_saayam_rdbms.organizations
     (org_name, org_type, org_size, is_collaborative, is_contributing)
 VALUES ('TEST_ORG_TRIGGER', 'for_profit', 'medium', FALSE, TRUE);
@@ -77,7 +77,7 @@ BEGIN
     ASSERT v_id ~ '^ORG-00-\d{3}-\d{3}-\d{3}$', 'T5: org_id format invalid.';
 END $$;
 
--- T6: valid boolean combinations for for_profit + NULLs for non_profit
+# T6: valid boolean combinations for for_profit + NULLs for non_profit
 INSERT INTO virginia_dev_saayam_rdbms.organizations
     (org_name, org_type, org_size, is_collaborative, is_contributing) VALUES
     ('TEST_ORG_TT', 'for_profit', 'small', TRUE,  TRUE),
@@ -94,7 +94,7 @@ BEGIN
     ASSERT v_count = 6, 'T6: not all valid combinations accepted.';
 END $$;
 
--- T7: pre-existing CHECK constraints still enforced
+# T7: pre-existing CHECK constraints still enforced
 DO $$
 BEGIN
     BEGIN
@@ -114,7 +114,7 @@ BEGIN
     EXCEPTION WHEN check_violation THEN NULL; END;
 END $$;
 
--- T8: new semantic CHECK rejects non_profit + is_contributing = TRUE
+# T8: new semantic CHECK rejects non_profit + is_contributing = TRUE
 DO $$
 BEGIN
     BEGIN
@@ -125,5 +125,5 @@ BEGIN
     EXCEPTION WHEN check_violation THEN NULL; END;
 END $$;
 
--- Cleanup: remove all test rows created above.
+# Cleanup: remove all test rows created above.
 DELETE FROM virginia_dev_saayam_rdbms.organizations WHERE org_name LIKE 'TEST_%';
