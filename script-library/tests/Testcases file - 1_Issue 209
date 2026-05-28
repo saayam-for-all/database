@@ -1,0 +1,129 @@
+-- Test cases for organizations migration.
+-- Note: T4/T5/T6 inserts commit for real; trailing DELETE cleans them up.
+
+SET search_path = virginia_dev_saayam_rdbms, public;
+
+-- T1: rename applied
+DO $$
+BEGIN
+    ASSERT NOT EXISTS (
+        SELECT 1 FROM information_schema.columns
+        WHERE table_schema = 'virginia_dev_saayam_rdbms'
+          AND table_name = 'organizations' AND column_name = 'is_collaborator'
+    ), 'T1: legacy column is_collaborator still present.';
+    ASSERT EXISTS (
+        SELECT 1 FROM information_schema.columns
+        WHERE table_schema = 'virginia_dev_saayam_rdbms'
+          AND table_name = 'organizations' AND column_name = 'is_collaborative'
+          AND data_type = 'boolean'
+    ), 'T1: is_collaborative missing or wrong type.';
+END $$;
+
+-- T2: new column added
+DO $$
+BEGIN
+    ASSERT EXISTS (
+        SELECT 1 FROM information_schema.columns
+        WHERE table_schema = 'virginia_dev_saayam_rdbms'
+          AND table_name = 'organizations' AND column_name = 'is_contributing'
+          AND data_type = 'boolean'
+    ), 'T2: is_contributing missing or wrong type.';
+END $$;
+
+-- T3: PK, FK, ENUMs, and new CHECK constraint exist
+DO $$
+BEGIN
+    ASSERT EXISTS (SELECT 1 FROM information_schema.table_constraints
+        WHERE table_schema = 'virginia_dev_saayam_rdbms' AND table_name = 'organizations'
+          AND constraint_type = 'PRIMARY KEY'), 'T3: primary key missing.';
+    ASSERT EXISTS (SELECT 1 FROM information_schema.table_constraints
+        WHERE table_schema = 'virginia_dev_saayam_rdbms' AND table_name = 'organizations'
+          AND constraint_type = 'FOREIGN KEY'), 'T3: foreign key missing.';
+    ASSERT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'org_type_enum'), 'T3: org_type_enum missing.';
+    ASSERT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'org_size_enum'), 'T3: org_size_enum missing.';
+    ASSERT EXISTS (SELECT 1 FROM information_schema.table_constraints
+        WHERE table_schema = 'virginia_dev_saayam_rdbms' AND table_name = 'organizations'
+          AND constraint_name = 'chk_contributing_only_for_profit'),
+        'T3: chk_contributing_only_for_profit constraint missing.';
+END $$;
+
+-- T4: insert + round-trip via new column names; trigger still populates org_id
+INSERT INTO virginia_dev_saayam_rdbms.organizations
+    (org_name, org_type, org_size, is_collaborative, is_contributing)
+VALUES ('TEST_ORG_RENAME', 'non_profit', 'small', TRUE, NULL);
+
+DO $$
+DECLARE v_collab BOOLEAN; v_contrib BOOLEAN; v_id VARCHAR(255);
+BEGIN
+    SELECT org_id, is_collaborative, is_contributing
+      INTO v_id, v_collab, v_contrib
+      FROM virginia_dev_saayam_rdbms.organizations WHERE org_name = 'TEST_ORG_RENAME';
+    ASSERT v_collab IS TRUE,  'T4: is_collaborative did not persist.';
+    ASSERT v_contrib IS NULL, 'T4: is_contributing did not persist NULL.';
+    ASSERT v_id LIKE 'ORG-00-%', 'T4: org_id pattern broken.';
+END $$;
+
+-- T5: trigger generate_org_id produces correct format
+INSERT INTO virginia_dev_saayam_rdbms.organizations
+    (org_name, org_type, org_size, is_collaborative, is_contributing)
+VALUES ('TEST_ORG_TRIGGER', 'for_profit', 'medium', FALSE, TRUE);
+
+DO $$
+DECLARE v_id VARCHAR(255);
+BEGIN
+    SELECT org_id INTO v_id
+      FROM virginia_dev_saayam_rdbms.organizations WHERE org_name = 'TEST_ORG_TRIGGER';
+    ASSERT v_id IS NOT NULL, 'T5: trigger did not populate org_id.';
+    ASSERT v_id ~ '^ORG-00-\d{3}-\d{3}-\d{3}$', 'T5: org_id format invalid.';
+END $$;
+
+-- T6: valid boolean combinations for for_profit + NULLs for non_profit
+INSERT INTO virginia_dev_saayam_rdbms.organizations
+    (org_name, org_type, org_size, is_collaborative, is_contributing) VALUES
+    ('TEST_ORG_TT', 'for_profit', 'small', TRUE,  TRUE),
+    ('TEST_ORG_TF', 'for_profit', 'small', TRUE,  FALSE),
+    ('TEST_ORG_FT', 'for_profit', 'small', FALSE, TRUE),
+    ('TEST_ORG_FF', 'for_profit', 'small', FALSE, FALSE),
+    ('TEST_ORG_NN', 'non_profit', 'small', NULL,  NULL);
+
+DO $$
+DECLARE v_count INT;
+BEGIN
+    SELECT COUNT(*) INTO v_count
+      FROM virginia_dev_saayam_rdbms.organizations WHERE org_name LIKE 'TEST_ORG_%';
+    ASSERT v_count = 6, 'T6: not all valid combinations accepted.';
+END $$;
+
+-- T7: pre-existing CHECK constraints still enforced
+DO $$
+BEGIN
+    BEGIN
+        INSERT INTO virginia_dev_saayam_rdbms.organizations (org_name, web_url)
+        VALUES ('TEST_BAD_URL', 'ftp://nope');
+        RAISE EXCEPTION 'T7: web_url CHECK not enforced.';
+    EXCEPTION WHEN check_violation THEN NULL; END;
+    BEGIN
+        INSERT INTO virginia_dev_saayam_rdbms.organizations (org_name, email)
+        VALUES ('TEST_BAD_EMAIL', 'no-at');
+        RAISE EXCEPTION 'T7: email CHECK not enforced.';
+    EXCEPTION WHEN check_violation THEN NULL; END;
+    BEGIN
+        INSERT INTO virginia_dev_saayam_rdbms.organizations (org_name, org_rating)
+        VALUES ('TEST_BAD_RATING', 99);
+        RAISE EXCEPTION 'T7: org_rating CHECK not enforced.';
+    EXCEPTION WHEN check_violation THEN NULL; END;
+END $$;
+
+-- T8: new semantic CHECK rejects non_profit + is_contributing = TRUE
+DO $$
+BEGIN
+    BEGIN
+        INSERT INTO virginia_dev_saayam_rdbms.organizations
+            (org_name, org_type, org_size, is_contributing)
+        VALUES ('TEST_SEMANTIC_VIOLATION', 'non_profit', 'small', TRUE);
+        RAISE EXCEPTION 'T8: chk_contributing_only_for_profit not enforced.';
+    EXCEPTION WHEN check_violation THEN NULL; END;
+END $$;
+
+-- Cleanup: remove all test rows created above.
+DELETE FROM virginia_dev_saayam_rdbms.organizations WHERE org_name LIKE 'TEST_%';
