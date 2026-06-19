@@ -1,0 +1,12 @@
+config:
+  # Required Configuration
+  rds-deployment:aws_region: "eu-west-1"
+  rds-deployment:environment: "dev"
+  rds-deployment:db_instance_class: "db.t3.micro"
+  rds-deployment:vpc_security_group_id: ""  # Replace with your SG ID
+  
+  # Provide Database Credentials
+  rds-deployment:database_name: ""
+  rds-deployment:db_username: ""
+  rds-deployment:db_password:
+    secure: "" 
