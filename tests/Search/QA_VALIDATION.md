@@ -11,26 +11,26 @@ QA validation proves the same search logic works against the real deployed schem
 
 Search migration files:
 
-- `ddl/Search/codes/01_enable_fuzzy_search.sql`
-- `ddl/Search/codes/02_add_request_search.sql`
-- `ddl/Search/codes/03_add_user_and_volunteer_search.sql`
-- `ddl/Search/codes/04_add_category_and_advanced_search.sql`
+- `ddl/Search/01_enable_fuzzy_search.sql`
+- `ddl/Search/02_add_request_search.sql`
+- `ddl/Search/03_add_user_and_volunteer_search.sql`
+- `ddl/Search/04_add_category_and_advanced_search.sql`
 
 Local validation files:
 
-- `ddl/Search/tests/runners/run_virginia_search_migrations.sql`
-- `ddl/Search/tests/runners/run_ireland_search_migrations.sql`
-- `ddl/Search/tests/runners/run_virginia_search_validation.sql`
-- `ddl/Search/tests/runners/run_ireland_clone_validation.sql`
-- `ddl/Search/tests/runners/run_ireland_search_validation.sql`
-- `ddl/Search/tests/virginia_validation/01_search_smoke_test.sql`
-- `ddl/Search/tests/virginia_validation/02_search_index_check.sql`
-- `ddl/Search/tests/virginia_validation/03_search_function_check.sql`
-- `ddl/Search/tests/virginia_validation/04_instance_clone_check.sql`
-- `ddl/Search/tests/ireland_validation/05_ireland_instance_clone_check.sql`
-- `ddl/Search/tests/test_clones/virginia_search_instance_clone.sql`
-- `ddl/Search/tests/test_clones/ireland_search_instance_clone.sql`
-- `ddl/Search/tests/ireland_validation/`
+- `tests/Search/runners/run_virginia_search_migrations.sql`
+- `tests/Search/runners/run_ireland_search_migrations.sql`
+- `tests/Search/runners/run_virginia_search_validation.sql`
+- `tests/Search/runners/run_ireland_clone_validation.sql`
+- `tests/Search/runners/run_ireland_search_validation.sql`
+- `tests/Search/virginia_validation/01_search_smoke_test.sql`
+- `tests/Search/virginia_validation/02_search_index_check.sql`
+- `tests/Search/virginia_validation/03_search_function_check.sql`
+- `tests/Search/virginia_validation/04_instance_clone_check.sql`
+- `tests/Search/ireland_validation/05_ireland_instance_clone_check.sql`
+- `tests/Search/test_clones/virginia_search_instance_clone.sql`
+- `tests/Search/test_clones/ireland_search_instance_clone.sql`
+- `tests/Search/ireland_validation/`
 
 ## Local Validation Runbook
 
@@ -40,14 +40,14 @@ Use this before QA to confirm the current branch works locally.
 createdb saayam_search_clone_test
 
 psql -d saayam_search_clone_test \
-  -f ddl/Search/tests/test_clones/virginia_search_instance_clone.sql
+  -f tests/Search/test_clones/virginia_search_instance_clone.sql
 
 psql -d saayam_search_clone_test \
-  -f ddl/Search/tests/runners/run_virginia_search_migrations.sql
+  -f tests/Search/runners/run_virginia_search_migrations.sql
 
 psql -d saayam_search_clone_test \
   -v ON_ERROR_STOP=1 \
-  -f ddl/Search/tests/runners/run_virginia_search_validation.sql
+  -f tests/Search/runners/run_virginia_search_validation.sql
 ```
 
 Expected local result:
@@ -64,11 +64,11 @@ The production search scripts are schema-agnostic and use the active `search_pat
 createdb saayam_ireland_search_clone_test
 
 psql -d saayam_ireland_search_clone_test \
-  -f ddl/Search/tests/test_clones/ireland_search_instance_clone.sql
+  -f tests/Search/test_clones/ireland_search_instance_clone.sql
 
 psql -d saayam_ireland_search_clone_test \
   -v ON_ERROR_STOP=1 \
-  -f ddl/Search/tests/runners/run_ireland_clone_validation.sql
+  -f tests/Search/runners/run_ireland_clone_validation.sql
 ```
 
 Expected Ireland local result:
@@ -85,14 +85,14 @@ Use this to validate the same search behavior against the Ireland schema name:
 createdb saayam_ireland_full_search_test
 
 psql -d saayam_ireland_full_search_test \
-  -f ddl/Search/tests/test_clones/ireland_search_instance_clone.sql
+  -f tests/Search/test_clones/ireland_search_instance_clone.sql
 
 psql -d saayam_ireland_full_search_test \
-  -f ddl/Search/tests/runners/run_ireland_search_migrations.sql
+  -f tests/Search/runners/run_ireland_search_migrations.sql
 
 psql -d saayam_ireland_full_search_test \
   -v ON_ERROR_STOP=1 \
-  -f ddl/Search/tests/runners/run_ireland_search_validation.sql
+  -f tests/Search/runners/run_ireland_search_validation.sql
 ```
 
 Expected Ireland full-search result:
@@ -121,13 +121,13 @@ Run search scripts with the correct target schema.
 For Virginia QA:
 
 ```sql
-\i ddl/Search/tests/runners/run_virginia_search_migrations.sql
+\i tests/Search/runners/run_virginia_search_migrations.sql
 ```
 
 For Ireland QA:
 
 ```sql
-\i ddl/Search/tests/runners/run_ireland_search_migrations.sql
+\i tests/Search/runners/run_ireland_search_migrations.sql
 ```
 
 Then run validation checks.
@@ -135,15 +135,15 @@ Then run validation checks.
 Recommended first QA checks:
 
 ```sql
-\i ddl/Search/tests/virginia_validation/02_search_index_check.sql
-\i ddl/Search/tests/virginia_validation/04_instance_clone_check.sql
+\i tests/Search/virginia_validation/02_search_index_check.sql
+\i tests/Search/virginia_validation/04_instance_clone_check.sql
 ```
 
 Run behavior checks only after confirming temporary QA inserts are acceptable:
 
 ```sql
-\i ddl/Search/tests/virginia_validation/01_search_smoke_test.sql
-\i ddl/Search/tests/virginia_validation/03_search_function_check.sql
+\i tests/Search/virginia_validation/01_search_smoke_test.sql
+\i tests/Search/virginia_validation/03_search_function_check.sql
 ```
 
 ## QA Safety Notes
@@ -175,7 +175,7 @@ Local PR evidence already captured:
 
 - Virginia schema-agnostic validation passed: `saayam_virginia_agnostic_test_1778949545`
 - Ireland schema-agnostic validation passed: `saayam_ireland_agnostic_test_1778949579`
-- Both validations used the shared production scripts under `ddl/Search/codes/`
+- Both validations used the shared production scripts under `ddl/Search/`
 - Region selection is handled through `search_path` in the migration runners
 
 Useful QA evidence queries:

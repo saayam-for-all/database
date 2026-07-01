@@ -1,5 +1,5 @@
 -- Search-scoped Virginia instance clone.
--- Use this fixture to validate ddl/Search/codes locally without editing ddl/Tables.
+-- Use this fixture to validate ddl/Search locally without editing ddl/Tables.
 
 DROP SCHEMA IF EXISTS virginia_dev_saayam_rdbms CASCADE;
 CREATE SCHEMA virginia_dev_saayam_rdbms;

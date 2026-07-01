@@ -1,9 +1,9 @@
 -- Search function check.
--- Run after instance clone and ddl/Search/codes/01..04.
+-- Run after instance clone and ddl/Search/01..04.
 
 BEGIN;
 
-SET search_path TO virginia_dev_saayam_rdbms, public;
+SET search_path TO proposed_saayam, public;
 
 INSERT INTO country (country_id, country_name, phone_code, country_code)
 VALUES (1, 'United States', '+1', 'US')
@@ -20,13 +20,11 @@ ON CONFLICT (user_status_id) DO NOTHING;
 INSERT INTO user_category (
     user_category_id,
     user_category,
-    user_category_desc,
-    user_access_level,
-    category_code
+    user_category_desc
 )
 VALUES
-    (1, 'requester', 'Requester', 1, 'REQUESTER'),
-    (4, 'admin', 'Admin', 4, 'ADMIN')
+    (1, 'requester', 'Requester'),
+    (4, 'admin', 'Admin')
 ON CONFLICT (user_category_id) DO NOTHING;
 
 INSERT INTO users (
@@ -143,7 +141,7 @@ DECLARE
 BEGIN
     SELECT count(*), max(req_id), max(relevance_score)
     INTO result_count, top_id, score
-    FROM virginia_dev_saayam_rdbms.search_requests(
+    FROM proposed_saayam.search_requests(
         'medical transportation',
         5,
         NULL::VARCHAR(255),
@@ -157,7 +155,7 @@ BEGIN
 
     SELECT count(*)
     INTO result_count
-    FROM virginia_dev_saayam_rdbms.search_requests(
+    FROM proposed_saayam.search_requests(
         '',
         5,
         NULL::VARCHAR(255),
@@ -171,7 +169,7 @@ BEGIN
 
     SELECT count(*), max(user_id), max(relevance_score)
     INTO result_count, top_id, score
-    FROM virginia_dev_saayam_rdbms.search_users(
+    FROM proposed_saayam.search_users(
         'maya.medical@example.test',
         5,
         NULL::VARCHAR(255),
@@ -185,7 +183,7 @@ BEGIN
 
     SELECT count(*)
     INTO result_count
-    FROM virginia_dev_saayam_rdbms.search_users(
+    FROM proposed_saayam.search_users(
         '',
         5,
         NULL::VARCHAR(255),
@@ -199,7 +197,7 @@ BEGIN
 
     SELECT count(*), max(org_id), max(relevance_score)
     INTO result_count, top_id, score
-    FROM virginia_dev_saayam_rdbms.search_organizations(
+    FROM proposed_saayam.search_organizations(
         'Medical Transport',
         5,
         4::SMALLINT,
@@ -212,7 +210,7 @@ BEGIN
 
     SELECT count(*)
     INTO result_count
-    FROM virginia_dev_saayam_rdbms.search_organizations(
+    FROM proposed_saayam.search_organizations(
         '',
         5,
         4::SMALLINT,

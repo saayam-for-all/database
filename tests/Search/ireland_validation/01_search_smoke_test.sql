@@ -1,5 +1,5 @@
 -- Search MVP smoke test.
--- Run after instance clone and ddl/Search/codes/01..04.
+-- Run after instance clone and ddl/Search/01..04.
 
 BEGIN;
 

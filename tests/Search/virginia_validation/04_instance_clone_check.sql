@@ -1,5 +1,5 @@
 -- Local instance clone check.
--- Run after instance clone and ddl/Search/codes/01..04.
+-- Run after instance clone and ddl/Search/01..04.
 
 DO $$
 DECLARE
@@ -29,7 +29,7 @@ BEGIN
     WHERE NOT EXISTS (
         SELECT 1
         FROM information_schema.tables tbl
-        WHERE tbl.table_schema = 'proposed_saayam'
+        WHERE tbl.table_schema = 'virginia_dev_saayam_rdbms'
           AND tbl.table_name = expected.table_name
     );
 
@@ -55,7 +55,7 @@ BEGIN
     WHERE NOT EXISTS (
         SELECT 1
         FROM information_schema.columns col
-        WHERE col.table_schema = 'proposed_saayam'
+        WHERE col.table_schema = 'virginia_dev_saayam_rdbms'
           AND col.table_name = expected.table_name
           AND col.column_name = expected.column_name
     );
@@ -75,7 +75,7 @@ BEGIN
     WHERE NOT EXISTS (
         SELECT 1
         FROM information_schema.routines routine
-        WHERE routine.specific_schema = 'proposed_saayam'
+        WHERE routine.specific_schema = 'virginia_dev_saayam_rdbms'
           AND routine.routine_name = expected.function_name
           AND routine.routine_type = 'FUNCTION'
     );
