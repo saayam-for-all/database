@@ -504,26 +504,28 @@ CREATE TABLE IF NOT EXISTS ireland_dev_saayam_rdbms.request (
 	FOREIGN KEY (req_islead_id) REFERENCES ireland_dev_saayam_rdbms.request_isleadvol (req_islead_id)
 );
 
--- Create the sequence for request IDs
+-- Request ID sequence — band 01: 1T → 2T−1 (~1T IDs)
 CREATE SEQUENCE ireland_dev_saayam_rdbms.request_id_seq
-START WITH 1
+START WITH 1000000000000
 INCREMENT BY 1
-NO MINVALUE
-NO MAXVALUE
+MINVALUE 1000000000000
+MAXVALUE 1999999999999
+NO CYCLE
 CACHE 1;
 
--- Create the function to generate the formatted request ID
+-- Request ID: REQ-{band}-XXX-XXX-XXX-XXX (band derived from sequence; 2-digit band)
 CREATE FUNCTION ireland_dev_saayam_rdbms.generate_request_id()
 RETURNS TRIGGER AS $$
 DECLARE
-    seq_id INT;
+    seq_id BIGINT;
     new_id TEXT;
 BEGIN
-    seq_id := nextval('request_id_seq');
-    new_id := 'REQ-' || LPAD(FLOOR(seq_id / 100000000)::TEXT, 2, '0') || '-' || 
-              LPAD(FLOOR((seq_id % 100000000) / 100000)::TEXT, 3, '0') || '-' || 
-              LPAD(FLOOR((seq_id % 100000) / 1000)::TEXT, 3, '0') || '-' || 
-              LPAD((seq_id % 1000)::TEXT, 4, '0');
+    seq_id := nextval('ireland_dev_saayam_rdbms.request_id_seq');
+    new_id := 'REQ-' || LPAD(FLOOR(seq_id / 1000000000000)::TEXT, 2, '0') || '-'
+        || LPAD(FLOOR((seq_id % 1000000000000) / 1000000000)::TEXT, 3, '0') || '-'
+        || LPAD(FLOOR((seq_id % 1000000000) / 1000000)::TEXT, 3, '0') || '-'
+        || LPAD(FLOOR((seq_id % 1000000) / 1000)::TEXT, 3, '0') || '-'
+        || LPAD((seq_id % 1000)::TEXT, 3, '0');
     NEW.req_id := new_id;
     RETURN NEW;
 END;
