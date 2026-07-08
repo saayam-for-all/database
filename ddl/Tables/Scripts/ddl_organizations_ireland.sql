@@ -1,61 +1,44 @@
--- =====================================================================
--- Regional Sequence Generator: ORGANIZATIONS -- IRELAND (eu-west-1)
--- EU region.
---
--- Per ADR: organizations are GLOBAL operational tables, so there is
--- NO is_eu split and NO dual generator here. Ireland differs from
--- Virginia ONLY in its sequence start range (2 trillion) and its
--- hardcoded region prefix ('002'), which together guarantee that any
--- org created in Ireland can never collide with a Virginia-native org
--- during disaster recovery / sync-back.
---
--- DECISION POINTS: identical to the Virginia file. See [D1]-[D4] there.
--- The ONLY differences from Virginia are:
---   - START WITH 2000000000000  (2 trillion)
---   - region_prefix := '002'
--- =====================================================================
+WHAT CHANGED vs PR #243:
+--    - Format: ORG-00-001-XXX-XXX-XXX  ->  ORG-XXX-XXX-XXX-XXXX (13 digits, 3-3-3-4)
+--        * dropped the constant "00" marker (differentiated nothing)
+--        * dropped the explicit "001" region sub-block (region now lives in the range)
+--    - Formatting: FLOOR/MOD math  ->  LPAD + SUBSTRING (string slicing)
+--    - Sequence range: START 2,000,000,000,000  ->  START 1,000,000,000,000, MAXVALUE 1,999,999,999,999
+--        (Ireland-DR owns the 100-band; Virginia owns the 000-band)
+--  KEPT / ADDED (not in the raw feedback snippet):
+--    - Trust-hook: a pre-supplied org_id (replication / DR copy-back) is not re-minted
+--    - Width guard: loud error if a value ever exceeds 13 digits (SUBSTRING contract)
+-- ============================================================================
 
+CREATE SEQUENCE IF NOT EXISTS ireland_dev_saayam_rdbms.org_id_dr_seq
+    START WITH 1000000000000 INCREMENT BY 1 MINVALUE 1000000000000 MAXVALUE 1999999999999 NO CYCLE;
 
--- ---------------------------------------------------------------------
--- 1. Sequence: Ireland starts at 2 trillion.
--- ---------------------------------------------------------------------
-CREATE SEQUENCE IF NOT EXISTS ireland_dev_saayam_rdbms.seq_org_id
-    START WITH 2000000000000
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO CYCLE;
-
-
--- ---------------------------------------------------------------------
--- 2. Generator function (hardcoded prefix '002' for Ireland)
---    Output example: ORG-00-002-004-010-003
--- ---------------------------------------------------------------------
 CREATE OR REPLACE FUNCTION ireland_dev_saayam_rdbms.generate_org_id()
 RETURNS TRIGGER AS $$
 DECLARE
     seq_id BIGINT;
-    new_id TEXT;
-    region_prefix TEXT := '002';   -- [D3] hardcoded: Ireland
+    padded TEXT;
 BEGIN
-    IF (NEW.org_id IS NULL) THEN
-        seq_id := nextval('ireland_dev_saayam_rdbms.seq_org_id');
-
-        new_id := 'ORG-00-' || region_prefix || '-' ||
-                  LPAD(FLOOR((seq_id % 1000000000) / 1000000)::TEXT, 3, '0') || '-' ||
-                  LPAD(FLOOR((seq_id % 1000000) / 1000)::TEXT, 3, '0') || '-' ||
-                  LPAD((seq_id % 1000)::TEXT, 3, '0');
-
-        NEW.org_id := new_id;
+    IF NEW.org_id IS NOT NULL THEN            -- replication / DR copy-back -> keep id
+        RETURN NEW;
     END IF;
 
+    seq_id := nextval('ireland_dev_saayam_rdbms.org_id_dr_seq');
+    padded := LPAD(seq_id::TEXT, 13, '0');
+
+    IF length(padded) > 13 THEN               -- SUBSTRING width contract
+        RAISE EXCEPTION 'org_id_dr_seq value % exceeds 13 digits; format would corrupt', seq_id;
+    END IF;
+
+    NEW.org_id := 'ORG-' ||
+        SUBSTRING(padded FROM 1  FOR 3) || '-' ||
+        SUBSTRING(padded FROM 4  FOR 3) || '-' ||
+        SUBSTRING(padded FROM 7  FOR 3) || '-' ||
+        SUBSTRING(padded FROM 10 FOR 4);
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
-
--- ---------------------------------------------------------------------
--- 3. Trigger: fire before INSERT on organizations.
--- ---------------------------------------------------------------------
-CREATE TRIGGER trg_generate_org_id
+CREATE OR REPLACE TRIGGER before_insert_organizations
     BEFORE INSERT ON ireland_dev_saayam_rdbms.organizations
     FOR EACH ROW EXECUTE FUNCTION ireland_dev_saayam_rdbms.generate_org_id();
