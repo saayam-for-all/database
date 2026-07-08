@@ -1,66 +1,44 @@
 BEGIN;
 
-SELECT plan(8);
+SELECT plan(6);
 
 INSERT INTO virginia_dev_saayam_rdbms.users (is_eu) VALUES (FALSE);
-INSERT INTO virginia_dev_saayam_rdbms.users (is_eu) VALUES (TRUE);
 
 SELECT isnt(
-    (SELECT user_id FROM virginia_dev_saayam_rdbms.users
-     WHERE is_eu = FALSE LIMIT 1),
+    (SELECT user_id FROM virginia_dev_saayam_rdbms.users LIMIT 1),
     NULL,
-    'Virginia non-EU: user_id is not null'
+    'Virginia: user_id is not null'
 );
 
 SELECT matches(
-    (SELECT user_id FROM virginia_dev_saayam_rdbms.users
-     WHERE is_eu = FALSE LIMIT 1),
-    '^SID-001-',
-    'Virginia non-EU: user_id starts with SID-001'
+    (SELECT user_id FROM virginia_dev_saayam_rdbms.users LIMIT 1),
+    '^SID-00-',
+    'Virginia: user_id starts with SID-00'
 );
 
 SELECT matches(
-    (SELECT user_id FROM virginia_dev_saayam_rdbms.users
-     WHERE is_eu = FALSE LIMIT 1),
-    '^SID-001-\d{3}-\d{3}-\d{3}-\d{3}$',
-    'Virginia non-EU: user_id matches full SID-001-XXX-XXX-XXX-XXX format'
+    (SELECT user_id FROM virginia_dev_saayam_rdbms.users LIMIT 1),
+    '^SID-00-\d{3}-\d{3}-\d{3}-\d{3}-\d{3}$',
+    'Virginia: user_id matches full SID-00-XXX-XXX-XXX-XXX-XXX format'
 );
 
 SELECT ok(
-    LENGTH((SELECT user_id FROM virginia_dev_saayam_rdbms.users
-            WHERE is_eu = FALSE LIMIT 1)) <= 25,
-    'Virginia non-EU: user_id length within VARCHAR(25)'
-);
-
-SELECT isnt(
-    (SELECT user_id FROM virginia_dev_saayam_rdbms.users
-     WHERE is_eu = TRUE LIMIT 1),
-    NULL,
-    'Virginia EU DR: user_id is not null'
-);
-
-SELECT matches(
-    (SELECT user_id FROM virginia_dev_saayam_rdbms.users
-     WHERE is_eu = TRUE LIMIT 1),
-    '^SID-002-',
-    'Virginia EU DR: user_id starts with SID-002'
-);
-
-SELECT matches(
-    (SELECT user_id FROM virginia_dev_saayam_rdbms.users
-     WHERE is_eu = TRUE LIMIT 1),
-    '^SID-002-\d{3}-\d{3}-\d{3}-\d{3}$',
-    'Virginia EU DR: user_id matches full SID-002-XXX-XXX-XXX-XXX format'
+    LENGTH((SELECT user_id FROM virginia_dev_saayam_rdbms.users LIMIT 1)) <= 255,
+    'Virginia: user_id length within VARCHAR(255)'
 );
 
 INSERT INTO virginia_dev_saayam_rdbms.users (is_eu) VALUES (FALSE);
 
 SELECT is(
-    (SELECT COUNT(DISTINCT user_id)
-     FROM virginia_dev_saayam_rdbms.users
-     WHERE is_eu = FALSE),
+    (SELECT COUNT(DISTINCT user_id) FROM virginia_dev_saayam_rdbms.users),
     2::BIGINT,
-    'Virginia: two non-EU inserts produce unique user_ids'
+    'Virginia: two inserts produce unique user_ids'
+);
+
+SELECT matches(
+    (SELECT user_id FROM virginia_dev_saayam_rdbms.users LIMIT 1),
+    '^SID-00-000-',
+    'Virginia: first segment is 000'
 );
 
 SELECT * FROM finish();

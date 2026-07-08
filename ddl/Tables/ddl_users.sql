@@ -1,8 +1,11 @@
--- Table: users (Main table for user details)
-
+-- =============================================
+-- Virginia Users Table
+-- Handles non-EU users only
+-- Range: 1 to 19,999,999,999
+-- =============================================
 
 CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.users (
-    user_id VARCHAR(25) PRIMARY KEY,
+    user_id VARCHAR(255) PRIMARY KEY,
     state_id VARCHAR(30) NULL,
     country_id INT NULL,
     user_status_id INT NULL,
@@ -36,30 +39,34 @@ CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.users (
 );
 -- Example: last_location (37.3382, -121.8863) for San Jose
 
--- Sequence generator for Users
+-- Non-EU users: 1 to 19,999,999,999
 CREATE SEQUENCE virginia_dev_saayam_rdbms.user_id_seq
     START WITH 1
     INCREMENT BY 1
     MINVALUE 1
-    MAXVALUE 20000000000
+    MAXVALUE 19999999999
     NO CYCLE;
 
+-- =============================================
+-- generate_sid() — SUBSTRING approach
+-- Always generates SID-00-XXX-XXX-XXX-XXX-XXX
+-- No is_eu branching needed — Virginia is
+-- non-EU only
+-- =============================================
 CREATE OR REPLACE FUNCTION virginia_dev_saayam_rdbms.generate_sid()
 RETURNS TRIGGER AS $$
 DECLARE
     seq_id BIGINT;
-    new_id VARCHAR(25);
+    padded TEXT;
 BEGIN
     seq_id := nextval('virginia_dev_saayam_rdbms.user_id_seq');
-
-    new_id := 'SID-001-' ||
-        LPAD(FLOOR(seq_id / 20000000000)::TEXT, 3, '0') || '-' ||
-        LPAD(FLOOR((seq_id % 20000000000) / 1000000000)::TEXT, 3, '0') || '-' ||
-        LPAD(FLOOR((seq_id % 1000000000) / 1000000)::TEXT, 3, '0') || '-' ||
-        LPAD(FLOOR((seq_id % 1000000) / 1000)::TEXT, 3, '0') || '-' ||
-        LPAD((seq_id % 1000)::TEXT, 3, '0');
-
-    NEW.user_id := new_id;
+    padded := LPAD(seq_id::TEXT, 15, '0');
+    NEW.user_id := 'SID-00-' ||
+        SUBSTRING(padded FROM 1 FOR 3) || '-' ||
+        SUBSTRING(padded FROM 4 FOR 3) || '-' ||
+        SUBSTRING(padded FROM 7 FOR 3) || '-' ||
+        SUBSTRING(padded FROM 10 FOR 3) || '-' ||
+        SUBSTRING(padded FROM 13 FOR 3);
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;

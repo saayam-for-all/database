@@ -15,21 +15,28 @@ SELECT isnt(
 SELECT matches(
     (SELECT user_id FROM ireland_dev_saayam_rdbms.users
      WHERE is_eu = TRUE LIMIT 1),
-    '^SID-002-',
-    'Ireland EU: user_id starts with SID-002'
+    '^SID-EU-',
+    'Ireland EU: user_id starts with SID-EU'
 );
 
 SELECT matches(
     (SELECT user_id FROM ireland_dev_saayam_rdbms.users
      WHERE is_eu = TRUE LIMIT 1),
-    '^SID-002-\d{3}-\d{3}-\d{3}-\d{3}$',
-    'Ireland EU: user_id matches full SID-002-XXX-XXX-XXX-XXX format'
+    '^SID-EU-\d{3}-\d{3}-\d{3}-\d{3}-\d{3}$',
+    'Ireland EU: user_id matches full SID-EU-XXX-XXX-XXX-XXX-XXX format'
 );
 
 SELECT ok(
     LENGTH((SELECT user_id FROM ireland_dev_saayam_rdbms.users
-            WHERE is_eu = TRUE LIMIT 1)) <= 25,
-    'Ireland EU: user_id length within VARCHAR(25)'
+            WHERE is_eu = TRUE LIMIT 1)) <= 255,
+    'Ireland EU: user_id length within VARCHAR(255)'
+);
+
+SELECT matches(
+    (SELECT user_id FROM ireland_dev_saayam_rdbms.users
+     WHERE is_eu = TRUE LIMIT 1),
+    '^SID-EU-000-',
+    'Ireland EU: first segment is 000'
 );
 
 SELECT isnt(
@@ -42,34 +49,28 @@ SELECT isnt(
 SELECT matches(
     (SELECT user_id FROM ireland_dev_saayam_rdbms.users
      WHERE is_eu = FALSE LIMIT 1),
-    '^SID-001-',
-    'Ireland Virginia DR: user_id starts with SID-001'
+    '^SID-00-',
+    'Ireland Virginia DR: user_id starts with SID-00'
 );
 
 SELECT matches(
     (SELECT user_id FROM ireland_dev_saayam_rdbms.users
      WHERE is_eu = FALSE LIMIT 1),
-    '^SID-001-\d{3}-\d{3}-\d{3}-\d{3}$',
-    'Ireland Virginia DR: user_id matches full SID-001-XXX-XXX-XXX-XXX format'
+    '^SID-00-\d{3}-\d{3}-\d{3}-\d{3}-\d{3}$',
+    'Ireland Virginia DR: user_id matches full SID-00-XXX-XXX-XXX-XXX-XXX format'
 );
 
-SELECT ok(
-    LENGTH((SELECT user_id FROM ireland_dev_saayam_rdbms.users
-            WHERE is_eu = FALSE LIMIT 1)) <= 25,
-    'Ireland Virginia DR: user_id length within VARCHAR(25)'
-);
-
-SELECT is(
-    (SELECT COUNT(DISTINCT user_id)
-     FROM ireland_dev_saayam_rdbms.users),
-    2::BIGINT,
-    'Ireland: EU and DR inserts produce unique user_ids'
+SELECT matches(
+    (SELECT user_id FROM ireland_dev_saayam_rdbms.users
+     WHERE is_eu = FALSE LIMIT 1),
+    '^SID-00-000-020-',
+    'Ireland Virginia DR: first segment is 020'
 );
 
 SELECT isnt(
-    (SELECT LEFT(user_id, 7) FROM ireland_dev_saayam_rdbms.users
+    (SELECT LEFT(user_id, 6) FROM ireland_dev_saayam_rdbms.users
      WHERE is_eu = TRUE LIMIT 1),
-    (SELECT LEFT(user_id, 7) FROM ireland_dev_saayam_rdbms.users
+    (SELECT LEFT(user_id, 6) FROM ireland_dev_saayam_rdbms.users
      WHERE is_eu = FALSE LIMIT 1),
     'Ireland: EU and Virginia DR user_ids have different prefixes'
 );
