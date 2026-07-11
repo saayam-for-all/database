@@ -1,9 +1,8 @@
--- Smoke test: Virginia request ID generator (band-from-sequence)
--- Requires: Virginia schema deployed (ddl_request.sql + FK lookup tables + users).
+-- Smoke test: Virginia request ID generator (REQ-XXX-XXX-XXX-XXXX).
+-- Requires: Virginia schema deployed. TEST DATABASE ONLY.
+-- Assertions print via RAISE NOTICE (psql / pgAdmin Messages).
 
--- === SETUP ===
 BEGIN;
-
 SET LOCAL search_path TO virginia_dev_saayam_rdbms, public;
 
 INSERT INTO virginia_dev_saayam_rdbms.request_for (req_for_id, req_for, req_for_desc) VALUES (1, 'SELF', 'Test fixture');
@@ -12,113 +11,185 @@ INSERT INTO virginia_dev_saayam_rdbms.request_type (req_type_id, req_type, req_t
 INSERT INTO virginia_dev_saayam_rdbms.request_priority (req_priority_id, req_priority, req_priority_desc) VALUES (1, 'LOW', 'Test fixture');
 INSERT INTO virginia_dev_saayam_rdbms.request_status (req_status_id, req_status, req_status_desc) VALUES (1, 'CREATED', 'Test fixture');
 INSERT INTO virginia_dev_saayam_rdbms.help_categories (cat_id, cat_name, cat_desc) VALUES ('1', 'TEST_CATEGORY', 'Test fixture');
-
 INSERT INTO virginia_dev_saayam_rdbms.users DEFAULT VALUES;
 
-WITH test_user AS (
-    SELECT user_id FROM virginia_dev_saayam_rdbms.users ORDER BY user_id DESC LIMIT 1
-)
-INSERT INTO virginia_dev_saayam_rdbms.request (
-    req_user_id, req_for_id, req_islead_id, req_cat_id,
-    req_type_id, req_priority_id, req_status_id, req_subj, req_desc
-)
-SELECT user_id, 1, 1, '1', 1, 1, 1, 'Test subject A', 'Test description A' FROM test_user;
+SELECT setval('virginia_dev_saayam_rdbms.request_id_seq', 1, false);  -- next = 1
 
-WITH test_user AS (
-    SELECT user_id FROM virginia_dev_saayam_rdbms.users ORDER BY user_id DESC LIMIT 1
-)
-INSERT INTO virginia_dev_saayam_rdbms.request (
-    req_user_id, req_for_id, req_islead_id, req_cat_id,
-    req_type_id, req_priority_id, req_status_id, req_subj, req_desc
-)
-SELECT user_id, 1, 1, '1', 1, 1, 1, 'Test subject B', 'Test description B' FROM test_user;
-
--- === ASSERTIONS (all results in Messages tab via RAISE NOTICE) ===
+-- T1  Sequential mint -------------------------------------------------------
 DO $$
 DECLARE
-    req_a TEXT;
-    req_b TEXT;
-    boundary_1k TEXT;
-    boundary_1m TEXT;
+    a TEXT;
+    b TEXT;
+    uid TEXT;
+BEGIN
+    SELECT user_id INTO uid FROM virginia_dev_saayam_rdbms.users ORDER BY user_id DESC LIMIT 1;
+
+    INSERT INTO virginia_dev_saayam_rdbms.request (
+        req_user_id, req_for_id, req_islead_id, req_cat_id,
+        req_type_id, req_priority_id, req_status_id, req_subj, req_desc
+    ) VALUES (uid, 1, 1, '1', 1, 1, 1, 'VA-1', 'T1')
+    RETURNING req_id INTO a;
+
+    INSERT INTO virginia_dev_saayam_rdbms.request (
+        req_user_id, req_for_id, req_islead_id, req_cat_id,
+        req_type_id, req_priority_id, req_status_id, req_subj, req_desc
+    ) VALUES (uid, 1, 1, '1', 1, 1, 1, 'VA-2', 'T1')
+    RETURNING req_id INTO b;
+
+    IF a = 'REQ-000-000-000-0001' AND b = 'REQ-000-000-000-0002' THEN
+        RAISE NOTICE 'T1 PASS  Virginia sequential (%, %)', a, b;
+    ELSE
+        RAISE NOTICE 'T1 FAIL  got %, %', a, b;
+    END IF;
+END$$;
+
+-- T2  Format shape + fixed length -------------------------------------------
+DO $$
+DECLARE
+    id TEXT;
+    uid TEXT;
+BEGIN
+    SELECT user_id INTO uid FROM virginia_dev_saayam_rdbms.users ORDER BY user_id DESC LIMIT 1;
+    PERFORM setval('virginia_dev_saayam_rdbms.request_id_seq', 10, true);
+
+    INSERT INTO virginia_dev_saayam_rdbms.request (
+        req_user_id, req_for_id, req_islead_id, req_cat_id,
+        req_type_id, req_priority_id, req_status_id, req_subj, req_desc
+    ) VALUES (uid, 1, 1, '1', 1, 1, 1, 'fmt', 'T2')
+    RETURNING req_id INTO id;
+
+    IF id ~ '^REQ-\d{3}-\d{3}-\d{3}-\d{4}$' AND length(id) = 20 THEN
+        RAISE NOTICE 'T2 PASS  format + length (%, len=%)', id, length(id);
+    ELSE
+        RAISE NOTICE 'T2 FAIL  format/length mismatch (%)', id;
+    END IF;
+END$$;
+
+-- T3  Zero-padding / mid-value exact IDs ------------------------------------
+DO $$
+DECLARE
+    a TEXT;
+    b TEXT;
+    uid TEXT;
+BEGIN
+    SELECT user_id INTO uid FROM virginia_dev_saayam_rdbms.users ORDER BY user_id DESC LIMIT 1;
+
+    PERFORM setval('virginia_dev_saayam_rdbms.request_id_seq', 41, true);
+    INSERT INTO virginia_dev_saayam_rdbms.request (
+        req_user_id, req_for_id, req_islead_id, req_cat_id,
+        req_type_id, req_priority_id, req_status_id, req_subj, req_desc
+    ) VALUES (uid, 1, 1, '1', 1, 1, 1, 'pad-42', 'T3')
+    RETURNING req_id INTO a;
+
+    PERFORM setval('virginia_dev_saayam_rdbms.request_id_seq', 123456789011, true);
+    INSERT INTO virginia_dev_saayam_rdbms.request (
+        req_user_id, req_for_id, req_islead_id, req_cat_id,
+        req_type_id, req_priority_id, req_status_id, req_subj, req_desc
+    ) VALUES (uid, 1, 1, '1', 1, 1, 1, 'mid-big', 'T3')
+    RETURNING req_id INTO b;
+
+    IF a = 'REQ-000-000-000-0042' AND b = 'REQ-012-345-678-9012' THEN
+        RAISE NOTICE 'T3 PASS  zero-pad / mid-value (%, %)', a, b;
+    ELSE
+        RAISE NOTICE 'T3 FAIL  got %, %', a, b;
+    END IF;
+END$$;
+
+-- T4  Uniqueness across a burst of inserts ----------------------------------
+DO $$
+DECLARE
     uid TEXT;
     unique_count INT;
 BEGIN
-    SELECT req_id INTO req_a FROM virginia_dev_saayam_rdbms.request
-    WHERE req_subj = 'Test subject A' LIMIT 1;
+    SELECT user_id INTO uid FROM virginia_dev_saayam_rdbms.users ORDER BY user_id DESC LIMIT 1;
+    PERFORM setval('virginia_dev_saayam_rdbms.request_id_seq', 200, true);
 
-    SELECT req_id INTO req_b FROM virginia_dev_saayam_rdbms.request
-    WHERE req_subj = 'Test subject B' LIMIT 1;
+    INSERT INTO virginia_dev_saayam_rdbms.request (
+        req_user_id, req_for_id, req_islead_id, req_cat_id,
+        req_type_id, req_priority_id, req_status_id, req_subj, req_desc
+    )
+    SELECT uid, 1, 1, '1', 1, 1, 1, 'burst-' || g, 'T4'
+    FROM generate_series(1, 5) AS g;
 
-    -- Test 1: first insert req_id is not null
-    IF req_a IS NOT NULL THEN
-        RAISE NOTICE 'Test 1 PASS: Virginia band 00 — req_id is not null (%)', req_a;
-    ELSE
-        RAISE NOTICE 'Test 1 FAIL: Virginia band 00 — req_id is null';
-    END IF;
-
-    -- Test 2: first insert starts with REQ-00
-    IF req_a ~ '^REQ-00-' THEN
-        RAISE NOTICE 'Test 2 PASS: Virginia band 00 — req_id starts with REQ-00 (%)', req_a;
-    ELSE
-        RAISE NOTICE 'Test 2 FAIL: Virginia band 00 — req_id does not start with REQ-00 (%)', req_a;
-    END IF;
-
-    -- Test 3: first insert full format
-    IF req_a ~ '^REQ-00-\d{3}-\d{3}-\d{3}-\d{3}$' THEN
-        RAISE NOTICE 'Test 3 PASS: Virginia band 00 — req_id matches REQ-00-XXX-XXX-XXX-XXX (%)', req_a;
-    ELSE
-        RAISE NOTICE 'Test 3 FAIL: Virginia band 00 — req_id format mismatch (%)', req_a;
-    END IF;
-
-    -- Test 4: second insert starts with REQ-00
-    IF req_b ~ '^REQ-00-' THEN
-        RAISE NOTICE 'Test 4 PASS: Virginia band 00 — second insert starts with REQ-00 (%)', req_b;
-    ELSE
-        RAISE NOTICE 'Test 4 FAIL: Virginia band 00 — second insert does not start with REQ-00 (%)', req_b;
-    END IF;
-
-    -- Test 5: second insert full format
-    IF req_b ~ '^REQ-00-\d{3}-\d{3}-\d{3}-\d{3}$' THEN
-        RAISE NOTICE 'Test 5 PASS: Virginia band 00 — second insert matches full format (%)', req_b;
-    ELSE
-        RAISE NOTICE 'Test 5 FAIL: Virginia band 00 — second insert format mismatch (%)', req_b;
-    END IF;
-
-    -- Test 6: two inserts produce unique req_ids
     SELECT COUNT(DISTINCT req_id) INTO unique_count
     FROM virginia_dev_saayam_rdbms.request
-    WHERE req_subj IN ('Test subject A', 'Test subject B');
+    WHERE req_subj LIKE 'burst-%';
 
-    IF unique_count = 2 THEN
-        RAISE NOTICE 'Test 6 PASS: Virginia — two inserts produce unique req_ids';
+    IF unique_count = 5 THEN
+        RAISE NOTICE 'T4 PASS  5 burst inserts all unique';
     ELSE
-        RAISE NOTICE 'Test 6 FAIL: Virginia — expected 2 unique req_ids, found %', unique_count;
+        RAISE NOTICE 'T4 FAIL  expected 5 unique ids, found %', unique_count;
     END IF;
+END$$;
 
-    -- Test 7: segment rollover at 999 → 1000 and 999999 → 1000000
+-- T5  Segment rollover at 1,000 / 10,000 / 1,000,000 ------------------------
+DO $$
+DECLARE
+    a TEXT;
+    b TEXT;
+    c TEXT;
+    uid TEXT;
+BEGIN
     SELECT user_id INTO uid FROM virginia_dev_saayam_rdbms.users ORDER BY user_id DESC LIMIT 1;
 
     PERFORM setval('virginia_dev_saayam_rdbms.request_id_seq', 999, true);
     INSERT INTO virginia_dev_saayam_rdbms.request (
         req_user_id, req_for_id, req_islead_id, req_cat_id,
         req_type_id, req_priority_id, req_status_id, req_subj, req_desc
-    ) VALUES (uid, 1, 1, '1', 1, 1, 1, 'Boundary 1k', 'Test boundary 1000')
-    RETURNING req_id INTO boundary_1k;
+    ) VALUES (uid, 1, 1, '1', 1, 1, 1, 'r1k', 'T5')
+    RETURNING req_id INTO a;
+
+    PERFORM setval('virginia_dev_saayam_rdbms.request_id_seq', 9999, true);
+    INSERT INTO virginia_dev_saayam_rdbms.request (
+        req_user_id, req_for_id, req_islead_id, req_cat_id,
+        req_type_id, req_priority_id, req_status_id, req_subj, req_desc
+    ) VALUES (uid, 1, 1, '1', 1, 1, 1, 'r10k', 'T5')
+    RETURNING req_id INTO b;
 
     PERFORM setval('virginia_dev_saayam_rdbms.request_id_seq', 999999, true);
     INSERT INTO virginia_dev_saayam_rdbms.request (
         req_user_id, req_for_id, req_islead_id, req_cat_id,
         req_type_id, req_priority_id, req_status_id, req_subj, req_desc
-    ) VALUES (uid, 1, 1, '1', 1, 1, 1, 'Boundary 1m', 'Test boundary 1000000')
-    RETURNING req_id INTO boundary_1m;
+    ) VALUES (uid, 1, 1, '1', 1, 1, 1, 'r1m', 'T5')
+    RETURNING req_id INTO c;
 
-    IF boundary_1k = 'REQ-00-000-000-001-000' AND boundary_1m = 'REQ-00-000-001-000-000' THEN
-        RAISE NOTICE 'Test 7 PASS: Virginia segment rollover correct (%, %)', boundary_1k, boundary_1m;
+    IF a = 'REQ-000-000-000-1000' AND b = 'REQ-000-000-001-0000' AND c = 'REQ-000-000-100-0000' THEN
+        RAISE NOTICE 'T5 PASS  rollover correct (%, %, %)', a, b, c;
     ELSE
-        RAISE NOTICE 'Test 7 FAIL: Virginia segment rollover got %, %', boundary_1k, boundary_1m;
+        RAISE NOTICE 'T5 FAIL  got %, %, %', a, b, c;
     END IF;
 END$$;
 
--- === CLEANUP ===
+-- T6  Exhaustion hard wall at MAXVALUE 999,999,999,999 ---------------------
+DO $$
+DECLARE
+    last_id TEXT;
+    uid TEXT;
+BEGIN
+    SELECT user_id INTO uid FROM virginia_dev_saayam_rdbms.users ORDER BY user_id DESC LIMIT 1;
+    PERFORM setval('virginia_dev_saayam_rdbms.request_id_seq', 999999999998, true);  -- next = MAXVALUE
+
+    INSERT INTO virginia_dev_saayam_rdbms.request (
+        req_user_id, req_for_id, req_islead_id, req_cat_id,
+        req_type_id, req_priority_id, req_status_id, req_subj, req_desc
+    ) VALUES (uid, 1, 1, '1', 1, 1, 1, 'last', 'T6')
+    RETURNING req_id INTO last_id;
+
+    IF last_id <> 'REQ-099-999-999-9999' THEN
+        RAISE NOTICE 'T6 FAIL  last mint expected REQ-099-999-999-9999 got %', last_id;
+        RETURN;
+    END IF;
+
+    BEGIN
+        INSERT INTO virginia_dev_saayam_rdbms.request (
+            req_user_id, req_for_id, req_islead_id, req_cat_id,
+            req_type_id, req_priority_id, req_status_id, req_subj, req_desc
+        ) VALUES (uid, 1, 1, '1', 1, 1, 1, 'over', 'T6');
+        RAISE NOTICE 'T6 FAIL  sequence did not exhaust';
+    EXCEPTION WHEN OTHERS THEN
+        RAISE NOTICE 'T6 PASS  hard wall hit as designed: %', SQLERRM;
+    END;
+END$$;
+
 ROLLBACK;
 ALTER SEQUENCE virginia_dev_saayam_rdbms.request_id_seq RESTART WITH 1;
