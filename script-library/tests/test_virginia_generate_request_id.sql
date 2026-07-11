@@ -1,6 +1,5 @@
--- Smoke test: Virginia request ID generator (REQ-XXX-XXX-XXX-XXXX).
--- Requires: Virginia schema deployed. TEST DATABASE ONLY.
--- Assertions print via RAISE NOTICE (psql / pgAdmin Messages).
+-- Test: Virginia request ID generator (REQ-XXX-XXX-XXX-XXXX).
+-- Requires: Virginia schema deployed.
 
 BEGIN;
 SET LOCAL search_path TO virginia_dev_saayam_rdbms, public;
