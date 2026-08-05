@@ -504,35 +504,37 @@ CREATE TABLE IF NOT EXISTS ireland_dev_saayam_rdbms.request (
 	FOREIGN KEY (req_islead_id) REFERENCES ireland_dev_saayam_rdbms.request_isleadvol (req_islead_id)
 );
 
--- Create the sequence for request IDs
-CREATE SEQUENCE ireland_dev_saayam_rdbms.request_id_seq
-START WITH 1
+-- Request ID sequence — Ireland (DR): 1T → 1,999,999,999,999
+CREATE SEQUENCE ireland_dev_saayam_rdbms.request_id_dr_seq
+START WITH 1000000000000
 INCREMENT BY 1
-NO MINVALUE
-NO MAXVALUE
+MINVALUE 1000000000000
+MAXVALUE 1999999999999
+NO CYCLE
 CACHE 1;
 
--- Create the function to generate the formatted request ID
-CREATE FUNCTION ireland_dev_saayam_rdbms.generate_request_id()
+-- Request ID: REQ-XXX-XXX-XXX-XXXX (13 digits, grouped 3-3-3-4 via LPAD + SUBSTRING)
+CREATE FUNCTION ireland_dev_saayam_rdbms.generate_req_id()
 RETURNS TRIGGER AS $$
 DECLARE
-    seq_id INT;
-    new_id TEXT;
+    seq_id BIGINT;
+    padded TEXT;
 BEGIN
-    seq_id := nextval('request_id_seq');
-    new_id := 'REQ-' || LPAD(FLOOR(seq_id / 100000000)::TEXT, 2, '0') || '-' || 
-              LPAD(FLOOR((seq_id % 100000000) / 100000)::TEXT, 3, '0') || '-' || 
-              LPAD(FLOOR((seq_id % 100000) / 1000)::TEXT, 3, '0') || '-' || 
-              LPAD((seq_id % 1000)::TEXT, 4, '0');
-    NEW.req_id := new_id;
+    seq_id := nextval('ireland_dev_saayam_rdbms.request_id_dr_seq');
+    padded := LPAD(seq_id::TEXT, 13, '0');
+    NEW.req_id := 'REQ-' ||
+        SUBSTRING(padded FROM 1 FOR 3) || '-' ||
+        SUBSTRING(padded FROM 4 FOR 3) || '-' ||
+        SUBSTRING(padded FROM 7 FOR 3) || '-' ||
+        SUBSTRING(padded FROM 10 FOR 4);
     RETURN NEW;
 END;
-$$ LANGUAGE plpgsql; 
+$$ LANGUAGE plpgsql;
 
 CREATE TRIGGER before_insert_requests
 BEFORE INSERT ON ireland_dev_saayam_rdbms.request
 FOR EACH ROW
-EXECUTE FUNCTION ireland_dev_saayam_rdbms.generate_request_id();
+EXECUTE FUNCTION ireland_dev_saayam_rdbms.generate_req_id();
 
 -- DROP TRIGGER IF EXISTS trg_request_updated_at ON ireland_dev_saayam_rdbms.request;
 CREATE TRIGGER trg_request_updated_at

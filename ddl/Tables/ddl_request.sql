@@ -28,32 +28,34 @@ CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.request (
 	FOREIGN KEY (req_islead_id) REFERENCES virginia_dev_saayam_rdbms.request_isleadvol (req_islead_id)
 );
 
--- Create the sequence for request IDs
+-- Request ID sequence — Virginia: 1 → 999,999,999,999
 CREATE SEQUENCE virginia_dev_saayam_rdbms.request_id_seq
 START WITH 1
 INCREMENT BY 1
-NO MINVALUE
-NO MAXVALUE
+MINVALUE 1
+MAXVALUE 999999999999
+NO CYCLE
 CACHE 1;
 
--- Create the function to generate the formatted request ID
-CREATE FUNCTION virginia_dev_saayam_rdbms.generate_request_id()
+-- Request ID: REQ-XXX-XXX-XXX-XXXX (13 digits, grouped 3-3-3-4 via LPAD + SUBSTRING)
+CREATE FUNCTION virginia_dev_saayam_rdbms.generate_req_id()
 RETURNS TRIGGER AS $$
 DECLARE
-    seq_id INT;
-    new_id TEXT;
+    seq_id BIGINT;
+    padded TEXT;
 BEGIN
     seq_id := nextval('virginia_dev_saayam_rdbms.request_id_seq');
-    new_id := 'REQ-' || LPAD(FLOOR(seq_id / 100000000)::TEXT, 2, '0') || '-' || 
-              LPAD(FLOOR((seq_id % 100000000) / 100000)::TEXT, 3, '0') || '-' || 
-              LPAD(FLOOR((seq_id % 100000) / 1000)::TEXT, 3, '0') || '-' || 
-              LPAD((seq_id % 1000)::TEXT, 4, '0');
-    NEW.req_id := new_id;
+    padded := LPAD(seq_id::TEXT, 13, '0');
+    NEW.req_id := 'REQ-' ||
+        SUBSTRING(padded FROM 1 FOR 3) || '-' ||
+        SUBSTRING(padded FROM 4 FOR 3) || '-' ||
+        SUBSTRING(padded FROM 7 FOR 3) || '-' ||
+        SUBSTRING(padded FROM 10 FOR 4);
     RETURN NEW;
 END;
-$$ LANGUAGE plpgsql; 
+$$ LANGUAGE plpgsql;
 
 CREATE TRIGGER before_insert_requests
 BEFORE INSERT ON virginia_dev_saayam_rdbms.request
 FOR EACH ROW
-EXECUTE FUNCTION virginia_dev_saayam_rdbms.generate_request_id();
+EXECUTE FUNCTION virginia_dev_saayam_rdbms.generate_req_id();
