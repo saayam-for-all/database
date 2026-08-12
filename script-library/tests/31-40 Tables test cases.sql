@@ -2,6 +2,16 @@
 Purpose: Validation and test cases for Wiki tables 31-40
 Schema:  virginia_dev_saayam_rdbms
 
+How it works:
+- Structural tests verify columns, types, defaults, constraints, sequences, functions, and triggers.
+- DML tests run only when suitable parent rows already exist.
+- Every DML change is wrapped in one transaction and rolled back at the end.
+- No organization insert is performed, so the org_id_seq is not advanced by this test file.
+
+Expected result:
+- The script finishes with the notice: ALL TABLE 31-40 TESTS PASSED.
+- Notices beginning with SKIP mean prerequisite sample rows were unavailable; structural checks still ran.
+*/
 
 BEGIN;
 
