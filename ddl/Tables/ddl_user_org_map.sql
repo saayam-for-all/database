@@ -1,10 +1,14 @@
-CREATE TABLE virginia_dev_saayam_rdbms.user_org_map (
-    user_id VARCHAR(255) NOT NULL,
-    org_id VARCHAR(255) NOT NULL,
-    user_role VARCHAR(50),        -- e.g. 'ADMIN', 'STAFF', 'VOLUNTEER'
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    last_updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT user_org_map_pk PRIMARY KEY (user_id, org_id),
-    FOREIGN KEY (user_id) REFERENCES virginia_dev_saayam_rdbms.users(user_id) ON DELETE CASCADE,
-    FOREIGN KEY (org_id) REFERENCES virginia_dev_saayam_rdbms.organizations(org_id) ON DELETE CASCADE
-);
+ALTER TABLE virginia_dev_saayam_rdbms.user_org_map
+    ALTER COLUMN created_at TYPE TIMESTAMP WITHOUT TIME ZONE
+        USING created_at::TIMESTAMP WITHOUT TIME ZONE,
+    ALTER COLUMN created_at SET DEFAULT (now() AT TIME ZONE 'UTC'),
+    ALTER COLUMN last_updated_at TYPE TIMESTAMP WITHOUT TIME ZONE
+        USING last_updated_at::TIMESTAMP WITHOUT TIME ZONE,
+    ALTER COLUMN last_updated_at SET DEFAULT (now() AT TIME ZONE 'UTC');
+
+DROP TRIGGER IF EXISTS trg_user_org_map_updated_at
+    ON virginia_dev_saayam_rdbms.user_org_map;
+CREATE TRIGGER trg_user_org_map_updated_at
+BEFORE UPDATE ON virginia_dev_saayam_rdbms.user_org_map
+FOR EACH ROW
+EXECUTE FUNCTION virginia_dev_saayam_rdbms.set_updated_at();

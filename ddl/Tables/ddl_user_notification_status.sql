@@ -1,5 +1,4 @@
-CREATE TABLE virginia_dev_saayam_rdbms.user_notification_status (
-    user_id VARCHAR(255) PRIMARY KEY,
-    last_accessed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES virginia_dev_saayam_rdbms.users(user_id) ON DELETE CASCADE
-);
+ALTER TABLE virginia_dev_saayam_rdbms.user_notification_status
+    ALTER COLUMN last_accessed_at TYPE TIMESTAMP WITHOUT TIME ZONE
+        USING last_accessed_at::TIMESTAMP WITHOUT TIME ZONE,
+    ALTER COLUMN last_accessed_at SET DEFAULT (now() AT TIME ZONE 'UTC');
