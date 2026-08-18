@@ -1,0 +1,41 @@
+name: Database Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - feature/database-cicd-pipeline
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate-sql-files:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Verify repository structure
+        run: |
+          echo "Checking repository structure..."
+
+          if [ ! -d "ddl" ]; then
+            echo "ddl folder not found"
+            exit 1
+          fi
+
+          if [ ! -d "dml" ]; then
+            echo "dml folder not found"
+            exit 1
+          fi
+
+          echo "Repository structure verified."
+
+      - name: List DDL files
+        run: find ddl -name "*.sql"
+
+      - name: List DML files
+        run: find dml -name "*.sql"
