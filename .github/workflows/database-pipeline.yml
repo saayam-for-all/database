@@ -39,3 +39,17 @@ jobs:
 
       - name: List DML files
         run: find dml -name "*.sql"
+        
+      - name: Check SQL files are not empty
+        run: |
+          echo "Checking SQL files..."
+
+          empty_files=$(find ddl dml -type f -name "*.sql" -empty)
+
+          if [ -n "$empty_files" ]; then
+            echo "The following SQL files are empty:"
+            echo "$empty_files"
+            exit 1
+          fi
+
+          echo "All SQL files contain content."
