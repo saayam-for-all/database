@@ -14,6 +14,21 @@ jobs:
   validate-sql-files:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: saayam_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d saayam_test"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -39,7 +54,7 @@ jobs:
 
       - name: List DML files
         run: find dml -name "*.sql"
-        
+
       - name: Check SQL files are not empty
         run: |
           echo "Checking SQL files..."
@@ -53,3 +68,19 @@ jobs:
           fi
 
           echo "All SQL files contain content."
+
+                - name: Install PostgreSQL client
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client
+
+      - name: Test database script execution
+        env:
+          PGPASSWORD: postgres
+        run: |
+          psql \
+            -h localhost \
+            -U postgres \
+            -d saayam_test \
+            -v ON_ERROR_STOP=1 \
+            -f ddl/Tables/Scripts/ireland_dev_saayam_rdbms.sql
