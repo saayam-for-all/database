@@ -1,0 +1,106 @@
+name: Database Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - feature/database-cicd-pipeline
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate-sql-files:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgis/postgis:16-3.4
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: saayam_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d saayam_test"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Verify repository structure
+        run: |
+          echo "Checking repository structure..."
+
+          if [ ! -d "ddl" ]; then
+            echo "ddl folder not found"
+            exit 1
+          fi
+
+          if [ ! -d "dml" ]; then
+            echo "dml folder not found"
+            exit 1
+          fi
+
+          echo "Repository structure verified."
+
+      - name: List DDL files
+        run: find ddl -name "*.sql"
+
+      - name: List DML files
+        run: find dml -name "*.sql"
+
+      - name: Check SQL files are not empty
+        run: |
+          echo "Checking SQL files..."
+
+          empty_files=$(find ddl dml -type f -name "*.sql" -empty)
+
+          if [ -n "$empty_files" ]; then
+            echo "The following SQL files are empty:"
+            echo "$empty_files"
+            exit 1
+          fi
+
+          echo "All SQL files contain content."
+
+      - name: Install PostgreSQL client
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client
+
+      - name: Create required database role
+        env:
+          PGPASSWORD: postgres
+        run: |
+          psql \
+            -h localhost \
+            -U postgres \
+            -d saayam_test \
+            -c "CREATE ROLE dbadmin_user;"
+
+      - name: Create required database schema
+        env:
+          PGPASSWORD: postgres
+        run: |
+          psql \
+            -h localhost \
+            -U postgres \
+            -d saayam_test \
+            -c "CREATE SCHEMA IF NOT EXISTS ireland_dev_saayam_rdbms;"
+
+      - name: Test database script execution
+        env:
+          PGPASSWORD: postgres
+        run: |
+          psql \
+            -h localhost \
+            -U postgres \
+            -d saayam_test \
+            -v ON_ERROR_STOP=1 \
+            -f ddl/Tables/Scripts/ireland_dev_saayam_rdbms.sql
