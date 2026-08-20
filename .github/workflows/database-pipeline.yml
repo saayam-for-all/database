@@ -74,6 +74,16 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y postgresql-client
 
+      - name: Create required database role
+        env:
+          PGPASSWORD: postgres
+        run: |
+          psql \
+            -h localhost \
+            -U postgres \
+            -d saayam_test \
+            -c "CREATE ROLE dbadmin_user;"
+
       - name: Test database script execution
         env:
           PGPASSWORD: postgres
