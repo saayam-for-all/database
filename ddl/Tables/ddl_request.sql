@@ -3,21 +3,22 @@
 CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.request (
     req_id VARCHAR(255) PRIMARY KEY,
     req_user_id VARCHAR(255) NOT NULL,
-	req_for_id INT NOT NULL,
-	req_islead_id INT NOT NULL,
+    req_for_id INT NOT NULL,
+    req_islead_id INT NOT NULL,
     req_cat_id VARCHAR(50) NOT NULL,
     req_type_id INT NOT NULL,
     req_priority_id INT NOT NULL,
     req_status_id INT NOT NULL,
-	req_loc VARCHAR(125),
-	iscalamity BOOLEAN,
-	req_subj VARCHAR(125) NOT NULL,
+    req_loc VARCHAR(125),
+    iscalamity BOOLEAN,
+    req_subj VARCHAR(125) NOT NULL,
     req_desc VARCHAR(255) NOT NULL,
-	req_doc_link TEXT,
-	audio_req_desc VARCHAR(255),
+    req_doc_link TEXT,
+    audio_req_desc VARCHAR(255),
     submission_date TIMESTAMP,
-    serviced_date TIMESTAMP, 						--completed or cancelled date
+    serviced_date TIMESTAMP,
     last_update_date TIMESTAMP,
+    deleted_reason TEXT,
     UNIQUE (req_id),
     FOREIGN KEY (req_user_id) REFERENCES virginia_dev_saayam_rdbms.users (user_id),
     FOREIGN KEY (req_status_id) REFERENCES virginia_dev_saayam_rdbms.request_status (req_status_id),
@@ -25,7 +26,7 @@ CREATE TABLE IF NOT EXISTS virginia_dev_saayam_rdbms.request (
     FOREIGN KEY (req_type_id) REFERENCES virginia_dev_saayam_rdbms.request_type (req_type_id),
     FOREIGN KEY (req_cat_id) REFERENCES virginia_dev_saayam_rdbms.help_categories (cat_id),
     FOREIGN KEY (req_for_id) REFERENCES virginia_dev_saayam_rdbms.request_for (req_for_id),
-	FOREIGN KEY (req_islead_id) REFERENCES virginia_dev_saayam_rdbms.request_isleadvol (req_islead_id)
+    FOREIGN KEY (req_islead_id) REFERENCES virginia_dev_saayam_rdbms.request_isleadvol (req_islead_id)
 );
 
 -- Create the sequence for request IDs
@@ -44,14 +45,14 @@ DECLARE
     new_id TEXT;
 BEGIN
     seq_id := nextval('virginia_dev_saayam_rdbms.request_id_seq');
-    new_id := 'REQ-' || LPAD(FLOOR(seq_id / 100000000)::TEXT, 2, '0') || '-' || 
-              LPAD(FLOOR((seq_id % 100000000) / 100000)::TEXT, 3, '0') || '-' || 
-              LPAD(FLOOR((seq_id % 100000) / 1000)::TEXT, 3, '0') || '-' || 
+    new_id := 'REQ-' || LPAD(FLOOR(seq_id / 100000000)::TEXT, 2, '0') || '-' ||
+              LPAD(FLOOR((seq_id % 100000000) / 100000)::TEXT, 3, '0') || '-' ||
+              LPAD(FLOOR((seq_id % 100000) / 1000)::TEXT, 3, '0') || '-' ||
               LPAD((seq_id % 1000)::TEXT, 4, '0');
     NEW.req_id := new_id;
     RETURN NEW;
 END;
-$$ LANGUAGE plpgsql; 
+$$ LANGUAGE plpgsql;
 
 CREATE TRIGGER before_insert_requests
 BEFORE INSERT ON virginia_dev_saayam_rdbms.request
