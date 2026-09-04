@@ -230,7 +230,8 @@ CREATE TABLE IF NOT EXISTS ireland_dev_saayam_rdbms.users (
     promotion_wizard_stage INT NULL,
     promotion_wizard_last_updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT (now() AT TIME ZONE 'UTC'),
     external_auth_provider VARCHAR(20) NULL,
-    dob date, 
+    dob date,
+    is_eu BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (country_id) REFERENCES ireland_dev_saayam_rdbms.country (country_id) ON DELETE SET NULL,
     FOREIGN KEY (state_id) REFERENCES ireland_dev_saayam_rdbms.state (state_id) ON DELETE SET NULL,
     FOREIGN KEY (user_status_id) REFERENCES ireland_dev_saayam_rdbms.user_status (user_status_id),
@@ -250,35 +251,54 @@ BEFORE UPDATE ON ireland_dev_saayam_rdbms.users
 FOR EACH ROW
 EXECUTE FUNCTION ireland_dev_saayam_rdbms.set_promo_wizard_updated_at();
 
--- Sequence generator for Users # Updated as on 05/21/2026
+-- Sequence generator for Users # Updated as on 09/03/2026
 
-CREATE SEQUENCE user_id_seq
+CREATE SEQUENCE ireland_dev_saayam_rdbms.user_id_eu_seq
 START WITH 1
 INCREMENT BY 1
-NO MINVALUE
-NO MAXVALUE
-CACHE 1;
+MINVALUE 1
+MAXVALUE 19999999999
+NO CYCLE;
 
--- EU ID Function: "EU-000001", "EU-000002", etc.
-CREATE FUNCTION ireland_dev_saayam_rdbms.generate_eu_id()
+CREATE SEQUENCE IF NOT EXISTS ireland_dev_saayam_rdbms.user_id_dr_seq
+START WITH 20000000000
+INCREMENT BY 1
+MINVALUE 20000000000
+MAXVALUE 39999999999
+NO CYCLE;
+
+CREATE OR REPLACE FUNCTION ireland_dev_saayam_rdbms.generate_sid()
 RETURNS TRIGGER AS $$
 DECLARE
-    seq_id INT;
-    new_id VARCHAR(20);
+seq_id BIGINT;
+padded TEXT;
+prefix TEXT;
 BEGIN
-    seq_id := nextval('user_id_seq');
-    new_id := 'SID-EU-00-' || LPAD(FLOOR(seq_id / 1000000)::TEXT, 3, '0') || '-' || 
-              LPAD(FLOOR((seq_id % 1000000) / 1000)::TEXT, 3, '0') || '-' || 
-              LPAD((seq_id % 1000)::TEXT, 3, '0');
-    NEW.user_id := new_id;
-    RETURN NEW;
+IF NEW.is_eu THEN
+seq_id := nextval('ireland_dev_saayam_rdbms.user_id_eu_seq');
+prefix := 'SID-EU-';
+ELSE
+seq_id := nextval('ireland_dev_saayam_rdbms.user_id_dr_seq');
+prefix := 'SID-00-';
+END IF;
+padded := LPAD(seq_id::TEXT, 15, '0');
+NEW.user_id := prefix ||
+SUBSTRING(padded FROM 1 FOR 3) || '-' ||
+SUBSTRING(padded FROM 4 FOR 3) || '-' ||
+SUBSTRING(padded FROM 7 FOR 3) || '-' ||
+SUBSTRING(padded FROM 10 FOR 3) || '-' ||
+SUBSTRING(padded FROM 13 FOR 3);
+RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER before_insert_users
 BEFORE INSERT ON ireland_dev_saayam_rdbms.users
 FOR EACH ROW
-EXECUTE FUNCTION ireland_dev_saayam_rdbms.generate_eu_id();
+EXECUTE FUNCTION ireland_dev_saayam_rdbms.generate_sid();
+
+
+
 
 -- Table: user_additional_details  # Updated as on 05/21/2026
 --DROP TABLE IF EXISTS user_additional_details CASCADE;
@@ -302,7 +322,7 @@ BEGIN
     END IF;
 
     -- handle application table 
-    IF (TG_TABLE_NAME = 'ireland_dev_saayam_rdbms.volunteer_applications') THEN
+    IF (TG_TABLE_NAME = 'volunteer_applications') THEN
         -- Update path timestamp if path changed
         IF (NEW.govt_id_path IS DISTINCT FROM OLD.govt_id_path) THEN
             NEW.path_updated_at = (now() AT TIME ZONE 'UTC');
@@ -314,7 +334,7 @@ BEGIN
         END IF;
 
     -- handle details table 
-    ELSIF (TG_TABLE_NAME = 'ireland_dev_saayam_rdbms.volunteer_details') THEN
+    ELSIF (TG_TABLE_NAME = 'volunteer_details') THEN
         -- update path1 timestamp if changed
         IF (NEW.govt_id_path1 IS DISTINCT FROM OLD.govt_id_path1) THEN
             NEW.path1_updated_at = (now() AT TIME ZONE 'UTC');
@@ -439,8 +459,14 @@ EXECUTE FUNCTION ireland_dev_saayam_rdbms.set_updated_at();
 CREATE TABLE IF NOT EXISTS ireland_dev_saayam_rdbms.help_categories (
     cat_id VARCHAR(50) PRIMARY KEY,           -- e.g., '1', '1.1', '1.1.1'
     cat_name VARCHAR(100) NOT NULL,                    -- string_key, e.g., 'DONATE_CLOTHES'
-    cat_desc VARCHAR(150) NOT NULL                     -- purpose or goal of the category
+    cat_desc VARCHAR(150) NOT NULL,                     -- purpose or goal of the category
+    last_updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT (now() AT TIME ZONE 'UTC')
 );
+
+CREATE TRIGGER trg_help_categories_updated_at
+BEFORE UPDATE ON ireland_dev_saayam_rdbms.help_categories
+FOR EACH ROW
+EXECUTE FUNCTION ireland_dev_saayam_rdbms.set_updated_at();
 
 -- Table: Help Category Map # Updated as on 05/21/2026
 -- DROP TABLE IF EXISTS ireland_dev_saayam_rdbms.help_category_map CASCADE;
@@ -448,8 +474,15 @@ CREATE TABLE IF NOT EXISTS ireland_dev_saayam_rdbms.help_category_map (
     parent_id VARCHAR(50),
     child_id VARCHAR(50) PRIMARY KEY, --one parent multiple child
     FOREIGN KEY (parent_id) REFERENCES ireland_dev_saayam_rdbms.help_categories(cat_id),
-    FOREIGN KEY (child_id) REFERENCES ireland_dev_saayam_rdbms.help_categories(cat_id)
+    FOREIGN KEY (child_id) REFERENCES ireland_dev_saayam_rdbms.help_categories(cat_id),
+    last_updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT (now() AT TIME ZONE 'UTC')
+
 );
+
+CREATE TRIGGER trg_help_category_map_updated_at
+BEFORE UPDATE ON virginia_dev_saayam_rdbms.help_category_map
+FOR EACH ROW
+EXECUTE FUNCTION virginia_dev_saayam_rdbms.set_updated_at();
 
 -- Table: Req_Add_Info_MetaData # Updated as on 05/21/2026
 -- DROP TABLE IF EXISTS ireland_dev_saayam_rdbms.req_add_info_metadata CASCADE;
