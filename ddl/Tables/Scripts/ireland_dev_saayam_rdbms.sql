@@ -18,8 +18,8 @@
 CREATE EXTENSION IF NOT EXISTS postgis;
 CREATE EXTENSION IF NOT EXISTS pg_stat_statements;
 
-GRANT pg_read_all_stats TO dbadmin_user;
-GRANT pg_monitor TO dbadmin_user;
+-- GRANT pg_read_all_stats TO dbadmin_user;
+-- GRANT pg_monitor TO dbadmin_user;
 
 -- Keep updated_at fresh
 CREATE OR REPLACE FUNCTION ireland_dev_saayam_rdbms.set_updated_at()
