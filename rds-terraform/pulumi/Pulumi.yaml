@@ -1,0 +1,3 @@
+name: rds-qa-infra
+runtime: python
+description: Pulumi project for deploying the QA PostgreSQL RDS instance in eu-west-1
