@@ -125,14 +125,12 @@ INSERT INTO organizations (
     org_id,
     org_name,
     city_name,
-    state_code,
-    org_type,
-    source,
-    cat_id
+    state_id,
+    org_type
 )
 VALUES
-    ('org-saayam-1', 'Saayam Foundation', 'San Jose', 'CA', 'non_profit', 'self_registered', 'medical'),
-    ('org-food-1', 'Community Food Bank', 'Oakland', 'CA', 'non_profit', 'self_registered', 'food')
+    ('org-saayam-1', 'Saayam Foundation', 'San Jose', 'CA', 'non_profit'),
+    ('org-food-1', 'Community Food Bank', 'Oakland', 'CA', 'non_profit')
 ON CONFLICT (org_id) DO NOTHING;
 
 DO $$

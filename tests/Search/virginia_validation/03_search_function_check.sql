@@ -125,14 +125,12 @@ INSERT INTO organizations (
     org_id,
     org_name,
     city_name,
-    state_code,
-    org_type,
-    source,
-    cat_id
+    state_id,
+    org_type
 )
 VALUES
-    ('fn-org-medical', 'Medical Transport Network', 'San Jose', 'CA', 'non_profit', 'self_registered', 'fn-medical'),
-    ('fn-org-food', 'Grocery Relief Group', 'Oakland', 'CA', 'non_profit', 'self_registered', 'fn-food')
+    ('fn-org-medical', 'Medical Transport Network', 'San Jose', 'CA', 'non_profit'),
+    ('fn-org-food', 'Grocery Relief Group', 'Oakland', 'CA', 'non_profit')
 ON CONFLICT (org_id) DO NOTHING;
 
 DO $$
@@ -221,6 +219,55 @@ BEGIN
 
     IF result_count <> 0 THEN
         RAISE EXCEPTION 'search_organizations empty query failed';
+    END IF;
+END $$;
+
+-- Return-shape checks for the main-schema columns.
+DO $$
+DECLARE
+    cat_id INT;
+    org_state VARCHAR(6);
+BEGIN
+    SELECT user_category_id
+    INTO cat_id
+    FROM virginia_dev_saayam_rdbms.search_users(
+        'maya.medical@example.test',
+        1,
+        NULL::VARCHAR(255),
+        4::SMALLINT,
+        NULL::VARCHAR(255)[]
+    );
+
+    IF cat_id IS DISTINCT FROM 1 THEN
+        RAISE EXCEPTION 'search_users user_category_id failed: %', cat_id;
+    END IF;
+
+    -- Virginia reads users.user_category_id directly.
+    SELECT user_category_id
+    INTO cat_id
+    FROM virginia_dev_saayam_rdbms.search_users(
+        'fn-admin@example.test',
+        1,
+        NULL::VARCHAR(255),
+        4::SMALLINT,
+        NULL::VARCHAR(255)[]
+    );
+
+    IF cat_id IS DISTINCT FROM 4 THEN
+        RAISE EXCEPTION 'search_users highest-access category failed: %', cat_id;
+    END IF;
+
+    SELECT state_code
+    INTO org_state
+    FROM virginia_dev_saayam_rdbms.search_organizations(
+        'Medical Transport',
+        1,
+        4::SMALLINT,
+        NULL::VARCHAR(255)[]
+    );
+
+    IF org_state IS DISTINCT FROM 'CA' THEN
+        RAISE EXCEPTION 'search_organizations state_code failed: %', org_state;
     END IF;
 END $$;
 

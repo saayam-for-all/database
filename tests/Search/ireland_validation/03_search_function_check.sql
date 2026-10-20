@@ -20,11 +20,13 @@ ON CONFLICT (user_status_id) DO NOTHING;
 INSERT INTO user_category (
     user_category_id,
     user_category,
-    user_category_desc
+    user_category_desc,
+    user_access_level,
+    category_code
 )
 VALUES
-    (1, 'requester', 'Requester'),
-    (4, 'admin', 'Admin')
+    (1, 'requester', 'Requester', 1, 'REQUESTER'),
+    (4, 'admin', 'Admin', 4, 'ADMIN')
 ON CONFLICT (user_category_id) DO NOTHING;
 
 INSERT INTO users (
@@ -32,7 +34,6 @@ INSERT INTO users (
     state_id,
     country_id,
     user_status_id,
-    user_category_id,
     full_name,
     first_name,
     last_name,
@@ -40,10 +41,18 @@ INSERT INTO users (
     city_name
 )
 VALUES
-    ('fn-admin', 'CA', 1, 1, 4, 'Function Admin', 'Function', 'Admin', 'fn-admin@example.test', 'San Jose'),
-    ('fn-requester', 'CA', 1, 1, 1, 'Maya Medical', 'Maya', 'Medical', 'maya.medical@example.test', 'San Jose'),
-    ('fn-other', 'CA', 1, 1, 1, 'Noah Grocery', 'Noah', 'Grocery', 'noah.grocery@example.test', 'Oakland')
+    ('fn-admin', 'CA', 1, 1, 'Function Admin', 'Function', 'Admin', 'fn-admin@example.test', 'San Jose'),
+    ('fn-requester', 'CA', 1, 1, 'Maya Medical', 'Maya', 'Medical', 'maya.medical@example.test', 'San Jose'),
+    ('fn-other', 'CA', 1, 1, 'Noah Grocery', 'Noah', 'Grocery', 'noah.grocery@example.test', 'Oakland')
 ON CONFLICT (user_id) DO NOTHING;
+
+-- User categories live in user_category_map on main.
+INSERT INTO user_category_map (user_id, user_category_id)
+VALUES
+    ('fn-admin', 4),
+    ('fn-requester', 1),
+    ('fn-other', 1)
+ON CONFLICT (user_id, user_category_id) DO NOTHING;
 
 INSERT INTO help_categories (cat_id, cat_name, cat_desc)
 VALUES
@@ -123,14 +132,12 @@ INSERT INTO organizations (
     org_id,
     org_name,
     city_name,
-    state_code,
-    org_type,
-    source,
-    cat_id
+    state_id,
+    org_type
 )
 VALUES
-    ('fn-org-medical', 'Medical Transport Network', 'San Jose', 'CA', 'non_profit', 'self_registered', 'fn-medical'),
-    ('fn-org-food', 'Grocery Relief Group', 'Oakland', 'CA', 'non_profit', 'self_registered', 'fn-food')
+    ('fn-org-medical', 'Medical Transport Network', 'San Jose', 'CA', 'non_profit'),
+    ('fn-org-food', 'Grocery Relief Group', 'Oakland', 'CA', 'non_profit')
 ON CONFLICT (org_id) DO NOTHING;
 
 DO $$
@@ -219,6 +226,59 @@ BEGIN
 
     IF result_count <> 0 THEN
         RAISE EXCEPTION 'search_organizations empty query failed';
+    END IF;
+END $$;
+
+-- Return-shape checks for the main-schema columns.
+DO $$
+DECLARE
+    cat_id INT;
+    org_state VARCHAR(6);
+BEGIN
+    SELECT user_category_id
+    INTO cat_id
+    FROM proposed_saayam.search_users(
+        'maya.medical@example.test',
+        1,
+        NULL::VARCHAR(255),
+        4::SMALLINT,
+        NULL::VARCHAR(255)[]
+    );
+
+    IF cat_id IS DISTINCT FROM 1 THEN
+        RAISE EXCEPTION 'search_users user_category_id failed: %', cat_id;
+    END IF;
+
+    -- A user with several categories returns the highest-access one.
+    INSERT INTO proposed_saayam.user_category_map (user_id, user_category_id)
+    VALUES ('fn-admin', 1)
+    ON CONFLICT (user_id, user_category_id) DO NOTHING;
+
+    SELECT user_category_id
+    INTO cat_id
+    FROM proposed_saayam.search_users(
+        'fn-admin@example.test',
+        1,
+        NULL::VARCHAR(255),
+        4::SMALLINT,
+        NULL::VARCHAR(255)[]
+    );
+
+    IF cat_id IS DISTINCT FROM 4 THEN
+        RAISE EXCEPTION 'search_users highest-access category failed: %', cat_id;
+    END IF;
+
+    SELECT state_code
+    INTO org_state
+    FROM proposed_saayam.search_organizations(
+        'Medical Transport',
+        1,
+        4::SMALLINT,
+        NULL::VARCHAR(255)[]
+    );
+
+    IF org_state IS DISTINCT FROM 'CA' THEN
+        RAISE EXCEPTION 'search_organizations state_code failed: %', org_state;
     END IF;
 END $$;
 

@@ -31,6 +31,62 @@ ON users USING GIN (primary_email_address gin_trgm_ops);
 CREATE INDEX IF NOT EXISTS idx_users_email_exact
 ON users (primary_email_address);
 
+-- User category lookup.
+-- The category source depends on the region's table schema:
+--   user_category_map present  -> highest user_access_level category from the map (Ireland)
+--   users.user_category_id     -> that column (Virginia)
+--   neither                    -> NULL
+-- The variant is picked at install time from the tables in the current schema.
+DO $do$
+BEGIN
+    IF to_regclass('user_category_map') IS NOT NULL THEN
+        EXECUTE $fn$
+            CREATE OR REPLACE FUNCTION search_user_category_id(p_user_id VARCHAR)
+            RETURNS INT
+            LANGUAGE sql
+            STABLE
+            SET search_path FROM CURRENT
+            AS $body$
+                SELECT ucm.user_category_id
+                FROM user_category_map ucm
+                JOIN user_category uc
+                  ON uc.user_category_id = ucm.user_category_id
+                WHERE ucm.user_id = p_user_id
+                ORDER BY uc.user_access_level DESC NULLS LAST, ucm.user_category_id
+                LIMIT 1
+            $body$
+        $fn$;
+    ELSIF EXISTS (
+        SELECT 1
+        FROM information_schema.columns
+        WHERE table_schema = current_schema()
+          AND table_name = 'users'
+          AND column_name = 'user_category_id'
+    ) THEN
+        EXECUTE $fn$
+            CREATE OR REPLACE FUNCTION search_user_category_id(p_user_id VARCHAR)
+            RETURNS INT
+            LANGUAGE sql
+            STABLE
+            SET search_path FROM CURRENT
+            AS $body$
+                SELECT u.user_category_id
+                FROM users u
+                WHERE u.user_id = p_user_id
+            $body$
+        $fn$;
+    ELSE
+        EXECUTE $fn$
+            CREATE OR REPLACE FUNCTION search_user_category_id(p_user_id VARCHAR)
+            RETURNS INT
+            LANGUAGE sql
+            STABLE
+            AS $body$ SELECT NULL::INT $body$
+        $fn$;
+    END IF;
+END
+$do$;
+
 -- User search entry point.
 CREATE OR REPLACE FUNCTION search_users(
     query_text TEXT,
@@ -67,7 +123,7 @@ BEGIN
             u.user_id,
             u.full_name,
             u.primary_email_address,
-            u.user_category_id,
+            search_user_category_id(u.user_id) AS user_category_id,
             u.user_status_id,
             GREATEST(
                 ts_rank_cd(u.search_vector, qi.name_ts_query),

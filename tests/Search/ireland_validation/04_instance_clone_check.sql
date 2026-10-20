@@ -16,6 +16,7 @@ BEGIN
             ('user_status'),
             ('user_category'),
             ('users'),
+            ('user_category_map'),
             ('help_categories'),
             ('request_status'),
             ('request_priority'),
@@ -50,7 +51,8 @@ BEGIN
             ('users', 'full_name'),
             ('users', 'primary_email_address'),
             ('organizations', 'org_name'),
-            ('organizations', 'city_name')
+            ('organizations', 'city_name'),
+            ('organizations', 'state_id')
     ) AS expected(table_name, column_name)
     WHERE NOT EXISTS (
         SELECT 1
@@ -70,7 +72,8 @@ BEGIN
         VALUES
             ('search_requests'),
             ('search_users'),
-            ('search_organizations')
+            ('search_organizations'),
+            ('search_user_category_id')
     ) AS expected(function_name)
     WHERE NOT EXISTS (
         SELECT 1

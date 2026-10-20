@@ -76,6 +76,7 @@ CREATE TABLE virginia_dev_saayam_rdbms.users (
     FOREIGN KEY (user_category_id) REFERENCES virginia_dev_saayam_rdbms.user_category (user_category_id) ON DELETE SET NULL
 );
 
+
 CREATE TABLE virginia_dev_saayam_rdbms.help_categories (
     cat_id VARCHAR(50) PRIMARY KEY,
     cat_name VARCHAR(100) NOT NULL,
@@ -148,33 +149,33 @@ CREATE TABLE virginia_dev_saayam_rdbms.request (
     FOREIGN KEY (req_islead_id) REFERENCES virginia_dev_saayam_rdbms.request_isleadvol (req_islead_id)
 );
 
-CREATE TYPE org_type_enum AS ENUM ('non_profit', 'for_profit');
-CREATE TYPE source_enum AS ENUM ('irs', 'self_registered');
+-- Matches ddl/Tables/ddl_organizations.sql: state_id (FK to state), no state_code/source/cat_id.
+CREATE TYPE virginia_dev_saayam_rdbms.org_type_enum AS ENUM ('non_profit', 'for_profit');
+CREATE TYPE virginia_dev_saayam_rdbms.org_size_enum AS ENUM ('small', 'medium', 'large');
 
 CREATE TABLE virginia_dev_saayam_rdbms.organizations (
     org_id VARCHAR(255) PRIMARY KEY,
     org_name VARCHAR(125) NOT NULL,
-    govt_id_num VARCHAR(20) UNIQUE,
     street VARCHAR(255),
     city_name VARCHAR(100),
-    state_code VARCHAR(6),
+    state_id VARCHAR(50),
     zip_code VARCHAR(10),
     mission TEXT,
     web_url VARCHAR(255) CHECK (web_url IS NULL OR web_url LIKE 'http%'),
     phone VARCHAR(20),
     email VARCHAR(255) CHECK (email IS NULL OR email LIKE '%@%'),
-    org_type org_type_enum,
-    source source_enum,
-    cat_id VARCHAR(50),
-    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    last_updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (cat_id) REFERENCES virginia_dev_saayam_rdbms.help_categories(cat_id) ON DELETE SET NULL
+    org_type virginia_dev_saayam_rdbms.org_type_enum,
+    org_size virginia_dev_saayam_rdbms.org_size_enum,
+    org_rating INTEGER CHECK (org_rating >= 1 AND org_rating <= 5),
+    is_collaborator BOOLEAN,
+    created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT (now() AT TIME ZONE 'UTC'),
+    last_updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT (now() AT TIME ZONE 'UTC'),
+    FOREIGN KEY (state_id) REFERENCES virginia_dev_saayam_rdbms.state (state_id) ON DELETE SET NULL
 );
 
-CREATE INDEX idx_org_city_state ON virginia_dev_saayam_rdbms.organizations(city_name, state_code);
-CREATE INDEX idx_org_state ON virginia_dev_saayam_rdbms.organizations(state_code);
-CREATE INDEX idx_org_cat_id ON virginia_dev_saayam_rdbms.organizations(cat_id);
 CREATE INDEX idx_org_name ON virginia_dev_saayam_rdbms.organizations(org_name);
+CREATE INDEX idx_org_state_id ON virginia_dev_saayam_rdbms.organizations(state_id);
+CREATE INDEX idx_org_city_state ON virginia_dev_saayam_rdbms.organizations(city_name, state_id);
 
 CREATE TABLE virginia_dev_saayam_rdbms.user_org_map (
     user_id VARCHAR(255) NOT NULL,

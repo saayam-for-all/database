@@ -10,6 +10,7 @@ CREATE INDEX IF NOT EXISTS idx_organizations_city_trgm
 ON organizations USING GIN (city_name gin_trgm_ops);
 
 -- Organization search entry point.
+-- organizations.state_code was replaced by state_id on main; state_code comes from the state table.
 CREATE OR REPLACE FUNCTION search_organizations(
     query_text TEXT,
     limit_results INT DEFAULT 20,
@@ -40,7 +41,7 @@ BEGIN
             o.org_id,
             o.org_name,
             o.city_name,
-            o.state_code,
+            s.state_code,
             GREATEST(
                 similarity(coalesce(o.org_name, ''), qi.raw_query),
                 word_similarity(qi.raw_query, coalesce(o.org_name, ''))
@@ -50,6 +51,8 @@ BEGIN
                 word_similarity(qi.raw_query, coalesce(o.city_name, ''))
             ) AS city_score
         FROM organizations o
+        LEFT JOIN state s
+          ON s.state_id = o.state_id
         CROSS JOIN query_input qi
         WHERE
             (

@@ -20,11 +20,13 @@ ON CONFLICT (user_status_id) DO NOTHING;
 INSERT INTO user_category (
     user_category_id,
     user_category,
-    user_category_desc
+    user_category_desc,
+    user_access_level,
+    category_code
 )
 VALUES
-    (1, 'requester', 'Requester'),
-    (4, 'admin', 'Admin')
+    (1, 'requester', 'Requester', 1, 'REQUESTER'),
+    (4, 'admin', 'Admin', 4, 'ADMIN')
 ON CONFLICT (user_category_id) DO NOTHING;
 
 INSERT INTO users (
@@ -32,7 +34,6 @@ INSERT INTO users (
     state_id,
     country_id,
     user_status_id,
-    user_category_id,
     full_name,
     first_name,
     last_name,
@@ -40,10 +41,18 @@ INSERT INTO users (
     city_name
 )
 VALUES
-    ('user-admin', 'CA', 1, 1, 4, 'Admin Search', 'Admin', 'Search', 'admin@example.test', 'San Jose'),
-    ('user-alice', 'CA', 1, 1, 1, 'Alice Emergency', 'Alice', 'Emergency', 'alice@example.test', 'San Jose'),
-    ('user-bob', 'CA', 1, 1, 1, 'Bob Foodhelp', 'Bob', 'Foodhelp', 'bob@example.test', 'Oakland')
+    ('user-admin', 'CA', 1, 1, 'Admin Search', 'Admin', 'Search', 'admin@example.test', 'San Jose'),
+    ('user-alice', 'CA', 1, 1, 'Alice Emergency', 'Alice', 'Emergency', 'alice@example.test', 'San Jose'),
+    ('user-bob', 'CA', 1, 1, 'Bob Foodhelp', 'Bob', 'Foodhelp', 'bob@example.test', 'Oakland')
 ON CONFLICT (user_id) DO NOTHING;
+
+-- User categories live in user_category_map on main.
+INSERT INTO user_category_map (user_id, user_category_id)
+VALUES
+    ('user-admin', 4),
+    ('user-alice', 1),
+    ('user-bob', 1)
+ON CONFLICT (user_id, user_category_id) DO NOTHING;
 
 INSERT INTO help_categories (cat_id, cat_name, cat_desc)
 VALUES
@@ -123,14 +132,12 @@ INSERT INTO organizations (
     org_id,
     org_name,
     city_name,
-    state_code,
-    org_type,
-    source,
-    cat_id
+    state_id,
+    org_type
 )
 VALUES
-    ('org-saayam-1', 'Saayam Foundation', 'San Jose', 'CA', 'non_profit', 'self_registered', 'medical'),
-    ('org-food-1', 'Community Food Bank', 'Oakland', 'CA', 'non_profit', 'self_registered', 'food')
+    ('org-saayam-1', 'Saayam Foundation', 'San Jose', 'CA', 'non_profit'),
+    ('org-food-1', 'Community Food Bank', 'Oakland', 'CA', 'non_profit')
 ON CONFLICT (org_id) DO NOTHING;
 
 DO $$
